@@ -1,16 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TasksComponent } from '../tasks/tasks.component';
-
-import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+import { TasksComponent } from './components/tasks/tasks.component';
+import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TasksComponent
+    TasksComponent,
+    TaskDetailComponent
   ],
   imports: [
     BrowserModule,
