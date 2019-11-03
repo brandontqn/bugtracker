@@ -11,8 +11,8 @@ export class TaskService {
     console.log( 'Hello from service!' );
   }
 
-    private apiEndpoint = 'https://localhost:5001/api/workitems';
-    // private apiEndpoint = 'http://localhost:8080/api/workitems';
+    // private apiEndpoint = 'https://localhost:5001/api/workitems';
+    private apiEndpoint = 'http://localhost:8080/api/workitems';
     getTasks(): Observable<ITask[]> {
         return this.http.get<ITask[]>( this.apiEndpoint );
     }
