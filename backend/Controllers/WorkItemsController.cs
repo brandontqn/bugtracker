@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using backend.Models;
+using backend.Services;
 
 namespace backend.Controllers
 {
@@ -13,24 +14,33 @@ namespace backend.Controllers
     [Route("api/[controller]")]
     public class WorkItemsController : ControllerBase
     {
-        public static WorkItem[] workItems = new WorkItem[]
-        {
-            new WorkItem() { id = "1", name = "Bug 1", details = "There is a major bug!" },
-            new WorkItem() { id = "2", name = "Bug 2", details = "There is a major bug!!" },
-            new WorkItem() { id = "3", name = "Bug 3", details = "There is a major bug!!!" }
-        };
-
         private readonly ILogger<WorkItemsController> _logger;
 
-        public WorkItemsController(ILogger<WorkItemsController> logger)
+        private readonly WorkItemService _workItemService;
+
+        public WorkItemsController(ILogger<WorkItemsController> logger, WorkItemService service)
         {
             _logger = logger;
+            _workItemService = service;
         }
 
         [HttpGet]
-        public IEnumerable<WorkItem> Get()
+        public IEnumerable<WorkItem> GetAll()
         {
-            return workItems;
+            return _workItemService.GetAll();
+        }
+
+        [HttpPost]
+        public IActionResult Create([FromBody]NameDetail nameDetail)
+        {
+            WorkItem item = _workItemService.Create(nameDetail.name, nameDetail.details);
+
+            if (item.id == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
     }
 }
