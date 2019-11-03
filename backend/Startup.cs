@@ -15,8 +15,6 @@ using Microsoft.Extensions.Options;
 using backend.Models;
 using backend.Services;
 
-//using Swashbuckle.AspNetCore.Swagger;
-
 namespace backend
 {
     public class Startup
@@ -28,9 +26,23 @@ namespace backend
 
         public IConfiguration Configuration { get; }
 
+        //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCors();
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy(MyAllowSpecificOrigins,
+            //    builder =>
+            //    {
+            //        builder.WithOrigins("http://localhost:4200",
+            //                            "https://localhost:5000",
+            //                            "https://localhost:5001");
+            //    });
+            //});
+
             services.AddControllers();
 
             services.Configure<WorkItemsDatabaseSettings>(
@@ -40,34 +52,22 @@ namespace backend
                 sp.GetRequiredService<IOptions<WorkItemsDatabaseSettings>>().Value);
 
             services.AddSingleton<WorkItemService>();
-
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new Info {
-            //        Title = "My Api",
-            //        Version = "v1",
-            //        Contact = new Contact()
-            //        {
-            //            Email = "brandontqnguyen@gmail.com",
-            //            Name = "Brandon Nguyen"
-            //        }
-            //    });
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint($"/swagger/v1/swagger.json", "My API V1");
-            //});
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            //app.UseCors();
+            app.UseCors(builder => builder
+                .AllowAnyOrigin());
+                //.AllowAnyMethod()
+                //.AllowAnyHeader()
+                //.AllowCredentials());
 
             app.UseHttpsRedirection();
 

@@ -1,6 +1,6 @@
+import { TaskService } from './../../services/task.service';
 import { Component, OnInit } from '@angular/core';
-// import { Task } from '../models/task';
-import { TASKS } from '../../models/mock-tasks';
+// import { TASKS } from '../../models/mock-tasks';
 import { Task } from '../../models/task';
 
 @Component({
@@ -18,7 +18,9 @@ export class TasksComponent implements OnInit {
   //   details: 'there is an insect problem'
   // }
 
-  tasks = TASKS;
+  // tasks = TASKS;
+  // tasks: Task[];
+  tasks = [];
 
   selectedTask: Task;
 
@@ -26,9 +28,11 @@ export class TasksComponent implements OnInit {
     this.selectedTask = task;
   }
 
-  constructor() { }
+  constructor( private taskService: TaskService ) { }
 
   ngOnInit() {
+    this.taskService.getTasks()
+      .subscribe(data => this.tasks = data);
   }
 
 }

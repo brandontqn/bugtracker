@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using backend.Models;
 using backend.Services;
+using Microsoft.AspNetCore.Cors;
 
 namespace backend.Controllers
 {
@@ -25,12 +26,14 @@ namespace backend.Controllers
         }
 
         [HttpGet]
+        //[EnableCors("_myAllowSpecificOrigins")]
         public IEnumerable<WorkItem> GetAll()
         {
             return _workItemService.GetAll();
         }
 
         [HttpPost]
+        //[EnableCors("_myAllowSpecificOrigins")]
         public IActionResult Create([FromBody]NameDetail nameDetail)
         {
             WorkItem item = _workItemService.Create(nameDetail.name, nameDetail.details);

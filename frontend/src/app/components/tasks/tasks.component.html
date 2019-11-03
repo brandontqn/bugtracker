@@ -4,7 +4,7 @@
     <li *ngFor="let task of tasks" 
     [class.selected]="task === selectedTask"
     (click)="onSelect(task)">
-        <span class="badge">{{task.id}}</span> {{task.name}}
+        <span class="badge">{{task.name}}</span>
     </li>
 </ul>
 
