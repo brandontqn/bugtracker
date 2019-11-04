@@ -1,11 +1,14 @@
 <h2>My Tasks</h2>
 
 <ul class="tasks">
-    <li *ngFor="let task of tasks" 
-    [class.selected]="task === selectedTask"
-    (click)="onSelect(task)">
-        <span class="badge">{{task.name}}</span>
+    <li *ngFor="let task of tasks">
+        <a routerLink="/detail/{{task.name}}">
+            <span class="badge">{{task.name}}</span>{{task.details}}
+        </a>
     </li>
 </ul>
 
-<app-task-detail [task]="selectedTask"></app-task-detail>
+<!-- [class.selected]="task === selectedTask"
+    (click)="onSelect(task)" -->
+
+<!-- <app-task-detail [task]="selectedTask"></app-task-detail> -->

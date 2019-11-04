@@ -9,12 +9,16 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
 
 import { TaskService } from './services/task.service';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TasksComponent,
-    TaskDetailComponent
+    TaskDetailComponent,
+    NavMenuComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

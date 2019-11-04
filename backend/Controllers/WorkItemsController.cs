@@ -32,6 +32,18 @@ namespace backend.Controllers
             return _workItemService.GetAll();
         }
 
+        [HttpGet("{name}", Name = "GetWorkItem")]
+        public ActionResult<WorkItem> GetOne(string name)
+        {
+            WorkItem item = _workItemService.Get(name);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return item;
+        }
+
         [HttpPost]
         //[EnableCors("_myAllowSpecificOrigins")]
         public IActionResult Create([FromBody]NameDetail nameDetail)

@@ -41,9 +41,9 @@ namespace backend.Services
             return _workItems.Find(item => true).ToList();
         }
 
-        public WorkItem Get(string id)
+        public WorkItem Get(string name)
         {
-            return _workItems.Find(token => token.id == id).FirstOrDefault();
+            return _workItems.Find(item => item.name == name).FirstOrDefault();
         }
 
         public WorkItem Create(string name, string details)
