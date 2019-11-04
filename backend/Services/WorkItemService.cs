@@ -62,19 +62,17 @@ namespace backend.Services
             return item;
         }
 
-        // public WorkItem ExtendTime(TokenTime tt)
-        // {
-        //     Token newToken = _tokens.Find(token => token.TokenString == tt.tokenString).FirstOrDefault();
-        //     newToken.ExtendTime(tt.time);
-        //     _tokens.ReplaceOne(token => token.TokenString == tt.tokenString, newToken);
-
-        //     return newToken;
-        // }
+        public void Update(NameDetail nd)
+        {
+            WorkItem item = _workItems.Find(x => x.name == nd.name).FirstOrDefault();
+            item.details = nd.details;
+            _workItems.ReplaceOne(x => x.name == item.name, item);
+        }
 
         // public bool Validate(string tokenString)
         // {
         //     Token newToken = _tokens.Find(token => token.TokenString == tokenString).FirstOrDefault();
-            
+
         //     // token is invalid (doesn't exist) or has already expired (and removed from the database with TTL)
         //     if (newToken == null)
         //     {

@@ -64,10 +64,10 @@ namespace backend
 
             //app.UseCors();
             app.UseCors(builder => builder
-                .AllowAnyOrigin());
-                //.AllowAnyMethod()
-                //.AllowAnyHeader()
-                //.AllowCredentials());
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            //.AllowCredentials());
 
             app.UseHttpsRedirection();
 

@@ -6,12 +6,20 @@
     <div>
         <span>id: </span>some id...
     </div>
+
     <div>
-        <label>name:
+        <span>name: </span>{{task.name}}
+        <!-- <label>name:
             <input [(ngModel)]="task.name" placeholder="name"/>
+        </label> -->
+    </div>
+
+    <div>
+        <!-- <span>details: </span>{{task.details}} -->
+        <label>details:
+            <input [(ngModel)]="task.details" placeholder="details"/>
         </label>
     </div>
-    <div>
-        <span>details: </span>{{task.details}}
-    </div>
+
+    <button (click)="save()">save</button>
 </div>

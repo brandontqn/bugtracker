@@ -34,4 +34,9 @@ export class TaskDetailComponent implements OnInit {
     this.location.back();
   }
 
+  save(): void {
+    this.taskService.updateTask(this.task)
+      .subscribe(() => this.goBack());
+  }
+
 }

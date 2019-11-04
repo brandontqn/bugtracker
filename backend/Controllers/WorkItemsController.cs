@@ -32,7 +32,7 @@ namespace backend.Controllers
             return _workItemService.GetAll();
         }
 
-        [HttpGet("{name}", Name = "GetWorkItem")]
+        [HttpGet("{name}")]
         public ActionResult<WorkItem> GetOne(string name)
         {
             WorkItem item = _workItemService.Get(name);
@@ -55,6 +55,19 @@ namespace backend.Controllers
                 return BadRequest();
             }
 
+            return Ok();
+        }
+
+        [HttpPut("{name}")]
+        public IActionResult UpdateWorkItem([FromBody]NameDetail nd)
+        {
+            WorkItem item = _workItemService.Get(nd.name);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            _workItemService.Update(nd);
             return Ok();
         }
     }
