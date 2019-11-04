@@ -11,15 +11,20 @@ export class TaskService {
     console.log( 'Hello from service!' );
   }
 
-    // private apiEndpoint = 'https://localhost:5001/api/workitems'; //mac
-    private apiEndpoint = 'https://localhost:44359/api/workitems'; //windows
-    // private apiEndpoint = 'http://localhost:8080/api/workitems'; //docker
+    private apiEndpoints = {
+      mac: 'https://localhost:5001/api/workitems',
+      windows: 'https://localhost:44359/api/workitems',
+      docker: 'http://localhost:8080/api/workitems'
+    };
+
+    private currentEndpoint = this.apiEndpoints['windows'];
 
     getTasks(): Observable<ITask[]> {
-        return this.http.get<ITask[]>( this.apiEndpoint );
+        return this.http.get<ITask[]>( this.currentEndpoint );
     }
 
     getTask(name: string): Observable<ITask> {
-      return this.http.get<ITask>( 'https://localhost:44359/api/workitems/' + name );
+      const url = this.currentEndpoint + '/' + name;
+      return this.http.get<ITask>( url );
     }
 }
