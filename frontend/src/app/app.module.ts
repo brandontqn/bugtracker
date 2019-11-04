@@ -11,6 +11,10 @@ import { TaskDetailComponent } from './components/task-detail/task-detail.compon
 import { TaskService } from './services/task.service';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DemoMaterialModule } from './material-module';
+import { MatNativeDateModule } from '@angular/material/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @NgModule({
   declarations: [
@@ -24,7 +28,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    DemoMaterialModule,
+    MatNativeDateModule
   ],
   providers: [TaskService],
   bootstrap: [AppComponent]
