@@ -42,8 +42,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     HttpClientModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
-    MatNativeDateModule,
-    
+    MatNativeDateModule
   ],
   providers: [TaskService],
   bootstrap: [AppComponent]

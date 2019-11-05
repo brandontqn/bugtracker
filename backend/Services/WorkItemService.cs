@@ -81,21 +81,6 @@ namespace backend.Services
             return item;
         }
 
-        // public bool Validate(string tokenString)
-        // {
-        //     Token newToken = _tokens.Find(token => token.TokenString == tokenString).FirstOrDefault();
-
-        //     // token is invalid (doesn't exist) or has already expired (and removed from the database with TTL)
-        //     if (newToken == null)
-        //     {
-        //         return false;
-        //     }
-
-        //     // token is valid
-        //     Remove(newToken.TokenString);
-        //     return true;
-        // }
-
         public void Remove(string id) =>
             _workItems.DeleteOne(item => item.id == id);
 

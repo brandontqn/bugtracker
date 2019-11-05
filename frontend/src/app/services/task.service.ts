@@ -1,7 +1,6 @@
 import { Task, ITask } from './../models/task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { OktaAuthService } from '@okta/okta-angular';
 
 @Injectable({
@@ -11,20 +10,6 @@ export class TaskService /*implements OnInit*/ {
   constructor(private oktaAuth: OktaAuthService, private http: HttpClient) {
     console.log( 'Hello from service!' );
   }
-
-  // accessToken: string;
-
-  // async ngOnInit() {
-  //   this.accessToken = await this.oktaAuth.getAccessToken();
-  //   // const headers = new HttpHeaders({ 
-  //   //   'Authorization': 'Bearer ' + accessToken,
-  //   //   'Content-type': 'application/json'
-  //   // });
-  // }
-  
-  // private httpOptions = {
-  //   headers: new HttpHeaders({ 'Content-type': 'application/json', 'Authorization': 'Bearer ' + accessToken})
-  // };
 
   private apiEndpoints = {
     mac: 'https://localhost:5001/api/workitems',
@@ -50,12 +35,6 @@ export class TaskService /*implements OnInit*/ {
   }
 
   async getTask(id: string) {
-    // const accessToken = this.oktaAuth.getAccessToken();
-    // const httpOptions = { 
-    //   'Authorization': 'Bearer ' + accessToken,
-    //   'Content-type': 'application/json'
-    // };
-
     const httpOptions = await this.getHeaders();
     console.log("inside getTask/" + id, httpOptions);
     const url = this.currentEndpoint + '/' + id;
@@ -63,12 +42,6 @@ export class TaskService /*implements OnInit*/ {
   }
 
   async updateTask(task: Task) {
-    // const accessToken = this.oktaAuth.getAccessToken();
-    // const httpOptions = { 
-    //   'Authorization': 'Bearer ' + accessToken,
-    //   'Content-type': 'application/json'
-    // };
-
     const httpOptions = await this.getHeaders();
     console.log("inside getTask/" + task.id, httpOptions);
     const url = this.currentEndpoint + '/' + task.id;

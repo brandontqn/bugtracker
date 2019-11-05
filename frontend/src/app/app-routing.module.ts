@@ -15,7 +15,7 @@ const config = {
 
 const routes: Routes = [
   // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  // { path: '', component: LandingPageComponent },
+  { path: '', component: LandingPageComponent },
   { path: 'implicit/callback', component: OktaCallbackComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'tasks', component: TasksComponent },

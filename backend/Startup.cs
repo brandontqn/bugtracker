@@ -27,23 +27,10 @@ namespace backend
         }
 
         public IConfiguration Configuration { get; }
-
-        //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors();
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy(MyAllowSpecificOrigins,
-            //    builder =>
-            //    {
-            //        builder.WithOrigins("http://localhost:4200",
-            //                            "https://localhost:5000",
-            //                            "https://localhost:5001");
-            //    });
-            //});
 
             services.AddControllers();
 
@@ -55,9 +42,7 @@ namespace backend
 
             services.AddSingleton<WorkItemService>();
             services.AddSingleton<BoardService>();
-
-            //services.AddControllers().AddNewtonsoftJson();
-
+            
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
@@ -81,13 +66,13 @@ namespace backend
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-                //.AllowCredentials());
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

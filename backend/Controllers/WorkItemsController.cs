@@ -30,11 +30,11 @@ namespace backend.Controllers
         [HttpGet]
         public IEnumerable<WorkItem> GetAll()
         {
-            var principal = HttpContext.User.Identity as ClaimsIdentity;
+            //var principal = HttpContext.User.Identity as ClaimsIdentity;
 
-            var login = principal.Claims
-                .SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
-                ?.Value;
+            //var login = principal.Claims
+            //    .SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
+            //    ?.Value;
 
             return _workItemService.GetAll();
         }
