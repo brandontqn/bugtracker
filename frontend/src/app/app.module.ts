@@ -13,18 +13,9 @@ import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material-module';
-import { MatNativeDateModule } from '@angular/material/core';
-// import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-// import { OktaAuthModule, OktaCallbackComponent } from '@okta/okta-angular';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-
-// const config = {
-//   issuer: 'https://dev-662146.okta.com/oauth2/default',
-//   redirectUri: 'http://localhost:4200/implicit/callback',
-//   clientId: '0oa1pj0whzk15BvVH357',
-//   pkce: true
-// }
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -42,7 +33,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     HttpClientModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
-    MatNativeDateModule
+    MatSliderModule,
   ],
   providers: [TaskService],
   bootstrap: [AppComponent]
