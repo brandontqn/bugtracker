@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace backend.Models
 {
-    public class WorkItem
+    public interface IWorkItem
+    {
+        public string name { get; set; }
+
+        public string detail { get; set; }
+    }
+
+    public class WorkItem : IWorkItem
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -17,13 +19,15 @@ namespace backend.Models
         [BsonElement("name")]
         public string name { get; set; }
 
-        [BsonElement("details")]
-        public string details { get; set; }
+        [BsonElement("detail")]
+        public string detail { get; set; }
 
-        public WorkItem(string name, string details)
+        public WorkItem(string n, string d)
         {
-            this.name = name;
-            this.details = details;
+            name = n;
+            detail = d;
         }
     }
+
+    
 }

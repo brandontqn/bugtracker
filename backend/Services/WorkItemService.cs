@@ -12,7 +12,7 @@ namespace backend.Services
     {
         private readonly IMongoCollection<WorkItem> _workItems;
 
-        public WorkItemService(IWorkItemsDatabaseSettings settings)
+        public WorkItemService(IDatabaseSettings settings)
         {
             var mongoSettings = new MongoClientSettings
             {
@@ -30,7 +30,6 @@ namespace backend.Services
             mongoSettings.Credential = new MongoCredential("SCRAM-SHA-1", identity, evidence);
 
             var client = new MongoClient(mongoSettings);
-            //var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
             _workItems = database.GetCollection<WorkItem>(settings.WorkItemsCollectionName);
@@ -41,9 +40,9 @@ namespace backend.Services
             return _workItems.Find(item => true).ToList();
         }
 
-        public WorkItem Get(string name)
+        public WorkItem Get(string id)
         {
-            return _workItems.Find(item => item.name == name).FirstOrDefault();
+            return _workItems.Find(item => item.id == id).FirstOrDefault();
         }
 
         public WorkItem Create(string name, string details)
@@ -62,11 +61,24 @@ namespace backend.Services
             return item;
         }
 
-        public void Update(NameDetail nd)
+        public WorkItem UpdateName(string id, string name)
         {
-            WorkItem item = _workItems.Find(x => x.name == nd.name).FirstOrDefault();
-            item.details = nd.details;
-            _workItems.ReplaceOne(x => x.name == item.name, item);
+            WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
+
+            item.name = name;
+            _workItems.ReplaceOne(x => x.id == item.id, item);
+
+            return item;
+        }
+
+        public WorkItem UpdateDetail(string id, string details)
+        {
+            WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
+            
+            item.detail = details;
+            _workItems.ReplaceOne(x => x.id == item.id, item);
+
+            return item;
         }
 
         // public bool Validate(string tokenString)

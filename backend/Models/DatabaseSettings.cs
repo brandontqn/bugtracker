@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace backend.Models
 {
-    public class WorkItemsDatabaseSettings : IWorkItemsDatabaseSettings
+    public class DatabaseSettings : IDatabaseSettings
     {
+        public string BoardsCollectionName { get; set; }
         public string WorkItemsCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
@@ -15,8 +16,9 @@ namespace backend.Models
         public string Password { get; set; }
     }
 
-    public interface IWorkItemsDatabaseSettings
+    public interface IDatabaseSettings
     {
+        string BoardsCollectionName { get; set; }
         string WorkItemsCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }

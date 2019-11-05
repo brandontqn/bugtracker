@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 using backend.Models;
 using backend.Services;
-using Microsoft.AspNetCore.Cors;
 
 namespace backend.Controllers
 {
@@ -26,48 +24,64 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        //[EnableCors("_myAllowSpecificOrigins")]
         public IEnumerable<WorkItem> GetAll()
         {
             return _workItemService.GetAll();
         }
 
-        [HttpGet("{name}")]
-        public ActionResult<WorkItem> GetOne(string name)
+        [HttpGet("{id}")]
+        public ActionResult<WorkItem> GetOne([FromRoute]string id)
         {
-            WorkItem item = _workItemService.Get(name);
+            WorkItem item = _workItemService.Get(id);
             if (item == null)
             {
                 return NotFound();
             }
 
-            return item;
+            return Ok(item);
         }
 
         [HttpPost]
-        //[EnableCors("_myAllowSpecificOrigins")]
-        public IActionResult Create([FromBody]NameDetail nameDetail)
+        public IActionResult CreateWorkItem([FromBody]NameDetail nd)
         {
-            WorkItem item = _workItemService.Create(nameDetail.name, nameDetail.details);
+            WorkItem item = _workItemService.Create(nd.name, nd.detail);
 
             if (item.id == null)
             {
                 return BadRequest();
             }
 
-            return Ok();
+            return Ok(item);
         }
 
-        [HttpPut("{name}")]
-        public IActionResult UpdateWorkItem([FromBody]NameDetail nd)
+        [HttpPatch("detail/{id}")]
+        public IActionResult UpdateDetail([FromRoute]string id, [FromBody]Text body)
         {
-            WorkItem item = _workItemService.Get(nd.name);
+            WorkItem item = _workItemService.Get(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(_workItemService.UpdateDetail(id, body.text));
+        }
+
+        [HttpPatch("name/{id}")]
+        public IActionResult UpdateName([FromRoute]string id, [FromBody]Text body)
+        {
+            WorkItem item = _workItemService.Get(id);
             if (item == null)
             {
                 return NotFound();
             }
 
-            _workItemService.Update(nd);
+            return Ok(_workItemService.UpdateName(id, body.text));
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteAll()
+        {
+            _workItemService.Remove();
             return Ok();
         }
     }

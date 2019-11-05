@@ -45,13 +45,16 @@ namespace backend
 
             services.AddControllers();
 
-            services.Configure<WorkItemsDatabaseSettings>(
-                Configuration.GetSection(nameof(WorkItemsDatabaseSettings)));
+            services.Configure<DatabaseSettings>(
+                Configuration.GetSection(nameof(DatabaseSettings)));
 
-            services.AddSingleton<IWorkItemsDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<WorkItemsDatabaseSettings>>().Value);
+            services.AddSingleton<IDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
             services.AddSingleton<WorkItemService>();
+            services.AddSingleton<BoardService>();
+
+            //services.AddControllers().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
