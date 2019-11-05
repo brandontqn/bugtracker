@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System.Collections.Generic;
 
 namespace backend.Models
 {
@@ -9,7 +10,7 @@ namespace backend.Models
 
         public string description { get; set; }
 
-        public WorkItem[] items { get; set; }
+        public List<string> itemIds { get; set; }
     }
 
     public class Board : IBoard
@@ -18,16 +19,20 @@ namespace backend.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
 
+        [BsonElement("title")]
         public string title { get; set; }
 
+        [BsonElement("description")]
         public string description { get; set; }
 
-        public WorkItem[] items { get; set; }
+        [BsonElement("itemIds")]
+        public List<string> itemIds { get; set; }
 
         public Board(string t, string d)
         {
             title = t;
             description = d;
+            itemIds = new List<string>();
         }
     }
 }

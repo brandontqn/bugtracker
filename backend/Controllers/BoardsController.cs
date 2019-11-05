@@ -69,6 +69,42 @@ namespace backend.Controllers
             return Ok(_boardService.UpdateTitle(id, body.text));
         }
 
+        [HttpPatch("description/{id}")]
+        public IActionResult UpdateDescription([FromRoute]string id, [FromBody]Text body)
+        {
+            Board item = _boardService.Get(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(_boardService.UpdateDescription(id, body.text));
+        }
+
+        [HttpPut("items/add/{id}")]
+        public IActionResult AddItem([FromRoute]string id, [FromBody]Text body)
+        {
+            Board item = _boardService.Get(id);
+            if (item == null || item.itemIds.Contains(body.text))
+            {
+                return NotFound();
+            }
+
+            return Ok(_boardService.AddItem(id, body.text));
+        }
+
+        [HttpPut("items/delete/{id}")]
+        public IActionResult DeleteItem([FromRoute]string id, [FromBody]Text body)
+        {
+            Board item = _boardService.Get(id);
+            if (item == null || !item.itemIds.Contains(body.text))
+            {
+                return NotFound();
+            }
+
+            return Ok(_boardService.DeleteItem(id, body.text));
+        }
+
         // DELETE api/<controller>/5
         [HttpDelete]
         public IActionResult DeleteAll()

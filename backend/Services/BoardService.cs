@@ -79,6 +79,26 @@ namespace backend.Services
             return item;
         }
 
+        public Board AddItem(string boardId, string itemId)
+        {
+            Board board = _boards.Find(x => x.id == boardId).FirstOrDefault();
+
+            board.itemIds = board.itemIds.Append(itemId).ToList();
+            _boards.ReplaceOne(x => x.id == boardId, board);
+
+            return board;
+        }
+
+        public Board DeleteItem(string boardId, string itemId)
+        {
+            Board board = _boards.Find(x => x.id == boardId).FirstOrDefault();
+
+            board.itemIds = board.itemIds.Where(x => x != itemId).ToList();
+            _boards.ReplaceOne(x => x.id == boardId, board);
+
+            return board;
+        }
+
         public void Remove(string id) =>
             _boards.DeleteOne(item => item.id == id);
 
