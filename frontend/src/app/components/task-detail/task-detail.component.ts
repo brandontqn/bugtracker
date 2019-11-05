@@ -24,9 +24,9 @@ export class TaskDetailComponent implements OnInit {
     this.getTask();
   }
 
-  getTask(): void {
-    const name = /*+*/this.route.snapshot.paramMap.get('name');
-    this.taskService.getTask(name)
+  async getTask() {
+    const name = this.route.snapshot.paramMap.get('name');
+    (await this.taskService.getTask(name))
       .subscribe(data => this.task = data);
   }
 
@@ -34,8 +34,8 @@ export class TaskDetailComponent implements OnInit {
     this.location.back();
   }
 
-  save(): void {
-    this.taskService.updateTask(this.task)
+  async save() {
+    (await this.taskService.updateTask(this.task))
       .subscribe(() => this.goBack());
   }
 

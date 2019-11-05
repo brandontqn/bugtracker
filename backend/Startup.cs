@@ -15,6 +15,8 @@ using Microsoft.Extensions.Options;
 using backend.Models;
 using backend.Services;
 
+using Okta.AspNetCore;
+
 namespace backend
 {
     public class Startup
@@ -55,6 +57,16 @@ namespace backend
             services.AddSingleton<BoardService>();
 
             //services.AddControllers().AddNewtonsoftJson();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
+                options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+            }).AddOktaWebApi(new OktaWebApiOptions()
+            {
+                OktaDomain = "https://dev-662146.okta.com"
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,17 +77,17 @@ namespace backend
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseCors();
             app.UseCors(builder => builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader());
-            //.AllowCredentials());
+                //.AllowCredentials());
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

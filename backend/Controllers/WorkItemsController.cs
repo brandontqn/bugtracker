@@ -7,10 +7,14 @@ using Microsoft.Extensions.Logging;
 using backend.Models;
 using backend.Services;
 
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class WorkItemsController : ControllerBase
     {
         private readonly ILogger<WorkItemsController> _logger;
@@ -26,6 +30,12 @@ namespace backend.Controllers
         [HttpGet]
         public IEnumerable<WorkItem> GetAll()
         {
+            var principal = HttpContext.User.Identity as ClaimsIdentity;
+
+            var login = principal.Claims
+                .SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
+                ?.Value;
+
             return _workItemService.GetAll();
         }
 

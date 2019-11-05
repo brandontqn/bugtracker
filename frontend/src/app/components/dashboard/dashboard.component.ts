@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Task } from '../../models/task';
+import { Task, ITask } from '../../models/task';
 import { TaskService } from '../../services/task.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,8 +18,8 @@ export class DashboardComponent implements OnInit {
     this.getTasks();
   }
 
-  getTasks(): void {
-    this.taskService.getTasks()
+  async getTasks() {
+    (await this.taskService.getTasks())
       .subscribe(data => this.tasks = data.slice(0, 3))
   }
 }

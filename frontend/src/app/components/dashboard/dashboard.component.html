@@ -1,7 +1,7 @@
 <h3>Top Tasks</h3>
 <div class="grid grid-pad">
   <a *ngFor="let task of tasks" class="col-1-4"
-        routerLink="/detail/{{task.name}}">
+        routerLink="/detail/{{task.id}}">
     <div class="module task">
       <h4>{{task.name}}</h4>
     </div>

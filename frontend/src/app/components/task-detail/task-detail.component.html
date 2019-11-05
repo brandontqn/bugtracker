@@ -4,14 +4,14 @@
     <h2>{{task.name | uppercase}} Details</h2>
 
     <div>
-        <span>id: </span>some id...
+        <span>id: </span>{{task.id}}
     </div>
 
     <div>
-        <span>name: </span>{{task.name}}
-        <!-- <label>name:
+        <!-- <span>name: </span>{{task.name}} -->
+        <label>name:
             <input [(ngModel)]="task.name" placeholder="name"/>
-        </label> -->
+        </label>
     </div>
 
     <div>
