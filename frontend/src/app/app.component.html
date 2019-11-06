@@ -1,17 +1,16 @@
 <div>
   <h1 style="margin:10px;">{{title}}</h1>
-  <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
-  <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Register </button>
+  <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Login/Register </button>
+  <!-- <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Register </button> -->
   <button class="auth_button" mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
 </div>
 
 <mat-drawer-container class="md-container" autosize>
   <mat-drawer mode="side" opened>
     <nav class="btn_group">
-      <button type="button" mat-button><a routerLink="">Home</a></button>
-      <button type="button" mat-button><a routerLink="dashboard">Dashboard</a></button>
-      <button type="button" mat-button><a routerLink="boards">Boards</a></button>
-      <button type="button" mat-button><a routerLink="tasks">Tasks</a></button>
+      <button type="button" mat-button *ngIf="isAuthenticated"><a routerLink="dashboard">Dashboard</a></button>
+      <button type="button" mat-button *ngIf="isAuthenticated"><a routerLink="boards">Boards</a></button>
+      <button type="button" mat-button *ngIf="isAuthenticated"><a routerLink="tasks">Tasks</a></button>
     </nav>
   </mat-drawer>
   <mat-drawer-content>
