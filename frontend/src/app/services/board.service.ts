@@ -39,6 +39,11 @@ export class BoardService {
     return this.http.get<Board>( url, { headers: httpOptions } );
   }
 
+  async addBoard(title: string) {
+    const httpOptions = await this.getHeaders();
+    return this.http.post(this.currentEndpoint, { title: title, description: "" }, { headers: httpOptions } );
+  }
+
   async updateBoard(board: Board) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + board.id;

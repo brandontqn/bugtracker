@@ -29,22 +29,20 @@ export class BoardDetailsComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    await this.getBoard();
-    await this.getTasks();
+    this.getBoard();
   }
 
   async getBoard() {
     const id = this.route.snapshot.paramMap.get('id');
-    (await this.boardService.getBoard(id))
-      .subscribe(data => this.board = data)
-  }
 
-  async getTasks() {
+    (await this.boardService.getBoard(id))
+      .subscribe(data => this.board = data);
+
     (await this.taskService.getTasks())
       .subscribe( (data: Task[]) => 
         this.tasks = data.filter( task =>
           this.board.itemIds.includes(task.id)
-      ));
+        ));
   }
 
   goBack(): void {
@@ -56,15 +54,11 @@ export class BoardDetailsComponent implements OnInit {
       .subscribe(() => this.location.go);
   }
 
-  async add(name: string) {
+  async addTask(name: string) {
     const observable = await this.taskService.createTask(name);
 
     observable.subscribe( (data: Task) => {
-        console.log('currTaskId: ', data.id);
         this.board.itemIds.push(data.id);
-        
-        console.log(this.board);
-
         this.boardService.addTask(this.board, data.id);
       }
     );

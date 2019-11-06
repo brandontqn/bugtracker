@@ -1,4 +1,10 @@
-<h2 style="margin:10px;">My Boards</h2>
+<h2 style="margin:10px;">
+    My Boards
+    <mat-form-field>
+         <input #newBoard matInput placeholder="New Board">
+     </mat-form-field>
+     <button mat-button (click)="addBoard(newBoard.value)">ADD</button>
+</h2>
 
 <ul class="boards">
     <li *ngFor="let board of boards">

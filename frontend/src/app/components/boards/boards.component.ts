@@ -11,6 +11,8 @@ export class BoardsComponent implements OnInit {
 
   boards: Board[];
 
+  newBoardName: string;
+
   constructor( private boardService: BoardService ) { }
 
   ngOnInit() {
@@ -19,7 +21,16 @@ export class BoardsComponent implements OnInit {
 
   async getBoards() {
     (await this.boardService.getBoards())
-      .subscribe(data => this.boards = data)
+      .subscribe(data => this.boards = data);
+  }
+
+  async addBoard(title: string) {
+    const observable = await this.boardService.addBoard(title);
+    
+    observable.subscribe( (data: Board) => {
+        this.boards.push(data);
+      }
+    );
   }
 
 }
