@@ -1,0 +1,9 @@
+<h2 style="margin:10px;">My Boards</h2>
+
+<ul class="boards">
+    <li *ngFor="let board of boards">
+        <a routerLink="detail/{{board.id}}">
+            <span class="badge">{{board.title}}</span>{{board.description}}
+        </a>
+    </li>
+</ul>

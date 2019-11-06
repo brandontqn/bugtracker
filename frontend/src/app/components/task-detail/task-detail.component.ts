@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Task } from '../../models/task';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
+import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 
 @Component({
@@ -10,7 +9,7 @@ import { TaskService } from '../../services/task.service';
   templateUrl: './task-detail.component.html',
   styleUrls: ['./task-detail.component.scss']
 })
-export class TaskDetailComponent implements OnInit {
+export class TaskDetailsComponent implements OnInit {
 
   @Input() task: Task;
 
@@ -25,8 +24,8 @@ export class TaskDetailComponent implements OnInit {
   }
 
   async getTask() {
-    const name = this.route.snapshot.paramMap.get('name');
-    (await this.taskService.getTask(name))
+    const id = this.route.snapshot.paramMap.get('id');
+    (await this.taskService.getTask(id))
       .subscribe(data => this.task = data);
   }
 

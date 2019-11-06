@@ -64,18 +64,6 @@ namespace backend.Controllers
             return Ok(item);
         }
 
-        [HttpPatch("detail/{id}")]
-        public IActionResult UpdateDetail([FromRoute]string id, [FromBody]Text body)
-        {
-            WorkItem item = _workItemService.Get(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            
-            return Ok(_workItemService.UpdateDetail(id, body.text));
-        }
-
         [HttpPatch("name/{id}")]
         public IActionResult UpdateName([FromRoute]string id, [FromBody]Text body)
         {
@@ -86,6 +74,18 @@ namespace backend.Controllers
             }
 
             return Ok(_workItemService.UpdateName(id, body.text));
+        }
+
+        [HttpPatch("detail/{id}")]
+        public IActionResult UpdateDetail([FromRoute]string id, [FromBody]Text body)
+        {
+            WorkItem item = _workItemService.Get(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            
+            return Ok(_workItemService.UpdateDetail(id, body.text));
         }
 
         [HttpDelete]
