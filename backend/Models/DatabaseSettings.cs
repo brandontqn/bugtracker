@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backend.Models
+namespace ProjectManagementService.Models
 {
     public class DatabaseSettings : IDatabaseSettings
     {

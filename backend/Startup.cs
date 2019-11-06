@@ -12,12 +12,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using backend.Models;
-using backend.Services;
+using ProjectManagementService.Models;
+using ProjectManagementService.Services;
 
 using Okta.AspNetCore;
 
-namespace backend
+namespace ProjectManagementService
 {
     public class Startup
     {

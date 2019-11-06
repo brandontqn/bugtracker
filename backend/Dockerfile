@@ -12,16 +12,16 @@ EXPOSE 443
 #FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine3.9 AS build
 FROM mcr.microsoft.com/dotnet/core/sdk:3.0-alpine3.9 AS build
 WORKDIR /src
-COPY ["backend.csproj", ""]
-RUN dotnet restore "./backend.csproj"
+COPY ["ProjectManagementService.csproj", ""]
+RUN dotnet restore "./ProjectManagementService.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "backend.csproj" -c Release -o /app
+RUN dotnet build "ProjectManagementService.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "backend.csproj" -c Release -o /app
+RUN dotnet publish "ProjectManagementService.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "backend.dll"]
+ENTRYPOINT ["dotnet", "ProjectManagementService.dll"]

@@ -1,10 +1,10 @@
-﻿using backend.Models;
+﻿using ProjectManagementService.Models;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace backend.Services
+namespace ProjectManagementService.Services
 {
     public class BoardService
     {

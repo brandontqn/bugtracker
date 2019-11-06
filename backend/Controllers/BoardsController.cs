@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using backend.Models;
-using backend.Services;
+using ProjectManagementService.Models;
+using ProjectManagementService.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace backend.Controllers
+namespace ProjectManagementService.Controllers
 {
     [Route("api/[controller]")]
     [Authorize]

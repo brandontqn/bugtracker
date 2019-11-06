@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 
-using backend.Models;
+using ProjectManagementService.Models;
 
 
-namespace backend.Services
+namespace ProjectManagementService.Services
 {
     public class WorkItemService
     {

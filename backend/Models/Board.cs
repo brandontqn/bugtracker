@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
-namespace backend.Models
+namespace ProjectManagementService.Models
 {
     public interface IBoard
     {

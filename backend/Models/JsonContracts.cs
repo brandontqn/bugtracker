@@ -1,5 +1,5 @@
 ﻿using System;
-namespace backend.Models
+namespace ProjectManagementService.Models
 {
     public class Text
     {

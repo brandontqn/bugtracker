@@ -4,13 +4,13 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-using backend.Models;
-using backend.Services;
+using ProjectManagementService.Models;
+using ProjectManagementService.Services;
 
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace backend.Controllers
+namespace ProjectManagementService.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
