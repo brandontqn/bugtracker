@@ -33,7 +33,8 @@
     <ul class="tasks">
         <li *ngFor="let task of tasks">
             <a routerLink="tasks/detail/{{task.id}}">
-                <span class="badge">{{task.name}}</span>{{task.detail}}
+                <span class="badge">{{task.name}}</span>
+                {{task.detail}}
             </a>
         </li>
     </ul>

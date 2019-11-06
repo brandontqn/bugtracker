@@ -9,7 +9,9 @@
 <ul class="boards">
     <li *ngFor="let board of boards">
         <a routerLink="detail/{{board.id}}">
-            <span class="badge">{{board.title}}</span>{{board.description}}
+            <span class="badge">{{board.title}}</span>
+            {{board.description}}
         </a>
+        <button mat-button style="float: right; bottom: 5px;">DEL</button>
     </li>
 </ul>
