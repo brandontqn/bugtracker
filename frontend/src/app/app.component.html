@@ -1,12 +1,11 @@
-<h1>{{title}}</h1>
+<div>
+  <h1 style="margin:10px;">{{title}}</h1>
+  <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
+  <button class="auth_button" mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
+</div>
 
-<button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
-<button class="auth_button" mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>
-
-<!-- <mat-slider min="1" max="100" step="1" value="1"></mat-slider> -->
-
-<mat-drawer-container class="example-container" autosize>
-  <mat-drawer #drawer mode="side" opened>
+<mat-drawer-container class="md-container" autosize>
+  <mat-drawer mode="side" opened>
     <nav class="btn_group">
       <button type="button" mat-button><a routerLink="/">Home</a></button>
       <button type="button" mat-button><a routerLink="/dashboard">Dashboard</a></button>

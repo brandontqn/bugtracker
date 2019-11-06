@@ -2,20 +2,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { TaskService } from './services/task.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { TaskDetailComponent } from './components/task-detail/task-detail.component';
-
-import { TaskService } from './services/task.service';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DemoMaterialModule } from './material-module';
-
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { MatSliderModule } from '@angular/material/slider';
+
+import { NgMaterialModule } from './material-module';
 
 @NgModule({
   declarations: [
@@ -32,8 +31,7 @@ import { MatSliderModule } from '@angular/material/slider';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    DemoMaterialModule,
-    MatSliderModule,
+    NgMaterialModule
   ],
   providers: [TaskService],
   bootstrap: [AppComponent]

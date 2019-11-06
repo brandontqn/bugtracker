@@ -1,5 +1,6 @@
-<h3>Top Tasks</h3>
-<div class="grid grid-pad">
+<h2 style="margin:10px;">Top Tasks</h2>
+
+<div class="grid grid-pad" style="margin:10px;">
   <a *ngFor="let task of tasks" class="col-1-4"
         routerLink="/detail/{{task.id}}">
     <div class="module task">

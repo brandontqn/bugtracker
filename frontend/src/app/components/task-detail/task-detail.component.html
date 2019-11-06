@@ -1,6 +1,6 @@
-<button (click)="goBack()">go back</button>
+<button mat-button (click)="goBack()">BACK</button>
 
-<div *ngIf="task">
+<div *ngIf="task" style="margin:10px;">
     <h2>{{task.name | uppercase}} Details</h2>
 
     <div>
@@ -8,18 +8,18 @@
     </div>
 
     <div>
-        <!-- <span>name: </span>{{task.name}} -->
-        <label>name:
-            <input [(ngModel)]="task.name" placeholder="name"/>
-        </label>
+        <mat-form-field>
+            <input matInput [(ngModel)]="task.name" placeholder="Name">
+        </mat-form-field>
     </div>
 
     <div>
-        <!-- <span>details: </span>{{task.details}} -->
-        <label>details:
-            <input [(ngModel)]="task.details" placeholder="details"/>
-        </label>
+        <mat-form-field>
+            <input matInput [(ngModel)]="task.detail" placeholder="Detail">
+        </mat-form-field>
     </div>
 
-    <button (click)="save()">save</button>
+    <div>
+         <button mat-button (click)="save()">SAVE</button>
+    </div>
 </div>
