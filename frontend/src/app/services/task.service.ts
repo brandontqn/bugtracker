@@ -39,10 +39,9 @@ export class TaskService {
     return this.http.get<Task>( url, { headers: httpOptions } );
   }
 
-  // WIP
   async updateTask(task: Task) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + task.id;
-    return this.http.put(url, task, { headers: httpOptions } );
+    return this.http.patch(url, task, { headers: httpOptions } );
   }
 }

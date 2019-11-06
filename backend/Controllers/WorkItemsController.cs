@@ -64,6 +64,19 @@ namespace backend.Controllers
             return Ok(item);
         }
 
+        [HttpPatch("{id}")]
+        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]NameDetail nd)
+        {
+            WorkItem item = _workItemService.Get(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
+            _workItemService.UpdateName(id, nd.name);
+
+            return Ok(_workItemService.UpdateDetail(id, nd.detail));
+        }
+
         [HttpPatch("name/{id}")]
         public IActionResult UpdateName([FromRoute]string id, [FromBody]Text body)
         {

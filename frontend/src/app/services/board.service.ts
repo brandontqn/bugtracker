@@ -39,10 +39,9 @@ export class BoardService {
     return this.http.get<Board>( url, { headers: httpOptions } );
   }
 
-  // WIP
   async updateBoard(board: Board) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/title/' + board.id;
-    return this.http.put(url, board, { headers: httpOptions } );
+    const url = this.currentEndpoint + '/' + board.id;
+    return this.http.patch(url, board, { headers: httpOptions } );
   }
 }

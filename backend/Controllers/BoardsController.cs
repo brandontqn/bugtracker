@@ -36,7 +36,7 @@ namespace backend.Controllers
             Board item = _boardService.Get(id);
             if (item == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             return Ok(item);
@@ -55,6 +55,20 @@ namespace backend.Controllers
             return Ok(item);
         }
 
+        [HttpPatch("{id}")]
+        public IActionResult UpdateBoard([FromRoute]string id, [FromBody]TitleDescription td)
+        {
+            Board item = _boardService.Get(id);
+            if(item == null)
+            {
+                return NotFound(id);
+            }
+
+            _boardService.UpdateTitle(id, td.title);
+
+            return Ok(_boardService.UpdateDescription(id, td.description));
+        }
+
         // PUT api/<controller>/5
         [HttpPatch("title/{id}")]
         public IActionResult UpdateTitle([FromRoute]string id, [FromBody]Text body)
@@ -62,7 +76,7 @@ namespace backend.Controllers
             Board item = _boardService.Get(id);
             if (item == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             return Ok(_boardService.UpdateTitle(id, body.text));
@@ -74,7 +88,7 @@ namespace backend.Controllers
             Board item = _boardService.Get(id);
             if (item == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             return Ok(_boardService.UpdateDescription(id, body.text));
@@ -86,7 +100,7 @@ namespace backend.Controllers
             Board item = _boardService.Get(id);
             if (item == null || item.itemIds.Contains(body.text))
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             return Ok(_boardService.AddItem(id, body.text));
@@ -98,7 +112,7 @@ namespace backend.Controllers
             Board item = _boardService.Get(id);
             if (item == null || !item.itemIds.Contains(body.text))
             {
-                return NotFound();
+                return NotFound(id);
             }
 
             return Ok(_boardService.DeleteItem(id, body.text));
