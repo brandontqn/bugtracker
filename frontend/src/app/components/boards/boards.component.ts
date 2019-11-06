@@ -33,4 +33,12 @@ export class BoardsComponent implements OnInit {
     );
   }
 
+  async deleteBoard(id: string) {
+    const observable = await this.boardService.deleteBoard(id);
+
+    observable.subscribe( () =>
+      this.boards = this.boards.filter( (board: Board) => board.id !== id)
+    );
+  }
+
 }

@@ -12,6 +12,6 @@
             <span class="badge">{{board.title}}</span>
             {{board.description}}
         </a>
-        <button mat-button style="float: right; bottom: 5px;">DEL</button>
+        <button mat-button (click)="deleteBoard(board.id)" style="float: right; bottom: 5px;">DEL</button>
     </li>
 </ul>

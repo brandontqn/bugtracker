@@ -36,7 +36,7 @@ export class BoardService {
   async getBoard(id: string) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + id;
-    return this.http.get<Board>( url, { headers: httpOptions } );
+    return this.http.get<Board>( url, { headers: httpOptions });
   }
 
   async addBoard(title: string) {
@@ -47,12 +47,18 @@ export class BoardService {
   async updateBoard(board: Board) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + board.id;
-    return this.http.patch(url, board, { headers: httpOptions } );
+    return this.http.patch(url, board, { headers: httpOptions });
   }
 
   async addTask(board: Board, item: String) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/items/add/' + board.id;
-    return this.http.put(url, { text: item }, { headers: httpOptions } );
+    return this.http.put(url, { text: item }, { headers: httpOptions });
+  }
+
+  async deleteBoard(id: string) {
+    const httpOptions = await this.getHeaders();
+    const url = this.currentEndpoint + '/' + id;
+    return this.http.delete(url, { headers: httpOptions });
   }
 }

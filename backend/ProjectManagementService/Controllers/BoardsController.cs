@@ -118,6 +118,19 @@ namespace ProjectManagementService.Controllers
             return Ok(_boardService.DeleteItem(id, body.text));
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteOne([FromRoute]string id)
+        {
+            Board item = _boardService.Get(id);
+            if (item == null)
+            {
+                return NotFound(id);
+            }
+
+            _boardService.Remove(id);
+            return Ok();
+        }
+
         // DELETE api/<controller>/5
         [HttpDelete]
         public IActionResult DeleteAll()

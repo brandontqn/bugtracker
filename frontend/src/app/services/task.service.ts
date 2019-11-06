@@ -30,19 +30,19 @@ export class TaskService {
 
   async getTasks() {
     const httpOptions = await this.getHeaders();
-    return this.http.get<Task[]>( this.currentEndpoint, { headers: httpOptions } );
+    return this.http.get<Task[]>( this.currentEndpoint, { headers: httpOptions });
   }
 
   async getTask(id: string) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + id;
-    return this.http.get<Task>( url, { headers: httpOptions } );
+    return this.http.get<Task>( url, { headers: httpOptions });
   }
 
   async updateTask(task: Task) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + task.id;
-    return this.http.patch(url, task, { headers: httpOptions } );
+    return this.http.patch(url, task, { headers: httpOptions });
   }
 
   async createTask(name: string) {
