@@ -44,4 +44,9 @@ export class TaskService {
     const url = this.currentEndpoint + '/' + task.id;
     return this.http.patch(url, task, { headers: httpOptions } );
   }
+
+  async createTask(name: string) {
+    const httpOptions = await this.getHeaders();
+    return this.http.post(this.currentEndpoint, { name: name, detail: "" }, { headers: httpOptions });
+  }
 }

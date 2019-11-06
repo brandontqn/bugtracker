@@ -1,7 +1,10 @@
 <button mat-button (click)="goBack()">BACK</button>
 
 <div *ngIf="board" style="margin:10px;">
-    <h2>{{board.title | uppercase}} Details</h2>
+    <h2>
+        {{board.title | uppercase}} Details 
+        <button mat-button (click)="save()">SAVE</button>
+    </h2>
 
     <div>
         <span>id: </span>{{board.id}}
@@ -19,7 +22,20 @@
         </mat-form-field>
     </div>
 
-    <div>
-         <button mat-button (click)="save()">SAVE</button>
-    </div>
+    <h2 style="margin:10px;">
+            {{board.title | uppercase}} Tasks
+            <mat-form-field>
+                <input #newTask matInput placeholder="New Task">
+            </mat-form-field>
+            <button mat-button (click)="add(newTask.value)">ADD</button>
+    </h2>
+    
+    <ul class="tasks">
+        <li *ngFor="let task of tasks">
+            <a routerLink="detail/{{task.id}}">
+                <span class="badge">{{task.name}}</span>{{task.detail}}
+            </a>
+        </li>
+    </ul>
 </div>
+

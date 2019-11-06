@@ -1,5 +1,5 @@
 export class Board {
-    id: number;
+    id: string;
     title: string;
     description: string;
     itemIds: string[];

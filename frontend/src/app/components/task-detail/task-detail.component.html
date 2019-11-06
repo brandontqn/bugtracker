@@ -1,7 +1,10 @@
 <button mat-button (click)="goBack()">BACK</button>
 
 <div *ngIf="task" style="margin:10px;">
-    <h2>{{task.name | uppercase}} Details</h2>
+    <h2>
+        {{task.name | uppercase}} Details
+        <button mat-button (click)="save()">SAVE</button>
+    </h2>
 
     <div>
         <span>id: </span>{{task.id}}
@@ -17,9 +20,5 @@
         <mat-form-field>
             <input matInput [(ngModel)]="task.detail" placeholder="Detail">
         </mat-form-field>
-    </div>
-
-    <div>
-         <button mat-button (click)="save()">SAVE</button>
     </div>
 </div>

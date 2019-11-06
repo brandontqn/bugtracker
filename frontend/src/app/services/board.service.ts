@@ -44,4 +44,10 @@ export class BoardService {
     const url = this.currentEndpoint + '/' + board.id;
     return this.http.patch(url, board, { headers: httpOptions } );
   }
+
+  async addTask(board: Board, item: String) {
+    const httpOptions = await this.getHeaders();
+    const url = this.currentEndpoint + '/items/add/' + board.id;
+    return this.http.put(url, { text: item }, { headers: httpOptions } );
+  }
 }
