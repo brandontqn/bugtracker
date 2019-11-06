@@ -36,13 +36,15 @@ export class BoardDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     (await this.boardService.getBoard(id))
-      .subscribe(data => this.board = data);
+      .subscribe( async (data: Board) => {
+        this.board = data;
+        });
 
     (await this.taskService.getTasks())
-      .subscribe( (data: Task[]) => 
-        this.tasks = data.filter( task =>
-          this.board.itemIds.includes(task.id)
-        ));
+    .subscribe( (data: Task[]) => 
+      this.tasks = data.filter( task =>
+        this.board.itemIds.includes(task.id)
+      ));
   }
 
   goBack(): void {
@@ -51,16 +53,17 @@ export class BoardDetailsComponent implements OnInit {
 
   async save() {
     (await this.boardService.updateBoard(this.board))
-      .subscribe(() => this.location.go);
+      .subscribe(() => this.location.go); // possibly doesn't work
   }
 
   async addTask(name: string) {
-    const observable = await this.taskService.createTask(name);
-
-    observable.subscribe( (data: Task) => {
-        this.board.itemIds.push(data.id);
-        this.boardService.addTask(this.board, data.id);
-      }
-    );
+    (await this.taskService.createTask(name))
+      .subscribe( async (data: Task) => {
+        (await this.boardService.addTask(this.board, data.id))
+          .subscribe( async (data: Task) => {
+            // this.board.itemIds.push(data.id);
+            (await this.getBoard())
+          });
+      });
   }
 }
