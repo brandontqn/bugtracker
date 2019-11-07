@@ -1,7 +1,6 @@
 <div>
   <h1 style="margin:10px;">{{title}}</h1>
   <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Login/Register </button>
-  <!-- <button class="auth_button" mat-button *ngIf="!isAuthenticated" (click)="login()"> Register </button> -->
   <button class="auth_button" mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
 </div>
 

@@ -1,14 +1,17 @@
 <h2 style="margin:10px;">
     My Tasks
+</h2>
+
+<p style="display: block; width: 250px; margin:10px;">
     <mat-form-field>
         <input #newTask matInput placeholder="New Task">
     </mat-form-field>
     <button mat-button (click)="addTask(newTask.value)">ADD</button>
-</h2>
+</p>
 
 <ul class="tasks">
     <li *ngFor="let task of tasks">
-        <a routerLink="/tasks/detail/{{task.id}}">
+        <a routerLink="/tasks/detail/{{task.id}}" style="text-decoration: none;">
             <span class="badge">{{task.name}}</span>{{task.detail}}
         </a>
         <button mat-button (click)="deleteTask(task.id)" style="float: right; bottom: 5px;">DEL</button>

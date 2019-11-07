@@ -1,17 +1,23 @@
-<h2 style="margin:10px;">
-    My Boards
-    <mat-form-field>
-         <input #newBoard matInput placeholder="New Board">
-     </mat-form-field>
-     <button mat-button (click)="addBoard(newBoard.value)">ADD</button>
-</h2>
+<div>
+    <h2 style="margin:10px;">
+        My Boards
+    </h2>
+    
+    <p style="display: block; width: 250px; margin: 10px;">
+        <mat-form-field >
+             <input #newBoard matInput placeholder="New Board">
+        </mat-form-field>
+        <button mat-button (click)="addBoard(newBoard.value)">ADD</button>
+    </p>
+    
+    <ul class="boards">
+        <li *ngFor="let board of boards">
+            <a routerLink="detail/{{board.id}}" style="text-decoration: none;">
+                <span class="badge">{{board.title}}</span>
+                {{board.description}}
+            </a>
+            <button mat-button (click)="deleteBoard(board.id)" style="float: right; bottom: 5px;">DEL</button>
+        </li>
+    </ul>
+</div>
 
-<ul class="boards">
-    <li *ngFor="let board of boards">
-        <a routerLink="detail/{{board.id}}">
-            <span class="badge">{{board.title}}</span>
-            {{board.description}}
-        </a>
-        <button mat-button (click)="deleteBoard(board.id)" style="float: right; bottom: 5px;">DEL</button>
-    </li>
-</ul>
