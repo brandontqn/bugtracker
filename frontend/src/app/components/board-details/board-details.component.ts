@@ -28,8 +28,9 @@ export class BoardDetailsComponent implements OnInit {
     private location: Location,
   ) { }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.getBoard();
+    this.getTasks();
   }
 
   async getBoard() {
@@ -39,7 +40,9 @@ export class BoardDetailsComponent implements OnInit {
       .subscribe( async (data: Board) => {
         this.board = data;
         });
+  }
 
+  async getTasks() {
     (await this.taskService.getTasks())
     .subscribe( (data: Task[]) => 
       this.tasks = data.filter( task =>
@@ -53,17 +56,26 @@ export class BoardDetailsComponent implements OnInit {
 
   async save() {
     (await this.boardService.updateBoard(this.board))
-      .subscribe(() => this.location.go); // possibly doesn't work
+      .subscribe(() => this.location.go);
   }
 
   async addTask(name: string) {
     (await this.taskService.createTask(name))
       .subscribe( async (data: Task) => {
         (await this.boardService.addTask(this.board, data.id))
-          .subscribe( async (data: Task) => {
-            // this.board.itemIds.push(data.id);
-            (await this.getBoard())
+          .subscribe( async () => {
+            (await this.getTasks())
+            this.board.itemIds.push(data.id);
           });
       });
+  }
+
+  async deleteTask(id: string) {
+    (await this.boardService.deleteTask(this.board, id))
+      .subscribe( async () => {
+          (await this.getTasks())
+          this.board.itemIds = this.board.itemIds.filter(item => item != id)
+        }
+      );
   }
 }

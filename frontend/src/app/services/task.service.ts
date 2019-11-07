@@ -49,4 +49,6 @@ export class TaskService {
     const httpOptions = await this.getHeaders();
     return this.http.post(this.currentEndpoint, { name: name, detail: "" }, { headers: httpOptions });
   }
+
+  // as
 }

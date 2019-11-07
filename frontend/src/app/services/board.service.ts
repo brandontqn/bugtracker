@@ -61,4 +61,10 @@ export class BoardService {
     const url = this.currentEndpoint + '/' + id;
     return this.http.delete(url, { headers: httpOptions });
   }
+
+  async deleteTask(board: Board, item: string) {
+    const httpOptions = await this.getHeaders();
+    const url = this.currentEndpoint + '/items/delete/' + board.id;
+    return this.http.put(url, { text: item }, { headers: httpOptions });
+  }
 }
