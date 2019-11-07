@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Board } from '../../models/board';
 import { BoardService } from '../../services/board.service';
-
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-boards',
   templateUrl: './boards.component.html',
@@ -13,7 +13,7 @@ export class BoardsComponent implements OnInit {
 
   newBoardName: string;
 
-  constructor( private boardService: BoardService ) { }
+  constructor( private boardService: BoardService, private _snackBar: MatSnackBar ) { }
 
   ngOnInit() {
     this.getBoards();
@@ -21,24 +21,31 @@ export class BoardsComponent implements OnInit {
 
   async getBoards() {
     (await this.boardService.getBoards())
-      .subscribe(data => this.boards = data);
+    .subscribe(data => {
+      this.boards = data
+    });
   }
 
   async addBoard(title: string) {
-    const observable = await this.boardService.addBoard(title);
-    
-    observable.subscribe( (data: Board) => {
+    (await this.boardService.addBoard(title))
+    .subscribe( (data: Board) => {
         this.boards.push(data);
-      }
-    );
+    });
+
+    this._snackBar.open(title + " Added", "dismiss", {
+      duration: 2000
+    });
   }
 
   async deleteBoard(id: string) {
-    const observable = await this.boardService.deleteBoard(id);
+    (await this.boardService.deleteBoard(id))
+    .subscribe( () => {
+      this.boards = this.boards.filter( (board: Board) => board.id !== id);
+    });
 
-    observable.subscribe( () =>
-      this.boards = this.boards.filter( (board: Board) => board.id !== id)
-    );
+    this._snackBar.open("Delete", "dismiss", {
+      duration: 2000
+    });
   }
 
 }

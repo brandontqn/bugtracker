@@ -5,8 +5,7 @@ import { Board } from '../../models/board';
 import { BoardService } from '../../services/board.service';
 import { TaskService } from 'src/app/services/task.service';
 import { Task } from 'src/app/models/task';
-import { TasksComponent } from '../tasks/tasks.component';
-import { map } from 'rxjs/operators'
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-board-details',
@@ -28,28 +27,29 @@ export class BoardDetailsComponent implements OnInit {
     private boardService: BoardService,
     private taskService: TaskService,
     private location: Location,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
     this.getBoard();
-    this.getTasks();
+    // this.getTasks();
   }
 
   async getBoard() {
     const id = this.route.snapshot.paramMap.get('id');
 
     (await this.boardService.getBoard(id))
-      .subscribe( async (data: Board) => {
-        this.board = data;
-        });
+    .subscribe( async (data: Board) => {
+      this.board = data;
+      this.getTasks();
+    });
   }
 
   async getTasks() {
     (await this.taskService.getTasks())
     .subscribe( (data: Task[]) => 
-      this.tasks = data.filter( task =>
-        this.board.itemIds.includes(task.id)
-      ));
+      this.tasks = data.filter((task: Task) => this.board.itemIds.includes(task.id)
+    ));
   }
 
   goBack(): void {
@@ -58,26 +58,35 @@ export class BoardDetailsComponent implements OnInit {
 
   async save() {
     (await this.boardService.updateBoard(this.board))
-      .subscribe(() => this.goBack());
+    .subscribe(() => {
+      this.goBack()
+    });
   }
 
   async addTask(name: string) {
     (await this.taskService.createTask(name))
-      .subscribe( async (data: Task) => {
-        (await this.boardService.addTask(this.board, data.id))
-          .subscribe( async () => {
-            (await this.getTasks())
-            this.board.itemIds.push(data.id);
-          });
+    .subscribe( async (data: Task) => {
+      (await this.boardService.addTask(this.board, data.id))
+      .subscribe( async () => {
+        this.getTasks();
+        this.board.itemIds.push(data.id);
       });
+    });
+
+    this._snackBar.open(name + " Added", "dismiss", {
+      duration: 2000
+    });
   }
 
-  async deleteTask(id: string) {
-    (await this.boardService.deleteTask(this.board, id))
-      .subscribe( async () => {
-          (await this.getTasks())
-          this.board.itemIds = this.board.itemIds.filter(item => item != id)
-        }
-      );
+  async deleteTask(task: Task) {
+    (await this.boardService.deleteTask(this.board, task.id))
+    .subscribe( () => {
+      this.getTasks();
+      this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
+    });
+
+    this._snackBar.open(task.name + " Deleted", "dismiss", {
+      duration: 2000
+    });
   }
 }
