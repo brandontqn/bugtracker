@@ -1,3 +1,6 @@
+import { APP_INITIALIZER } from '@angular/core';
+import { AppConfigService } from './services/app-config.service';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
@@ -20,6 +23,9 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { BoardsComponent } from './components/boards/boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 
+export function intializeApp(appConfigService: AppConfigService) {
+  return () => appConfigService.load();
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +46,7 @@ import { BoardDetailsComponent } from './components/board-details/board-details.
     NgMaterialModule
   ],
   providers: [
+    AppConfigService, { provide: APP_INITIALIZER, useFactory: intializeApp, deps: [AppConfigService], multi: true },
     TaskService,
     BoardService
   ],

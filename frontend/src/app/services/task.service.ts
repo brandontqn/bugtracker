@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
-
 import { Task } from './../models/task';
+import { AppConfigService } from './app-config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +12,7 @@ export class TaskService {
     console.log( 'Hello from TaskService!' );
   }
 
-  private apiEndpoints = {
-    mac: 'https://localhost:5001/api/workitems',
-    windows: 'https://localhost:44359/api/workitems',
-    docker: 'http://localhost:8080/api/workitems'
-  };
-
-  private currentEndpoint = this.apiEndpoints['windows'];
+  protected currentEndpoint = AppConfigService.settings.projectManagementServiceEnv.docker.workItems;
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();
