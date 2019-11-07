@@ -50,5 +50,9 @@ export class TaskService {
     return this.http.post(this.currentEndpoint, { name: name, detail: "" }, { headers: httpOptions });
   }
 
-  // as
+  async deleteTask(id: string) {
+    const httpOptions = await this.getHeaders();
+    const url = this.currentEndpoint + '/' + id;
+    return this.http.delete(url, { headers: httpOptions })
+  }
 }

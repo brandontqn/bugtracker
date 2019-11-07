@@ -101,6 +101,19 @@ namespace ProjectManagementService.Controllers
             return Ok(_workItemService.UpdateDetail(id, body.text));
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteOne([FromRoute]string id)
+        {
+            WorkItem item = _workItemService.Get(id);
+            if (item == null)
+            {
+                return NotFound(id);
+            }
+
+            _workItemService.Remove(id);
+            return Ok();
+        }
+
         [HttpDelete]
         public IActionResult DeleteAll()
         {

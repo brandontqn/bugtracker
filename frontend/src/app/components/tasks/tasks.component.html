@@ -5,5 +5,6 @@
         <a routerLink="/tasks/detail/{{task.id}}">
             <span class="badge">{{task.name}}</span>{{task.detail}}
         </a>
+        <button mat-button (click)="deleteTask(task.id)" style="float: right; bottom: 5px;">DEL</button>
     </li>
 </ul>

@@ -22,8 +22,11 @@ export class TasksComponent implements OnInit {
       .subscribe(data => this.tasks = data)
   }
 
-  // async deleteTask(id: string) {
-  //   (await this.taskService.de)
-  // }
+  async deleteTask(id: string) {
+    (await this.taskService.deleteTask(id))
+      .subscribe( () =>
+        this.tasks = this.tasks.filter( (task: Task) => task.id !== id )
+      )
+  }
 
 }
