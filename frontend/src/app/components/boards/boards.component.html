@@ -7,7 +7,7 @@
         <mat-form-field >
              <input #newBoard matInput placeholder="New Board">
         </mat-form-field>
-        <button mat-button (click)="addBoard(newBoard.value)">ADD</button>
+        <button mat-button (click)="addBoard(newBoard.value); newBoard.value = '';">ADD</button>
     </p>
     
     <mat-card *ngFor="let board of boards">
