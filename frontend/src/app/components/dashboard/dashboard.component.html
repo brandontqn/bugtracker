@@ -2,9 +2,17 @@
 
 <div class="grid grid-pad" style="margin:10px;">
   <a *ngFor="let task of tasks" class="col-1-4"
-        routerLink="/detail/{{task.id}}">
+        routerLink="tasks/detail/{{task.id}}">
     <div class="module task">
       <h4>{{task.name}}</h4>
     </div>
   </a>
 </div>
+
+<!-- <mat-grid-list cols="1" rowHeight="10:1">
+  <mat-grid-tile *ngFor="let task of tasks">
+    <a routerLink="/detail/{{task.id}}">
+      {{task.name}}
+    </a>
+  </mat-grid-tile>
+</mat-grid-list> -->

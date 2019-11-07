@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'boards', component: BoardsComponent },
   { path: 'boards/detail/:id', component: BoardDetailsComponent },
   { path: 'boards/detail/:bid/tasks/detail/:tid', redirectTo: 'tasks/detail/:tid', pathMatch: 'full' },
+  { path: 'dashboard/tasks/detail/:tid', redirectTo: 'tasks/detail/:tid', pathMatch: 'full' },
 ];
 
 @NgModule({
