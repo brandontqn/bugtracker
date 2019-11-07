@@ -9,8 +9,14 @@ import { OktaAuthService } from '@okta/okta-angular';
 export class AppComponent {
 
   title = 'project-tracker';
-
   isAuthenticated: boolean;
+  links = [
+    {name: 'Dashboard', route: "dashboard"}, 
+    {name: 'Boards', route: "boards"}, 
+    {name: 'Tasks', route: "tasks"}
+  ];
+  activeLink = this.links[0];
+  background = '';
 
   constructor(public oktaAuth: OktaAuthService) { 
     this.oktaAuth.$authenticationState.subscribe(
@@ -31,4 +37,7 @@ export class AppComponent {
     this.oktaAuth.logout('/');
   }
 
+  toggleBackground() {
+    this.background = this.background ? '' : 'primary';
+  }
 }
