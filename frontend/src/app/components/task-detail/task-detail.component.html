@@ -1,16 +1,36 @@
 <button mat-button (click)="goBack()">BACK</button>
 
 <div *ngIf="task" style="margin:10px;">
-    <h2>
-        {{task.name | uppercase}} Details
-        <button mat-button (click)="save()">SAVE</button>
-    </h2>
+    <h2>{{task.name | uppercase}}</h2>
 
     <div>
-        <span>id: </span>{{task.id}}
+        <h3>Details</h3>
+        <p>ID: {{task.id}}</p>
+        <p>Details: {{task.detail}}</p>
     </div>
 
     <div>
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>EDIT</mat-panel-title>
+                    <mat-panel-description>
+                        {{panelOpenState ? '' : 'Edit this task\'s name and/or details.'}}
+                    </mat-panel-description> 
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="task.name" placeholder="Name">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="task.detail" placeholder="Detail">
+                </mat-form-field>
+                <button mat-button (click)="save()">SAVE</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    
+    <!-- <div>
         <mat-form-field>
             <input matInput [(ngModel)]="task.name" placeholder="Name">
         </mat-form-field>
@@ -20,5 +40,5 @@
         <mat-form-field>
             <input matInput [(ngModel)]="task.detail" placeholder="Detail">
         </mat-form-field>
-    </div>
+    </div> -->
 </div>

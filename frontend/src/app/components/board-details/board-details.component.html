@@ -1,49 +1,54 @@
 <button mat-button (click)="goBack()">BACK</button>
 
 <div *ngIf="board" style="margin:10px;">
+    <h2>{{board.title | uppercase}}</h2>
+
     <div>
-        <h2>
-            {{board.title | uppercase}} Details 
-            <button mat-button (click)="save()">SAVE</button>
-        </h2>
-        <p>
-            <span>id: </span>{{board.id}}
-        </p>
-    
-        <div>
-            <mat-form-field>
-                <input matInput [(ngModel)]="board.title" placeholder="Title">
-            </mat-form-field>
-        </div>
-    
-        <div>
-            <mat-form-field>
-                <input matInput [(ngModel)]="board.description" placeholder="Description">
-            </mat-form-field>
-        </div>
+        <h3>Details</h3>
+        <p>ID: {{board.id}}</p>
+        <p>Description: {{board.description}}</p>
     </div>
 
     <div>
-        <h2 style="margin:10px;">
-            {{board.title | uppercase}} Tasks
-        </h2>
-        
-        <p style="display: block; width: 250px; margin: 10px;">
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>EDIT</mat-panel-title>
+                    <mat-panel-description>
+                        {{panelOpenState ? '' : 'Edit this board\'s title and/or description.'}}
+                    </mat-panel-description> 
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="board.title" placeholder="Title">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="board.description" placeholder="Description">
+                </mat-form-field>
+                <button mat-button (click)="save()">SAVE</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+    <div>
+        <h3>Tasks</h3>
+
+        <div style="display: block; width: 250px;">
             <mat-form-field>
                 <input #newTask matInput placeholder="New Task">
             </mat-form-field>
             <button mat-button (click)="addTask(newTask.value)">ADD</button>
-        </p>
-    
-        <ul class="tasks">
-            <li *ngFor="let task of tasks">
-                <a routerLink="tasks/detail/{{task.id}}">
-                    <span class="badge">{{task.name}}</span>
-                    {{task.detail}}
-                </a>
-                <button mat-button (click)="deleteTask(task.id)" style="float: right; bottom: 5px;">DEL</button>
-            </li>
-        </ul>
+        </div>
+
+        <mat-card *ngFor="let task of tasks">
+            <mat-card-title>{{task.name}}</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+            <mat-card-content>{{task.detail}}</mat-card-content>
+            <mat-card-actions>
+                <button mat-button routerLink="/tasks/detail/{{task.id}}">VIEW</button>
+                <button mat-button (click)="deleteTask(task.id)">DEL</button>
+            </mat-card-actions>
+        </mat-card>
     </div>
 </div>
 

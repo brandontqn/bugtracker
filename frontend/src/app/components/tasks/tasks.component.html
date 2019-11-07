@@ -1,5 +1,5 @@
 <h2 style="margin:10px;">
-    My Tasks
+    All Tasks
 </h2>
 
 <p style="display: block; width: 250px; margin:10px;">
@@ -9,11 +9,12 @@
     <button mat-button (click)="addTask(newTask.value)">ADD</button>
 </p>
 
-<ul class="tasks">
-    <li *ngFor="let task of tasks">
-        <a routerLink="/tasks/detail/{{task.id}}" style="text-decoration: none;">
-            <span class="badge">{{task.name}}</span>{{task.detail}}
-        </a>
-        <button mat-button (click)="deleteTask(task.id)" style="float: right; bottom: 5px;">DEL</button>
-    </li>
-</ul>
+<mat-card *ngFor="let task of tasks">
+    <mat-card-title>{{task.name}}</mat-card-title>
+    <mat-card-subtitle></mat-card-subtitle>
+    <mat-card-content>{{task.detail}}</mat-card-content>
+    <mat-card-actions>
+        <button mat-button routerLink="/tasks/detail/{{task.id}}">VIEW</button>
+        <button mat-button (click)="deleteTask(task.id)">DEL</button>
+    </mat-card-actions>
+</mat-card>

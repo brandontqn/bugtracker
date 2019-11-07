@@ -17,6 +17,8 @@ export class BoardDetailsComponent implements OnInit {
 
   @Input() board: Board;
 
+  panelOpenState = false;
+
   tasks: Task[];
 
   currentItemId: string;
@@ -56,7 +58,7 @@ export class BoardDetailsComponent implements OnInit {
 
   async save() {
     (await this.boardService.updateBoard(this.board))
-      .subscribe(() => this.location.go);
+      .subscribe(() => this.goBack());
   }
 
   async addTask(name: string) {

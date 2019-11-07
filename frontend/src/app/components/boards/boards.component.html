@@ -10,14 +10,14 @@
         <button mat-button (click)="addBoard(newBoard.value)">ADD</button>
     </p>
     
-    <ul class="boards">
-        <li *ngFor="let board of boards">
-            <a routerLink="detail/{{board.id}}" style="text-decoration: none;">
-                <span class="badge">{{board.title}}</span>
-                {{board.description}}
-            </a>
-            <button mat-button (click)="deleteBoard(board.id)" style="float: right; bottom: 5px;">DEL</button>
-        </li>
-    </ul>
+    <mat-card *ngFor="let board of boards">
+        <mat-card-title>{{board.title}}</mat-card-title>
+        <mat-card-subtitle></mat-card-subtitle> <!-- put team this board is associated to here -->
+        <mat-card-content>{{board.description}}</mat-card-content>
+        <mat-card-actions>
+            <button mat-button routerLink="detail/{{board.id}}">VIEW</button>
+            <button mat-button (click)="deleteBoard(board.id)">DEL</button>
+        </mat-card-actions>
+    </mat-card>
 </div>
 
