@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+  frontend:
+    container_name: project-management-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - 'app/node_modules'
+    ports:
+      - '4200:80'
+  project-management-service:
+    container_name: project-management-service
+    build:
+      context: ./backend/ProjectManagementService
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
