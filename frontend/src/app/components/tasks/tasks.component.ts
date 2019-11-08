@@ -26,22 +26,20 @@ export class TasksComponent implements OnInit {
   async addTask(name: string) {
     (await this.taskService.createTask(name))
     .subscribe( (item: Task) => {
-      this.tasks.push(item)
-    });
-
-    this._snackBar.open(name + " Added", "dismiss", {
-      duration: 2000
+      this.tasks.push(item);
+      this._snackBar.open(name + " added", "dismiss", {
+        duration: 2000
+      });
     });
   }
 
-  async deleteTask(id: string) {
-    (await this.taskService.deleteTask(id))
+  async deleteTask(task: Task) {
+    (await this.taskService.deleteTask(task.id))
     .subscribe( () => {
-      this.tasks = this.tasks.filter((task: Task) => task.id !== id);
-    });
-    
-    this._snackBar.open("Deleted", "dismiss", {
-      duration: 2000
+      this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
+      this._snackBar.open(task.name + " deleted", "dismiss", {
+        duration: 2000
+      });
     });
   }
 }

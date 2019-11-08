@@ -32,7 +32,6 @@ export class BoardDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getBoard();
-    // this.getTasks();
   }
 
   async getBoard() {
@@ -59,7 +58,10 @@ export class BoardDetailsComponent implements OnInit {
   async save() {
     (await this.boardService.updateBoard(this.board))
     .subscribe(() => {
-      this.goBack()
+      this._snackBar.open(this.board.title + " saved", "dismiss", {
+        duration: 2000
+      });
+      this.goBack();
     });
   }
 
@@ -70,11 +72,10 @@ export class BoardDetailsComponent implements OnInit {
       .subscribe( async () => {
         this.getTasks();
         this.board.itemIds.push(data.id);
+        this._snackBar.open(name + " added", "dismiss", {
+          duration: 2000
+        });
       });
-    });
-
-    this._snackBar.open(name + " Added", "dismiss", {
-      duration: 2000
     });
   }
 
@@ -83,10 +84,9 @@ export class BoardDetailsComponent implements OnInit {
     .subscribe( () => {
       this.getTasks();
       this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
-    });
-
-    this._snackBar.open(task.name + " Deleted", "dismiss", {
-      duration: 2000
+      this._snackBar.open(task.name + " deleted", "dismiss", {
+        duration: 2000
+      });
     });
   }
 }

@@ -16,7 +16,7 @@
         <mat-card-content>{{board.description}}</mat-card-content>
         <mat-card-actions>
             <button mat-button routerLink="detail/{{board.id}}">VIEW</button>
-            <button mat-button (click)="deleteBoard(board.id)">DEL</button>
+            <button mat-button (click)="deleteBoard(board)">DEL</button>
         </mat-card-actions>
     </mat-card>
 </div>

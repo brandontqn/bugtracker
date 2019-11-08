@@ -16,7 +16,7 @@
         <mat-card-content>{{task.detail}}</mat-card-content>
         <mat-card-actions>
             <button mat-button routerLink="/tasks/detail/{{task.id}}">VIEW</button>
-            <button mat-button (click)="deleteTask(task.id)">DEL</button>
+            <button mat-button (click)="deleteTask(task)">DEL</button>
         </mat-card-actions>
     </mat-card>
 </div>

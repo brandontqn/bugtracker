@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-task-detail',
@@ -17,6 +18,7 @@ export class TaskDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private taskService: TaskService,
     private location: Location,
+    private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,12 @@ export class TaskDetailsComponent implements OnInit {
 
   async save() {
     (await this.taskService.updateTask(this.task))
-      .subscribe(() => this.goBack());
+      .subscribe(() => {
+        this._snackBar.open(this.task.name + " saved", "dismiss", {
+          duration: 2000
+        });
+        this.goBack();
+      });
   }
 
 }

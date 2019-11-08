@@ -30,22 +30,19 @@ export class BoardsComponent implements OnInit {
     (await this.boardService.addBoard(title))
     .subscribe( (data: Board) => {
         this.boards.push(data);
-    });
-
-    this._snackBar.open(title + " Added", "dismiss", {
-      duration: 2000
+        this._snackBar.open(title + " added", "dismiss", {
+          duration: 2000
+        });
     });
   }
 
-  async deleteBoard(id: string) {
-    (await this.boardService.deleteBoard(id))
+  async deleteBoard(board: Board) {
+    (await this.boardService.deleteBoard(board.id))
     .subscribe( () => {
-      this.boards = this.boards.filter( (board: Board) => board.id !== id);
-    });
-
-    this._snackBar.open("Delete", "dismiss", {
-      duration: 2000
+      this.boards = this.boards.filter( (x: Board) => x.id !== board.id);
+      this._snackBar.open(board.title + " deleted", "dismiss", {
+        duration: 2000
+      });
     });
   }
-
 }
