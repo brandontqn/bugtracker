@@ -50,6 +50,8 @@ alias glo="git log --oneline"
 alias glao="git log --all --oneline"
 alias glg="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 alias gm="git merge"
+alias gsno="git show --name-only"
+alias gcp="git cherry-pick"
 
 # Docker shortcuts
 alias d='docker'
