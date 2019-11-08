@@ -22,12 +22,17 @@ COPY . /app
 
 RUN ng build --output-path=dist
 
-FROM nginx:1.16.0-alpine as publish
-
-COPY --from=build /app/dist /usr/share/nginx/html
-
 EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+# FROM nginx:1.16.0-alpine as publish
+# FROM nginx:alpine as publish
+# FROM build as publish
+
+# COPY --from=build /app/dist /usr/share/nginx/html
+# COPY --from=build /app/dist
+
+# EXPOSE 80
+
+# CMD ["nginx", "-g", "daemon on;"]
 # start app
-# CMD ng serve --host 0.0.0.0
+# CMD ["ng", "serve", "--host", "0.0.0.0"]
