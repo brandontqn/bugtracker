@@ -5,12 +5,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using TokenApi.Models;
-using TokenApi.Services;
+using TokenGenerationService.Models;
+using TokenGenerationService.Services;
 
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace TokenApi
+namespace TokenGenerationService
 {
     public class Startup
     {

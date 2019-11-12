@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using MongoDB.Driver;
 
-using TokenApi.Models;
+using TokenGenerationService.Models;
 
 
-namespace TokenApi.Services
+namespace TokenGenerationService.Services
 {
     public class TokenService
     {

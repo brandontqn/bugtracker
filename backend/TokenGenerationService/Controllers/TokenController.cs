@@ -2,11 +2,11 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 
-using TokenApi.Common;
-using TokenApi.Models;
-using TokenApi.Services;
+using TokenGenerationService.Common;
+using TokenGenerationService.Models;
+using TokenGenerationService.Services;
 
-namespace TokenApi.Controllers
+namespace TokenGenerationService.Controllers
 {
     [Route("api/[controller]s")]
     [ApiController]

@@ -3,9 +3,9 @@ using System.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-using TokenApi.Common;
+using TokenGenerationService.Common;
 
-namespace TokenApi.Models
+namespace TokenGenerationService.Models
 {
     public class Token
     {

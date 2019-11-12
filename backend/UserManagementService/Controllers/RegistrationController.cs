@@ -33,21 +33,13 @@ namespace UserManagementService.Controllers
             // return DO NOT ACTIVATE for now
 
             var response = await _registrationService.PostAsync();
-            //response.Headers.Location.ToString();
-
             var token = await _registrationService.GetAsync(response.Headers.Location.ToString());
-
             var jsonString = await token.Content.ReadAsStringAsync();
-
             var deserialized = JsonConvert.DeserializeObject<TokenTime>(jsonString);
 
+            //deserialized.tokenString
+
             return Ok(deserialized);
-            //return Ok(token);
-            //return Ok(response.Headers.Location.ToString());
-            //return Ok(response.Headers);
-            //return Ok(response.ToString());
-            //return Ok(response.Content);
-            //return Ok(req);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace TokenApi.Models
+﻿namespace TokenGenerationService.Models
 {
     public class TokenString
     {

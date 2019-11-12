@@ -1,8 +1,8 @@
 ﻿using System;
 
-using TokenApi.Models;
+using TokenGenerationService.Models;
 
-namespace TokenApi.Common
+namespace TokenGenerationService.Common
 {
     public static class Utils
     {

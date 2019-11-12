@@ -10,16 +10,16 @@ EXPOSE 443
 #FROM mcr.microsoft.com/dotnet/core/sdk:2.1-alpine3.9 AS build
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine3.9 AS build
 WORKDIR /src
-COPY ["TokenApi.csproj", ""]
-RUN dotnet restore "./TokenApi.csproj"
+COPY ["TokenGenerationService.csproj", ""]
+RUN dotnet restore "./TokenGenerationService.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "TokenApi.csproj" -c Release -o /app
+RUN dotnet build "TokenGenerationService.csproj" -c Release -o /app
 
 FROM build AS publish
-RUN dotnet publish "TokenApi.csproj" -c Release -o /app
+RUN dotnet publish "TokenGenerationService.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "TokenApi.dll"]
+ENTRYPOINT ["dotnet", "TokenGenerationService.dll"]
