@@ -148,10 +148,11 @@ namespace TokenApi.Controllers
         ///     Returns NotFound if no matching token is found in the database. 
         ///     Return Ok if the token IS validated.
         /// </returns>
-        [HttpPatch]
-        public IActionResult Validate([FromBody]TokenString data)
+        [HttpPatch("{tokenString}")]
+        public IActionResult Validate(/*[FromBody]TokenString data*/string tokenString)
         {
-            Token token = _tokenService.Get(data.tokenString);
+            //Token token = _tokenService.Get(data.tokenString);
+            Token token = _tokenService.Get(tokenString);
             if (token != null && _tokenService.Validate(token.TokenString))
             {
                 return Ok();

@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace UserManagementService.Services
@@ -12,11 +14,22 @@ namespace UserManagementService.Services
 
         private string tokenApi = "https://localhost:44364/api/tokens/default";
 
-        public async Task<bool> PostAsync()
+        public async Task<HttpResponseMessage> PostAsync()
         {
-            var response = await client.PostAsJsonAsync(tokenApi, "");
+            var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
 
-            return true;
+            var response = await client.PostAsync(tokenApi, content);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(string uri)
+        {
+            var response = await client.GetAsync(uri);
+            //var response = await client.GetStringAsync(uri);
+            //var response = await client.GetStreamAsync(uri);
+
+            return response;
         }
     }
 }
