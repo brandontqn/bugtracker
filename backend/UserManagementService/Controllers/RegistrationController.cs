@@ -7,6 +7,8 @@ using Newtonsoft.Json;
 using UserManagementService.Models;
 using UserManagementService.Services;
 
+using System.Net.Mail;
+
 namespace UserManagementService.Controllers
 {
     [Route("api/[controller]")]
@@ -32,14 +34,23 @@ namespace UserManagementService.Controllers
             // need to wait for validation before activating user
             // return DO NOT ACTIVATE for now
 
-            var response = await _registrationService.PostAsync();
-            var token = await _registrationService.GetAsync(response.Headers.Location.ToString());
-            var jsonString = await token.Content.ReadAsStringAsync();
-            var deserialized = JsonConvert.DeserializeObject<TokenTime>(jsonString);
+            var tokenTime = await _registrationService.GetToken();
 
-            //deserialized.tokenString
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-            return Ok(deserialized);
+            mail.From = new MailAddress("brandontqnguyen@gmail.com");
+            mail.To.Add("brandon.nguyen@finning.com"); // will be the new user email
+            mail.Subject = "Test Mail";
+            mail.Body = "This is for testing SMTP mail from GMAIL. Your token is " + tokenTime.tokenString;
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("username", "password");
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
+
+            return Ok(tokenTime);
         }
     }
 }

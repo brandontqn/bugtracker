@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using UserManagementService.Models;
 
 namespace UserManagementService.Services
 {
@@ -30,6 +31,16 @@ namespace UserManagementService.Services
             //var response = await client.GetStreamAsync(uri);
 
             return response;
+        }
+
+        public async Task<TokenTime> GetToken()
+        {
+            var postResponse = await PostAsync();
+            var getResponse = await GetAsync(postResponse.Headers.Location.ToString());
+            var jsonString = await getResponse.Content.ReadAsStringAsync();
+            var tokenTime = JsonConvert.DeserializeObject<TokenTime>(jsonString);
+
+            return tokenTime;
         }
     }
 }
