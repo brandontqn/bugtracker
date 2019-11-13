@@ -20,4 +20,9 @@ export class ValidationComponent implements OnInit {
     .subscribe( (response: boolean) => this.validToken = response);
   }
 
+  async createAccount(firstName: string, lastName: string, email: string, password: string) {
+    (await this.registerService.createOktaAccountWithCredentials(firstName, lastName, email, email, password))
+    .subscribe();
+  }
+
 }

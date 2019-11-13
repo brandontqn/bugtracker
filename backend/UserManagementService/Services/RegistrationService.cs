@@ -41,8 +41,6 @@ namespace UserManagementService.Services
 
         public async Task<HttpResponseMessage> PatchAsync(string tokenString)
         {
-            //var patchResponse = await client.SendAsync(new HttpRequestMessage(HttpMethod.Patch, "http://localhost:44364/api/tokens/" + tokenString));
-            //var patchResponse = await client.PatchAsync("http://localhost:44364/api/tokens/" + tokenString, new StringContent(""));
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var uri = "https://localhost:44364/api/tokens/validate/" + tokenString;
             var patchResponse = await client.PostAsync(uri, content);
@@ -59,13 +57,22 @@ namespace UserManagementService.Services
             mail.To.Add(email);
             mail.Subject = "Test Mail";
             mail.Body = "Here's your token: " + token +
-                "Please visit http://localhost:4200/validate and paste the token in the provided field to validate yourself!";
+                "\nPlease visit http://localhost:4200/validate and paste the token in the provided field to create your account!";
 
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
             SmtpServer.EnableSsl = true;
 
             SmtpServer.Send(mail);
+        }
+
+        public async Task<HttpResponseMessage> CreateOktaUserWithPassword(OktaRequest req)
+        {
+            var url = "https://dev-662146.okta.com/oauth2/default/api/v1/users?activate=true"; // change the url
+            var content = new StringContent(JsonConvert.SerializeObject(req), Encoding.UTF8, "application/json");
+
+            var oktaResponse = await client.PostAsync(url, content);
+            return oktaResponse;
         }
     }
 }

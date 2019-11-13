@@ -40,12 +40,16 @@ namespace UserManagementService.Controllers
         public async Task<ActionResult> ValidateToken(string tokenString)
         {
             var patchResponse = await _registrationService.PatchAsync(tokenString);
-
-            //patchResponse.IsSuccessStatusCode
-
             return Ok(patchResponse.IsSuccessStatusCode);
-            //return Ok(patchResponse.ToString());
-            //return Ok(tokenString);
+        }
+
+        [HttpPost("create")]
+        public async Task<ActionResult> CreateOktaAccount([FromBody]Account account)
+        {
+            OktaRequest req = new OktaRequest(account);
+            var oktaResponse = await _registrationService.CreateOktaUserWithPassword(req);
+
+            return Ok(oktaResponse);
         }
     }
 }
