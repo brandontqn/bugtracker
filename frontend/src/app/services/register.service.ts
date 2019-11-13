@@ -29,6 +29,13 @@ export class RegisterService {
 
     return this.http.post<Email>(this.currentEndpoint, data, httpOptions);
   }
+
+  validateToken(token: string) {
+    // const url = "http://localhost:44364/api/tokens/ + token";
+    const url = "https://localhost:44321/api/registration/validate/" + token;
+    
+    return this.http.post(url, "")
+  }
 }
 
 class Email {

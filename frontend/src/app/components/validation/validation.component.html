@@ -1,0 +1,10 @@
+<p style="display: block; width: 250px; margin: 10px;">
+    <mat-form-field >
+        <input #token matInput placeholder="token">
+    </mat-form-field>
+
+    <button mat-button (click)="validate(token.value)">Validate</button>
+</p>
+
+<h1 *ngIf="this.validToken">TOKEN VALIDATED!</h1>
+<h1 *ngIf="!this.validToken">TOKEN NOT VALIDATED!</h1>

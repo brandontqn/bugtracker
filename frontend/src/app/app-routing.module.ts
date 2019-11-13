@@ -8,6 +8,7 @@ import { TaskDetailsComponent as TaskDetailsComponent } from './components/task-
 import { BoardsComponent } from './components/boards/boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { RegisterComponent } from './components/register/register.component';
+import { ValidationComponent } from './components/validation/validation.component';
 
 const config = {
   issuer: 'https://dev-662146.okta.com/oauth2/default',
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'implicit/callback', component: OktaCallbackComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'validate', component: ValidationComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'tasks', component: TasksComponent },
   { path: 'tasks/detail/:id', component: TaskDetailsComponent },

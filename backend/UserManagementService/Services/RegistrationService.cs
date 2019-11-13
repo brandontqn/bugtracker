@@ -42,7 +42,10 @@ namespace UserManagementService.Services
         public async Task<HttpResponseMessage> PatchAsync(string tokenString)
         {
             //var patchResponse = await client.SendAsync(new HttpRequestMessage(HttpMethod.Patch, "http://localhost:44364/api/tokens/" + tokenString));
-            var patchResponse = await client.PatchAsync("http://localhost:44364/api/tokens/" + tokenString, new StringContent(""));
+            //var patchResponse = await client.PatchAsync("http://localhost:44364/api/tokens/" + tokenString, new StringContent(""));
+            var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
+            var uri = "https://localhost:44364/api/tokens/validate/" + tokenString;
+            var patchResponse = await client.PostAsync(uri, content);
 
             return patchResponse;
         }
@@ -55,7 +58,8 @@ namespace UserManagementService.Services
             mail.From = new MailAddress("brandon.nguyen@finning.com");
             mail.To.Add(email);
             mail.Subject = "Test Mail";
-            mail.Body = "Please visit this link to validate your token: https://localhost:44321/api/registration/validate/" + token;
+            mail.Body = "Here's your token: " + token +
+                "Please visit http://localhost:4200/validate and paste the token in the provided field to validate yourself!";
 
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential("", "");

@@ -36,11 +36,16 @@ namespace UserManagementService.Controllers
             return Ok(tokenTime);
         }
 
-        [HttpGet("validate/{tokenString}")]
+        [HttpPost("validate/{tokenString}")]
         public async Task<ActionResult> ValidateToken(string tokenString)
         {
             var patchResponse = await _registrationService.PatchAsync(tokenString);
-            return Ok(patchResponse.ToString());
+
+            //patchResponse.IsSuccessStatusCode
+
+            return Ok(patchResponse.IsSuccessStatusCode);
+            //return Ok(patchResponse.ToString());
+            //return Ok(tokenString);
         }
     }
 }

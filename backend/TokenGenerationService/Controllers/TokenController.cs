@@ -148,7 +148,8 @@ namespace TokenGenerationService.Controllers
         ///     Returns NotFound if no matching token is found in the database. 
         ///     Return Ok if the token IS validated.
         /// </returns>
-        [HttpPatch("{tokenString}")]
+        //[HttpPatch("{tokenString}")]
+        [HttpPost("validate/{tokenString}")]
         public IActionResult Validate(string tokenString)
         {
             Token token = _tokenService.Get(tokenString);
