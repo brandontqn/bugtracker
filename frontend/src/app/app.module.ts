@@ -23,6 +23,7 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
 import { BoardsComponent } from './components/boards/boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { RegisterComponent } from './components/register/register.component';
+import { RegisterService } from './services/register.service';
 
 export function intializeApp(appConfigService: AppConfigService) {
   return () => appConfigService.load();
@@ -50,7 +51,8 @@ export function intializeApp(appConfigService: AppConfigService) {
   providers: [
     AppConfigService, { provide: APP_INITIALIZER, useFactory: intializeApp, deps: [AppConfigService], multi: true },
     TaskService,
-    BoardService
+    BoardService,
+    RegisterService
   ],
   bootstrap: [AppComponent]
 })
