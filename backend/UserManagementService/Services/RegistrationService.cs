@@ -52,10 +52,10 @@ namespace UserManagementService.Services
             mail.From = new MailAddress("brandon.nguyen@finning.com");
             mail.To.Add(email);
             mail.Subject = "Test Mail";
-            mail.Body = "This is for testing SMTP mail from GMAIL. Your token is " + token;
+            mail.Body = "Please visit this link to validate your token: https://localhost:44364/api/tokens/validate/" + token;// "This is for testing SMTP mail from GMAIL. Your token is " + token;
 
             SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("id", "pw");
+            SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
             SmtpServer.EnableSsl = true;
 
             SmtpServer.Send(mail);

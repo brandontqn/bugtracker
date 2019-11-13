@@ -72,6 +72,18 @@ namespace TokenGenerationService.Controllers
             return token.ToTokenTime();
         }
 
+        [HttpGet("validate/{tokenString}")]
+        public ActionResult ValidateToken(string tokenString)
+        {
+            Token token = _tokenService.Get(tokenString);
+            if (token != null && _tokenService.Validate(token.TokenString))
+            {
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
         /// <summary>
         ///     Default token creation.
         ///     Creates a token with 7 day expiration.

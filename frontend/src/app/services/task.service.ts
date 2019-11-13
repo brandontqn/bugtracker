@@ -12,7 +12,7 @@ export class TaskService {
     console.log( 'Hello from TaskService!' );
   }
 
-  protected currentEndpoint = AppConfigService.settings.projectManagementServiceEnv.docker.workItems;
+  protected currentEndpoint = AppConfigService.settings.projectManagementServiceEnv.iis.workItems;
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();
