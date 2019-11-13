@@ -34,24 +34,10 @@ namespace UserManagementService.Controllers
             // need to wait for validation before activating user
             // return DO NOT ACTIVATE for now
 
+            var email = req.data.userProfile.email;
             var tokenTime = await _registrationService.GetToken();
 
-            MailMessage mail = new MailMessage();
-            //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
-            SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
-
-            //mail.From = new MailAddress("brandontqnguyen@gmail.com");
-            mail.From = new MailAddress("brandon.nguyen@finning.com");
-            //mail.To.Add("brandon.nguyen@finning.com"); // will be the new user email
-            mail.To.Add("brandontqnguyen@gmail.com"); // will be the new user email
-            mail.Subject = "Test Mail";
-            mail.Body = "This is for testing SMTP mail from GMAIL. Your token is " + tokenTime.tokenString;
-
-            SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("username", "pw");
-            SmtpServer.EnableSsl = true;
-
-            SmtpServer.Send(mail);
+            _registrationService.SendEmail(email, tokenTime.tokenString);
 
             return Ok(tokenTime);
         }

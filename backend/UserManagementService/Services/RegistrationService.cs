@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagementService.Models;
@@ -41,6 +42,23 @@ namespace UserManagementService.Services
             var tokenTime = JsonConvert.DeserializeObject<TokenTime>(jsonString);
 
             return tokenTime;
+        }
+
+        public void SendEmail(string email, string token)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+
+            mail.From = new MailAddress("brandon.nguyen@finning.com");
+            mail.To.Add(email);
+            mail.Subject = "Test Mail";
+            mail.Body = "This is for testing SMTP mail from GMAIL. Your token is " + token;
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("id", "pw");
+            SmtpServer.EnableSsl = true;
+
+            SmtpServer.Send(mail);
         }
     }
 }
