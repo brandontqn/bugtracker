@@ -22,6 +22,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { BoardsComponent } from './components/boards/boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
+import { RegisterComponent } from './components/register/register.component';
 
 export function intializeApp(appConfigService: AppConfigService) {
   return () => appConfigService.load();
@@ -35,7 +36,8 @@ export function intializeApp(appConfigService: AppConfigService) {
     DashboardComponent,
     LandingPageComponent,
     BoardsComponent,
-    BoardDetailsComponent
+    BoardDetailsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

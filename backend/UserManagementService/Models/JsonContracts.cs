@@ -82,4 +82,9 @@ namespace UserManagementService.Models
             seconds = s ?? 0;
         }
     }
+
+    public class Email
+    {
+        public string value { get; set; }
+    }
 }
