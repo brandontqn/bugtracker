@@ -19,22 +19,17 @@ namespace UserManagementService.Services
         public async Task<HttpResponseMessage> PostAsync()
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-
             var response = await client.PostAsync(tokenApi, content);
-
             return response;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string uri)
         {
             var response = await client.GetAsync(uri);
-            //var response = await client.GetStringAsync(uri);
-            //var response = await client.GetStreamAsync(uri);
-
             return response;
         }
 
-        public async Task<TokenTime> GetToken()
+        public async Task<TokenTime> GetAsync()
         {
             var postResponse = await PostAsync();
             var getResponse = await GetAsync(postResponse.Headers.Location.ToString());
@@ -42,6 +37,14 @@ namespace UserManagementService.Services
             var tokenTime = JsonConvert.DeserializeObject<TokenTime>(jsonString);
 
             return tokenTime;
+        }
+
+        public async Task<HttpResponseMessage> PatchAsync(string tokenString)
+        {
+            //var patchResponse = await client.SendAsync(new HttpRequestMessage(HttpMethod.Patch, "http://localhost:44364/api/tokens/" + tokenString));
+            var patchResponse = await client.PatchAsync("http://localhost:44364/api/tokens/" + tokenString, new StringContent(""));
+
+            return patchResponse;
         }
 
         public void SendEmail(string email, string token)
@@ -52,7 +55,7 @@ namespace UserManagementService.Services
             mail.From = new MailAddress("brandon.nguyen@finning.com");
             mail.To.Add(email);
             mail.Subject = "Test Mail";
-            mail.Body = "Please visit this link to validate your token: https://localhost:44364/api/tokens/validate/" + token;// "This is for testing SMTP mail from GMAIL. Your token is " + token;
+            mail.Body = "Please visit this link to validate your token: https://localhost:44321/api/registration/validate/" + token;
 
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential("", "");
