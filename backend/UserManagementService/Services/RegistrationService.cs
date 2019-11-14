@@ -68,11 +68,15 @@ namespace UserManagementService.Services
 
         public async Task<HttpResponseMessage> CreateOktaUserWithPassword(OktaRequest req)
         {
-            var url = "https://dev-662146.okta.com/oauth2/default/api/v1/users?activate=true"; // change the url
+            var url = "https://dev-662146.okta.com/oauth2/default/api/v1/users?activate=true";
             var content = new StringContent(JsonConvert.SerializeObject(req), Encoding.UTF8, "application/json");
 
-            var oktaResponse = await client.PostAsync(url, content);
-            return oktaResponse;
+            var request = new HttpRequestMessage(HttpMethod.Post, url);
+            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("SSWS", "00DRoQkIV_LHzRxwkDg5wquFocGrqkAgj2Tp1KPxqg"); // this token needs to be refreshed..
+            request.Content = content;
+
+            var response = await client.SendAsync(request);
+            return response;
         }
     }
 }
