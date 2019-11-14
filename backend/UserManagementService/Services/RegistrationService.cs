@@ -63,7 +63,7 @@ namespace UserManagementService.Services
 
             mail.From = new MailAddress("brandon.nguyen@finning.com");
             mail.To.Add(email);
-            mail.Subject = "Test Mail";
+            mail.Subject = "Project-Tracker account activation";
             mail.Body = "Here's your token: " + token +
                 "\nPlease visit http://localhost:4200/validate and paste the token in the provided field to create your account!";
 
