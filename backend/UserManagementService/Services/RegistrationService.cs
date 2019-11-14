@@ -8,24 +8,32 @@ using System.Text;
 using System.Threading.Tasks;
 using UserManagementService.Models;
 
+using Okta.Sdk;
+using Okta.Sdk.Configuration;
+
 namespace UserManagementService.Services
 {
     public class RegistrationService
     {
-        private static readonly HttpClient client = new HttpClient();
+        private static readonly HttpClient httpClient = new HttpClient();
+
+        private static readonly OktaClient oktaClient = new OktaClient(new OktaClientConfiguration { 
+            OktaDomain = "https://dev-662146.okta.com",
+            Token = "00DRoQkIV_LHzRxwkDg5wquFocGrqkAgj2Tp1KPxqg"
+        });
 
         private string tokenApi = "https://localhost:44364/api/tokens/default";
 
         public async Task<HttpResponseMessage> PostAsync()
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            var response = await client.PostAsync(tokenApi, content);
+            var response = await httpClient.PostAsync(tokenApi, content);
             return response;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string uri)
         {
-            var response = await client.GetAsync(uri);
+            var response = await httpClient.GetAsync(uri);
             return response;
         }
 
@@ -43,7 +51,7 @@ namespace UserManagementService.Services
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var uri = "https://localhost:44364/api/tokens/validate/" + tokenString;
-            var patchResponse = await client.PostAsync(uri, content);
+            var patchResponse = await httpClient.PostAsync(uri, content);
 
             return patchResponse;
         }
@@ -66,17 +74,27 @@ namespace UserManagementService.Services
             SmtpServer.Send(mail);
         }
 
-        public async Task<HttpResponseMessage> CreateOktaUserWithPassword(OktaRequest req)
+        public async Task<IUser> CreateOktaUserWithPassword(Account account)
         {
-            var url = "https://dev-662146.okta.com/oauth2/default/api/v1/users?activate=true";
-            var content = new StringContent(JsonConvert.SerializeObject(req), Encoding.UTF8, "application/json");
+            var user = await oktaClient.Users.CreateUserAsync(new CreateUserWithPasswordOptions { 
+                Profile = new UserProfile
+                {
+                    FirstName = account.firstName,
+                    LastName = account.lastName,
+                    Email = account.email,
+                    Login = account.login
+                },
+                Password = account.password,
+                Activate = true
+            });
 
-            var request = new HttpRequestMessage(HttpMethod.Post, url);
-            request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("SSWS", "00DRoQkIV_LHzRxwkDg5wquFocGrqkAgj2Tp1KPxqg"); // this token needs to be refreshed..
-            request.Content = content;
+            return user;
+        }
 
-            var response = await client.SendAsync(request);
-            return response;
+        public async Task<IUser> GetOktaUserAsync(string userId)
+        {
+            var user = await oktaClient.Users.GetUserAsync(userId);
+            return user;
         }
     }
 }

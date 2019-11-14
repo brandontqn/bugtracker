@@ -14,33 +14,23 @@ export class RegisterService {
   protected currentEndpoint = AppConfigService.settings.projectManagementServiceEnv.iis.registration;
 
   sendActivationEmail(email: string) {
-    // const httpOptions = await this.getHeaders();
     const httpOptions = { 
       headers: new HttpHeaders({
         'Content-type': 'application/json'
       })
     };
-    // const data = new Email(email);
-
-    // console.log("email: " + email);
-    // console.log("data.email: " + data.value);
-    // console.log("endpoint: " + this.currentEndpoint);
-    // console.log("httpOptions: " + httpOptions);
 
     return this.http.post<Email>(this.currentEndpoint, { value: email }, { headers: { 'Content-type': 'application/json' } });
   }
 
   validateToken(token: string) {
-    // const url = "http://localhost:44364/api/tokens/ + token";
     const url = "https://localhost:44321/api/registration/validate/" + token;
     
     return this.http.post(url, "")
   }
 
   createOktaAccountWithCredentials(firstName: string, lastName: string, email: string, login: string, password: string) {
-    // call the C# api endpoint for account creation ... or call directly the okta api?
     const url = "https://localhost:44321/api/registration/create";
-
     var account = new Account(firstName, lastName, email, login, password);
 
     return this.http.post(url, account)

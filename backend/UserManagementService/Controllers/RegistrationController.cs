@@ -8,6 +8,7 @@ using UserManagementService.Models;
 using UserManagementService.Services;
 
 using System.Net.Mail;
+using Okta.Sdk;
 
 namespace UserManagementService.Controllers
 {
@@ -30,7 +31,7 @@ namespace UserManagementService.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAsync([FromBody]Email email)
         {            
-            var tokenTime = await _registrationService.GetAsync(); // gets token
+            var tokenTime = await _registrationService.GetAsync(); // requesting new token from TokenGenerationService
             _registrationService.SendEmail(email.value, tokenTime.tokenString);
 
             return Ok(tokenTime);
@@ -39,17 +40,31 @@ namespace UserManagementService.Controllers
         [HttpPost("validate/{tokenString}")]
         public async Task<ActionResult> ValidateToken(string tokenString)
         {
-            var patchResponse = await _registrationService.PatchAsync(tokenString);
+            var patchResponse = await _registrationService.PatchAsync(tokenString); // calling TokenGenerationService to validate token
             return Ok(patchResponse.IsSuccessStatusCode);
         }
 
         [HttpPost("create")]
-        public async Task<ActionResult> CreateOktaAccount([FromBody]Account account)
+        public async Task<ActionResult> CreateOktaUser([FromBody]Account account)
         {
-            OktaRequest req = new OktaRequest(account);
-            var oktaResponse = await _registrationService.CreateOktaUserWithPassword(req);
+            IUser user = await _registrationService.CreateOktaUserWithPassword(account);
+            return Ok(user);
+        }
 
-            return Ok(oktaResponse);
+        [HttpGet("getUser")]
+        public async Task<ActionResult> GetOktaUser([FromBody]Email userId)
+        {
+            IUser user = await _registrationService.GetOktaUserAsync(userId.value);
+            return Ok(user);
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> RemoveOktaUser([FromBody]Email userId)
+        {
+            IUser user = await _registrationService.GetOktaUserAsync(userId.value);
+            await user.DeactivateAsync();
+            await user.DeactivateOrDeleteAsync();
+            return Ok();
         }
     }
 }
