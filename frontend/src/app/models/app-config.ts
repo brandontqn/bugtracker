@@ -1,19 +1,27 @@
 export interface IAppConfig {
-    projectManagementServiceEnv: {
-        docker: {
-            workItems: string;
-            boards: string;
-            registration: string;
+    development: {
+        localhostEndpoints: {
+            workItems: {
+                iis: string;
+                docker: string;
+                app: string;
+            },
+            boards: {
+                iis: string;
+                docker: string;
+                app: string;
+            },
+            registration: {
+                iis: string;
+                docker: string;
+                app: string;
+            }
         },
-        iis: {
-            workItems: string;
-            boards: string;
-            registration: string;
-        },
-        app: {
-            workItems: string;
-            boards: string;
-            registration: string;
+        okta: {
+            issuer: string;
+            redirectUri: string;
+            clientId: string;
+            pkce: boolean;
         }
-    };
+    }
 }

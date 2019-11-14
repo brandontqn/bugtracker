@@ -11,7 +11,7 @@ export class RegisterService {
     console.log( 'Hello from RegisterService!' );
   }
 
-  protected currentEndpoint = AppConfigService.settings.projectManagementServiceEnv.iis.registration;
+  protected currentEndpoint = AppConfigService.settings.development.localhostEndpoints.registration.iis;
 
   sendActivationEmail(email: string) {
     const httpOptions = { 
@@ -24,13 +24,13 @@ export class RegisterService {
   }
 
   validateToken(token: string) {
-    const url = "https://localhost:44321/api/registration/validate/" + token;
+    const url = this.currentEndpoint + "/validate/" + token;
     
     return this.http.post(url, "")
   }
 
   createOktaAccountWithCredentials(firstName: string, lastName: string, email: string, login: string, password: string) {
-    const url = "https://localhost:44321/api/registration/create";
+    const url = this.currentEndpoint + "/create";
     var account = new Account(firstName, lastName, email, login, password);
 
     return this.http.post(url, account)

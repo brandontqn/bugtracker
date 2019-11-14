@@ -13,7 +13,7 @@ export class BoardService {
     console.log( 'Hello from BoardService!' );
   }
   
-  protected currentEndpoint = AppConfigService.settings.projectManagementServiceEnv.iis.boards;
+  protected currentEndpoint = AppConfigService.settings.development.localhostEndpoints.boards.iis;
   
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();

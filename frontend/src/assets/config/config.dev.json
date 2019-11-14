@@ -1,19 +1,27 @@
 {
-    "projectManagementServiceEnv": {
-        "docker": {
-            "workItems": "http://localhost:8080/api/workitems",
-            "boards": "http://localhost:8080/api/boards",
-            "registration": "http://localhost:8080/api/registration"
+    "development": {
+        "localhostEndpoints": {
+            "workItems": {
+                "iis": "http://localhost:44359/api/workitems",
+                "docker": "http://localhost:8080/api/workitems",
+                "app": "http://localhost:5001/api/workitems"
+            },
+            "boards": {
+                "iis": "http://localhost:44359/api/boards",
+                "docker": "http://localhost:8080/api/boards",
+                "app": "http://localhost:5001/api/boards"
+            },
+            "registration": {
+                "iis": "http://localhost:44359/api/registration",
+                "docker": "http://localhost:8080/api/registration",
+                "app": "http://localhost:5001/api/registration"
+            }
         },
-        "iis": {
-            "workItems": "https://localhost:44359/api/workitems",
-            "boards": "https://localhost:44359/api/boards",
-            "registration": "https://localhost:44321/api/registration"
-        },
-        "app": {
-            "workItems": "https://localhost:5001/api/workitems",
-            "boards": "https://localhost:5001/api/boards",
-            "registration": "https://localhost:5001/api/registration"
+        "okta": {
+            "issuer": "https://dev-662146.okta.com/oauth2/default",
+            "redirectUri": "http://localhost:4200/implicit/callback",
+            "clientId": "0oa1pj0whzk15BvVH357",
+            "pkce": true
         }
     }
 }

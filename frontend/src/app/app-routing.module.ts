@@ -9,16 +9,16 @@ import { BoardsComponent } from './components/boards/boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ValidationComponent } from './components/validation/validation.component';
+import { AppConfigService } from './services/app-config.service';
 
 const config = {
-  issuer: 'https://dev-662146.okta.com/oauth2/default',
-  redirectUri: 'http://localhost:4200/implicit/callback',
-  clientId: '0oa1pj0whzk15BvVH357',
-  pkce: true
-}
+  issuer: "https://dev-662146.okta.com/oauth2/default",//AppConfigService.settings.development.okta.issuer,
+  redirectUri: "http://localhost:4200/implicit/callback",//AppConfigService.settings.development.okta.redirectUri,
+  clientId: "0oa1pj0whzk15BvVH357",//AppConfigService.settings.development.okta.clientId,
+  pkce: true//AppConfigService.settings.development.okta.pkce
+};
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: '', component: LandingPageComponent },
   { path: 'implicit/callback', component: OktaCallbackComponent },
   { path: 'register', component: RegisterComponent },
