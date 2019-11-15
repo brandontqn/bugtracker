@@ -120,7 +120,7 @@ namespace TokenGenerationService.Models
 
         private Time TimeSpanToTime(TimeSpan ts)
         {
-            return new Time(ts.Days, ts.Minutes, ts.Seconds, ts.Seconds);
+            return new Time(ts.Days, ts.Hours, ts.Minutes, ts.Seconds);
         }
     }
 }
