@@ -2,17 +2,17 @@
     "development": {
         "localhostEndpoints": {
             "workItems": {
-                "iis": "http://localhost:44359/api/workitems",
+                "iis": "https://localhost:44359/api/workitems",
                 "docker": "http://localhost:8080/api/workitems",
                 "app": "http://localhost:5001/api/workitems"
             },
             "boards": {
-                "iis": "http://localhost:44359/api/boards",
+                "iis": "https://localhost:44359/api/boards",
                 "docker": "http://localhost:8080/api/boards",
                 "app": "http://localhost:5001/api/boards"
             },
             "registration": {
-                "iis": "http://localhost:44359/api/registration",
+                "iis": "https://localhost:44321/api/registration",
                 "docker": "http://localhost:8080/api/registration",
                 "app": "http://localhost:5001/api/registration"
             }

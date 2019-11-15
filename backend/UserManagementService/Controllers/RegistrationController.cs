@@ -30,7 +30,8 @@ namespace UserManagementService.Controllers
         /// <returns>2xx response if successful. 4xx response if failed. Use ERROR object if failed.. don't use HTTP codes for errors.</returns>
         [HttpPost]
         public async Task<ActionResult> PostAsync([FromBody]Email email)
-        {            
+        {
+            //return Ok();
             var tokenTime = await _registrationService.GetAsync(); // requesting new token from TokenGenerationService
             _registrationService.SendEmail(email.value, tokenTime.tokenString);
 

@@ -30,7 +30,23 @@ namespace UserManagementService
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSingleton<RegistrationService>();
+            //services.AddSingleton<RegistrationService>();
+
+            //services.AddSingleton(s =>
+            //    new RegistrationService(Configuration["Frontend:baseLocalHost"], 
+            //                            Configuration["Backend:TokenService:iis"], 
+            //                            Configuration["Backend:Okta:Domain"],
+            //                            Configuration["Backend:Okta:Token"],
+            //                            Configuration["Backend:Email:username"],
+            //                            Configuration["Backend:Email:password"]));
+
+            services.AddSingleton(s =>
+                new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
+                                        Configuration.GetSection("Backend").GetSection("TokenService").GetSection("iis").Value,
+                                        Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
+                                        Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
+                                        Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
+                                        Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
   }
 
   async register(email: string) {
+    console.log(email);
     (await this.registerService.sendActivationEmail(email))
     .subscribe( () => this._snackBar.open("Email verification link sent to : " + email, "dismiss", { duration: 2000 }) );
   }
