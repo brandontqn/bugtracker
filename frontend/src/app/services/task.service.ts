@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Task } from './../models/task';
-import { AppConfigService } from './app-config.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class TaskService {
     console.log( 'Hello from TaskService!' );
   }
 
-  protected currentEndpoint = AppConfigService.settings.development.localhostEndpoints.workItems.iis;
+  protected currentEndpoint = environment.development.localhostEndpoints.workItems.iis;
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();

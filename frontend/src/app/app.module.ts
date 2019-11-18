@@ -1,6 +1,3 @@
-import { APP_INITIALIZER } from '@angular/core';
-import { AppConfigService } from './services/app-config.service';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
@@ -26,9 +23,6 @@ import { RegisterComponent } from './components/register/register.component';
 import { RegisterService } from './services/register.service';
 import { ValidationComponent } from './components/validation/validation.component';
 
-export function intializeApp(appConfigService: AppConfigService) {
-  return () => appConfigService.load();
-}
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +45,6 @@ export function intializeApp(appConfigService: AppConfigService) {
     NgMaterialModule
   ],
   providers: [
-    AppConfigService, { provide: APP_INITIALIZER, useFactory: intializeApp, deps: [AppConfigService], multi: true },
     TaskService,
     BoardService,
     RegisterService

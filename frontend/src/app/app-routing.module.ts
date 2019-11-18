@@ -9,13 +9,13 @@ import { BoardsComponent } from './components/boards/boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ValidationComponent } from './components/validation/validation.component';
-import { AppConfigService } from './services/app-config.service';
+import { environment } from 'src/environments/environment';
 
 const config = {
-  issuer: "https://dev-662146.okta.com/oauth2/default",//AppConfigService.settings.development.okta.issuer,
-  redirectUri: "http://localhost:4200/implicit/callback",//AppConfigService.settings.development.okta.redirectUri,
-  clientId: "0oa1pj0whzk15BvVH357",//AppConfigService.settings.development.okta.clientId,
-  pkce: true//AppConfigService.settings.development.okta.pkce
+  issuer: environment.development.okta.issuer,
+  redirectUri: environment.development.okta.redirectUri,
+  clientId: environment.development.okta.clientId,
+  pkce: environment.development.okta.pkce
 };
 
 const routes: Routes = [

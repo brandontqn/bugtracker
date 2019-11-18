@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AppConfigService } from './app-config.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class RegisterService {
     console.log( 'Hello from RegisterService!' );
   }
 
-  protected currentEndpoint = AppConfigService.settings.development.localhostEndpoints.registration.iis;
+  protected currentEndpoint = environment.development.localhostEndpoints.registration.iis;
 
   sendActivationEmail(email: string) {
     const httpOptions = { 
