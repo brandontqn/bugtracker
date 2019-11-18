@@ -30,12 +30,6 @@ namespace ProjectManagementService.Controllers
         [HttpGet]
         public IEnumerable<WorkItem> GetAll()
         {
-            //var principal = HttpContext.User.Identity as ClaimsIdentity;
-
-            //var login = principal.Claims
-            //    .SingleOrDefault(c => c.Type == ClaimTypes.NameIdentifier)
-            //    ?.Value;
-
             return _workItemService.GetAll();
         }
 
@@ -52,9 +46,9 @@ namespace ProjectManagementService.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateWorkItem([FromBody]NameDetail nd)
+        public IActionResult CreateWorkItem([FromBody]NameDetailTime nd)
         {
-            WorkItem item = _workItemService.Create(nd.name, nd.detail);
+            WorkItem item = _workItemService.Create(nd.name, nd.detail, nd.time);
 
             if (item.id == null)
             {
@@ -65,16 +59,19 @@ namespace ProjectManagementService.Controllers
         }
 
         [HttpPatch("{id}")]
-        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]NameDetail nd)
+        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]NameDetailTime nd)
         {
             WorkItem item = _workItemService.Get(id);
             if (item == null)
             {
                 return NotFound();
             }
-            _workItemService.UpdateName(id, nd.name);
 
-            return Ok(_workItemService.UpdateDetail(id, nd.detail));
+            item.name = nd.name;
+            item.detail = nd.detail;
+            item.time = nd.time;
+
+            return Ok(_workItemService.UpdateItem(item));
         }
 
         [HttpPatch("name/{id}")]
@@ -86,7 +83,9 @@ namespace ProjectManagementService.Controllers
                 return NotFound();
             }
 
-            return Ok(_workItemService.UpdateName(id, body.text));
+            item.name = body.text;
+
+            return Ok(_workItemService.UpdateItem(item));
         }
 
         [HttpPatch("detail/{id}")]
@@ -97,8 +96,10 @@ namespace ProjectManagementService.Controllers
             {
                 return NotFound();
             }
-            
-            return Ok(_workItemService.UpdateDetail(id, body.text));
+
+            item.detail = body.text;
+
+            return Ok(_workItemService.UpdateItem(item));
         }
 
         [HttpDelete("{id}")]

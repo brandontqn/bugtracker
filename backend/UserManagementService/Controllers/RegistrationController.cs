@@ -31,7 +31,6 @@ namespace UserManagementService.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAsync([FromBody]Email email)
         {
-            //return Ok();
             var tokenTime = await _registrationService.GetAsync(); // requesting new token from TokenGenerationService
             _registrationService.SendEmail(email.value, tokenTime.tokenString);
 

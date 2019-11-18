@@ -45,9 +45,9 @@ namespace ProjectManagementService.Services
             return _workItems.Find(item => item.id == id).FirstOrDefault();
         }
 
-        public WorkItem Create(string name, string details)
+        public WorkItem Create(string name, string details, Time time)
         {
-            WorkItem item = new WorkItem(name, details);
+            WorkItem item = new WorkItem(name, details, time);
 
             try
             {
@@ -61,24 +61,33 @@ namespace ProjectManagementService.Services
             return item;
         }
 
-        public WorkItem UpdateName(string id, string name)
-        {
-            WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
+        //public WorkItem UpdateName(string id, string name)
+        //{
+        //    WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
 
-            item.name = name;
-            _workItems.ReplaceOne(x => x.id == item.id, item);
+        //    item.name = name;
+        //    _workItems.ReplaceOne(x => x.id == item.id, item);
 
-            return item;
-        }
+        //    return item;
+        //}
 
-        public WorkItem UpdateDetail(string id, string details)
-        {
-            WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
+        //public WorkItem UpdateDetail(string id, string details)
+        //{
+        //    WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
             
-            item.detail = details;
-            _workItems.ReplaceOne(x => x.id == item.id, item);
+        //    item.detail = details;
+        //    _workItems.ReplaceOne(x => x.id == item.id, item);
 
-            return item;
+        //    return item;
+        //}
+
+        public WorkItem UpdateItem(WorkItem updatedItem)
+        {
+            //WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
+
+            _workItems.ReplaceOne(x => x.id == updatedItem.id, updatedItem);
+
+            return updatedItem;
         }
 
         public void Remove(string id) =>

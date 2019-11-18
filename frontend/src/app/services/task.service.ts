@@ -1,8 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Task } from './../models/task';
 import { environment } from 'src/environments/environment';
+
+const seconds = 1000;
+const minutes = 1000 * 60;
+const hours = minutes * 60;
+const days = hours * 24;
+const years = days * 365;
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +48,10 @@ export class TaskService {
 
   async createTask(name: string) {
     const httpOptions = await this.getHeaders();
-    return this.http.post(this.currentEndpoint, { name: name, detail: "" }, { headers: httpOptions });
+    var time = { days: 3, hours: 0, minutes: 0, seconds: 0 };
+    var newTask = { name: name, detail: "", time: time };
+    console.log(newTask);
+    return this.http.post(this.currentEndpoint, newTask, { headers: httpOptions });
   }
 
   async deleteTask(id: string) {

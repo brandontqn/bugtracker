@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace ProjectManagementService.Models
 {
@@ -22,10 +23,18 @@ namespace ProjectManagementService.Models
         [BsonElement("detail")]
         public string detail { get; set; }
 
-        public WorkItem(string n, string d)
+        [BsonElement("created")]
+        public string created { get; set; }
+
+        [BsonElement("estimation")]
+        public Time time { get; set; }
+
+        public WorkItem(string name, string detail, Time timeEstimation)
         {
-            name = n;
-            detail = d;
+            this.name = name;
+            this.detail = detail;
+            this.created = DateTime.Now.ToString();
+            this.time = timeEstimation;
         }
     }
 
