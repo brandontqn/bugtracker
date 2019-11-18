@@ -5,10 +5,6 @@ export class Task {
     name: string;
     detail: string;
     created: string;
-    time: Time; 
+    timeEstimate: Time; 
     // timeLogged: 
-
-    // toDate() {
-
-    // }
 }

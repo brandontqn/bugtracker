@@ -59,7 +59,7 @@ namespace ProjectManagementService.Controllers
         }
 
         [HttpPatch("{id}")]
-        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]NameDetailTime nd)
+        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]WorkItem nd/*[FromBody]NameDetailTime nd*/)
         {
             WorkItem item = _workItemService.Get(id);
             if (item == null)
@@ -67,11 +67,16 @@ namespace ProjectManagementService.Controllers
                 return NotFound();
             }
 
-            item.name = nd.name;
-            item.detail = nd.detail;
-            item.time = nd.time;
+            //item.name = nd.name;
+            //item.detail = nd.detail;
+            //item.timeEstimate = nd.timeEstimate;
+            
+            //item.name = nd.name;
+            //item.detail = nd.detail;
+            //item.timeEstimate = nd.time;
 
-            return Ok(_workItemService.UpdateItem(item));
+            //return Ok(_workItemService.UpdateItem(item));
+            return Ok(_workItemService.UpdateItem(nd));
         }
 
         [HttpPatch("name/{id}")]

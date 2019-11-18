@@ -26,15 +26,26 @@ namespace ProjectManagementService.Models
         [BsonElement("created")]
         public string created { get; set; }
 
-        [BsonElement("estimation")]
-        public Time time { get; set; }
+        [BsonElement("timeEstimate")]
+        public Time timeEstimate { get; set; }
+        
+        //[BsonElement("timeLogged")]
+        //public Time timeLogged { get; set; }
+
+        public WorkItem()
+        {
+            name = "default_name";
+            detail = "default_details";
+            created = DateTime.Now.ToString();
+            timeEstimate = new Time(1, 0, 0, 0);
+        }
 
         public WorkItem(string name, string detail, Time timeEstimation)
         {
             this.name = name;
             this.detail = detail;
             this.created = DateTime.Now.ToString();
-            this.time = timeEstimation;
+            this.timeEstimate = timeEstimation;
         }
     }
 
