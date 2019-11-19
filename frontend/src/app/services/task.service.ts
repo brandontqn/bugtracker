@@ -43,6 +43,7 @@ export class TaskService {
   async updateTask(task: Task) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + task.id;
+    console.log(task);
     return this.http.patch(url, task, { headers: httpOptions });
   }
 
@@ -50,7 +51,6 @@ export class TaskService {
     const httpOptions = await this.getHeaders();
     var time = { days: 3, hours: 0, minutes: 0, seconds: 0 };
     var newTask = { name: name, detail: "", time: time };
-    console.log(newTask);
     return this.http.post(this.currentEndpoint, newTask, { headers: httpOptions });
   }
 

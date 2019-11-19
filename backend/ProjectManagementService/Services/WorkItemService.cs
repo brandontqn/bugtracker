@@ -61,30 +61,8 @@ namespace ProjectManagementService.Services
             return item;
         }
 
-        //public WorkItem UpdateName(string id, string name)
-        //{
-        //    WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
-
-        //    item.name = name;
-        //    _workItems.ReplaceOne(x => x.id == item.id, item);
-
-        //    return item;
-        //}
-
-        //public WorkItem UpdateDetail(string id, string details)
-        //{
-        //    WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
-            
-        //    item.detail = details;
-        //    _workItems.ReplaceOne(x => x.id == item.id, item);
-
-        //    return item;
-        //}
-
         public WorkItem UpdateItem(WorkItem updatedItem)
         {
-            //WorkItem item = _workItems.Find(x => x.id == id).FirstOrDefault();
-
             _workItems.ReplaceOne(x => x.id == updatedItem.id, updatedItem);
 
             return updatedItem;

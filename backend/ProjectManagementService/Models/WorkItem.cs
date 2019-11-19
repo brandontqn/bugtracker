@@ -28,9 +28,9 @@ namespace ProjectManagementService.Models
 
         [BsonElement("timeEstimate")]
         public Time timeEstimate { get; set; }
-        
-        //[BsonElement("timeLogged")]
-        //public Time timeLogged { get; set; }
+
+        [BsonElement("timeLogged")]
+        public Time timeLogged { get; set; }
 
         public WorkItem()
         {
@@ -38,6 +38,7 @@ namespace ProjectManagementService.Models
             detail = "default_details";
             created = DateTime.Now.ToString();
             timeEstimate = new Time(1, 0, 0, 0);
+            timeLogged = new Time();
         }
 
         public WorkItem(string name, string detail, Time timeEstimation)
@@ -46,6 +47,7 @@ namespace ProjectManagementService.Models
             this.detail = detail;
             this.created = DateTime.Now.ToString();
             this.timeEstimate = timeEstimation;
+            this.timeLogged = new Time();
         }
     }
 

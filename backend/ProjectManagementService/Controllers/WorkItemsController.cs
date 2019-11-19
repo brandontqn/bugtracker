@@ -59,7 +59,7 @@ namespace ProjectManagementService.Controllers
         }
 
         [HttpPatch("{id}")]
-        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]WorkItem nd/*[FromBody]NameDetailTime nd*/)
+        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]WorkItem newItem)
         {
             WorkItem item = _workItemService.Get(id);
             if (item == null)
@@ -67,45 +67,36 @@ namespace ProjectManagementService.Controllers
                 return NotFound();
             }
 
-            //item.name = nd.name;
-            //item.detail = nd.detail;
-            //item.timeEstimate = nd.timeEstimate;
-            
-            //item.name = nd.name;
-            //item.detail = nd.detail;
-            //item.timeEstimate = nd.time;
-
-            //return Ok(_workItemService.UpdateItem(item));
-            return Ok(_workItemService.UpdateItem(nd));
+            return Ok(_workItemService.UpdateItem(newItem));
         }
 
-        [HttpPatch("name/{id}")]
-        public IActionResult UpdateName([FromRoute]string id, [FromBody]Text body)
-        {
-            WorkItem item = _workItemService.Get(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
+        //[HttpPatch("name/{id}")]
+        //public IActionResult UpdateName([FromRoute]string id, [FromBody]Text body)
+        //{
+        //    WorkItem item = _workItemService.Get(id);
+        //    if (item == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            item.name = body.text;
+        //    item.name = body.text;
 
-            return Ok(_workItemService.UpdateItem(item));
-        }
+        //    return Ok(_workItemService.UpdateItem(item));
+        //}
 
-        [HttpPatch("detail/{id}")]
-        public IActionResult UpdateDetail([FromRoute]string id, [FromBody]Text body)
-        {
-            WorkItem item = _workItemService.Get(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
+        //[HttpPatch("detail/{id}")]
+        //public IActionResult UpdateDetail([FromRoute]string id, [FromBody]Text body)
+        //{
+        //    WorkItem item = _workItemService.Get(id);
+        //    if (item == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            item.detail = body.text;
+        //    item.detail = body.text;
 
-            return Ok(_workItemService.UpdateItem(item));
-        }
+        //    return Ok(_workItemService.UpdateItem(item));
+        //}
 
         [HttpDelete("{id}")]
         public IActionResult DeleteOne([FromRoute]string id)

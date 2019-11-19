@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Time } from 'src/app/models/time';
 
 @Component({
   selector: 'app-task-detail',
@@ -45,4 +46,15 @@ export class TaskDetailsComponent implements OnInit {
       });
   }
 
+  async add(days: number, hours: number, minutes: number, seconds: number) {
+    var t = new Time(+days, +hours, +minutes, +seconds);
+    this.task.timeLogged = Time.add(this.task.timeLogged, t);
+    (await this.taskService.updateTask(this.task))
+      .subscribe(() => {
+        this._snackBar.open(this.task.name + ": time added.", "dismiss", {
+          duration: 2000
+        });
+        this.goBack();
+      });
+  }
 }

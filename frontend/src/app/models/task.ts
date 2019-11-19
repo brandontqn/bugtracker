@@ -6,5 +6,5 @@ export class Task {
     detail: string;
     created: string;
     timeEstimate: Time; 
-    // timeLogged: 
+    timeLogged: Time;
 }
