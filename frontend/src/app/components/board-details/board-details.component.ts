@@ -79,17 +79,6 @@ export class BoardDetailsComponent implements OnInit {
     });
   }
 
-  async deleteTask(task: Task) {
-    (await this.boardService.deleteTask(this.board, task.id))
-    .subscribe( () => {
-      this.getTasks();
-      this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
-      this._snackBar.open(task.name + " deleted", "dismiss", {
-        duration: 2000
-      });
-    });
-  }
-
   async deleteBoard() {
     (await this.boardService.deleteBoard(this.board.id))
     .subscribe( () => {
@@ -98,6 +87,26 @@ export class BoardDetailsComponent implements OnInit {
         duration: 2000
       });
     });
+  }
+
+  async onDeleted(task: Task) {
+    (await this.boardService.deleteTask(this.board, task.id))
+    .subscribe( () => {
+      this.getTasks();
+      this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
+      this._snackBar.open(task.name + " deleted", "dismiss", {
+        duration: 2000
+      });
+    });
+    
+    (await this.taskService.deleteTask(task.id))
+    .subscribe( () => {
+      this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
+    });
+  }
+
+  async onCompleted(isCompleted: boolean) {
+    console.log(isCompleted);
   }
 
   // async completeTask() {

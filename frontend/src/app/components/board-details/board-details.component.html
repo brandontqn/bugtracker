@@ -1,15 +1,7 @@
-<button mat-button (click)="goBack()">BACK</button>
-
 <div *ngIf="board" style="margin:10px;">
     <div>
         <h2>{{board.title | uppercase}}</h2>
-        <button mat-button (click)="deleteBoard()">DELETE BOARD</button>
-    </div>
-    
-    <div>
-        <h3>Details</h3>
-        <p>ID: {{board.id}}</p>
-        <p>Description: {{board.description}}</p>
+        <h3>{{board.description}}</h3>
     </div>
 
     <div>
@@ -43,7 +35,12 @@
             <button mat-button (click)="addTask(newTask.value); newTask.value = '';">ADD</button>
         </div>
 
-        <app-task *ngFor="let task of tasks" [task]="task"></app-task>
+        <app-task *ngFor="let task of tasks"
+            [task]="task"
+            (deleted)="onDeleted($event)"
+            (completed)="onCompleted($event)"></app-task>
     </div>
 </div>
 
+<button mat-button (click)="goBack()">BACK</button>
+<button mat-button (click)="deleteBoard()">DELETE BOARD</button>

@@ -1,10 +1,10 @@
-<mat-card>
+<mat-card [style.backgroundColor]="isCompleted ? 'green' : ''">
     <mat-card-title>{{task.name}}</mat-card-title>
     <mat-card-subtitle></mat-card-subtitle>
     <mat-card-content>{{task.detail}}</mat-card-content>
     <mat-card-actions>
         <button mat-button routerLink="/tasks/detail/{{task.id}}">VIEW</button>
         <button mat-button (click)="delete()">DEL</button>
-        <button mat-button (click)="complete()">MARK COMPLETED</button>
+        <button mat-button (click)="complete()">DONE</button>
     </mat-card-actions>
 </mat-card>

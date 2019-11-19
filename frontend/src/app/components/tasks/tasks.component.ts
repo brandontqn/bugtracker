@@ -43,7 +43,7 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  async onCompleted(task: Task) {
-    
+  async onCompleted(isCompleted: boolean) {
+    console.log(isCompleted);
   }
 }

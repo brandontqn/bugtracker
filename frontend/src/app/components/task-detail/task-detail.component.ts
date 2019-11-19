@@ -14,7 +14,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 })
 export class TaskDetailsComponent implements OnInit {
 
-  @Input() task: Task;
+  task: Task;
+  progress: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,10 +28,22 @@ export class TaskDetailsComponent implements OnInit {
     this.getTask();
   }
 
+  TimeToSeconds(t: Time) {
+    return (t.days * 24 * 60 * 60) +
+           (t.hours * 60 * 60) +
+           (t.minutes * 60) +
+           t.seconds;
+  }
+
   async getTask() {
     const id = this.route.snapshot.paramMap.get('id');
     (await this.taskService.getTask(id))
-      .subscribe(data => this.task = data);
+      .subscribe(data => {
+        this.task = data;
+        var logged = this.TimeToSeconds(this.task.timeLogged);
+        var estimate = this.TimeToSeconds(this.task.timeEstimate);
+        this.progress = (logged/estimate) * 100;
+      });
   }
 
   goBack(): void {
