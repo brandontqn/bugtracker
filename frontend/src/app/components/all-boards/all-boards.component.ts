@@ -10,7 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AllBoardsComponent implements OnInit {
 
   title: string;
-  boards: Board[];
+  public static boards: Board[];
 
   constructor( private boardService: BoardService, private _snackBar: MatSnackBar ) { }
 
@@ -22,14 +22,14 @@ export class AllBoardsComponent implements OnInit {
   async getBoards() {
     (await this.boardService.getBoards())
     .subscribe(data => {
-      this.boards = data
+      AllBoardsComponent.boards = data
     });
   }
 
   async onAdded(title: string) {
     (await this.boardService.addBoard(title))
     .subscribe( (data: Board) => {
-        this.boards.push(data);
+      AllBoardsComponent.boards.push(data);
         this._snackBar.open(title + " added", "dismiss", {
           duration: 2000
         });
@@ -39,7 +39,7 @@ export class AllBoardsComponent implements OnInit {
   async onDeleted(board: Board) {
     (await this.boardService.deleteBoard(board.id))
     .subscribe( () => {
-      this.boards = this.boards.filter( (x: Board) => x.id !== board.id);
+      AllBoardsComponent.boards = AllBoardsComponent.boards.filter( (x: Board) => x.id !== board.id);
       this._snackBar.open(board.title + " deleted", "dismiss", {
         duration: 2000
       });

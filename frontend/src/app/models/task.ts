@@ -8,4 +8,5 @@ export class Task {
     timeEstimate: Time; 
     timeLogged: Time;
     // completed: boolean;
+    // board: string;
 }

@@ -6,6 +6,8 @@ import { TaskService } from '../../services/task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Time } from 'src/app/models/time';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Board } from 'src/app/models/board';
+import { AllBoardsComponent } from '../all-boards/all-boards.component';
 
 @Component({
   selector: 'app-task-detail',
@@ -16,7 +18,8 @@ export class TaskDetailsComponent implements OnInit {
 
   task: Task;
   progress: number;
-
+  availableBoards: Board[];
+  
   constructor(
     private route: ActivatedRoute,
     private taskService: TaskService,
@@ -26,6 +29,7 @@ export class TaskDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTask();
+    this.availableBoards = AllBoardsComponent.boards;
   }
 
   TimeToSeconds(t: Time) {
