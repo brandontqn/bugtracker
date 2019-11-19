@@ -7,4 +7,5 @@ export class Task {
     created: string;
     timeEstimate: Time; 
     timeLogged: Time;
+    // completed: boolean;
 }

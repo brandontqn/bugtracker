@@ -89,4 +89,18 @@ export class BoardDetailsComponent implements OnInit {
       });
     });
   }
+
+  async deleteBoard() {
+    (await this.boardService.deleteBoard(this.board.id))
+    .subscribe( () => {
+      this.goBack();
+      this._snackBar.open(this.board.title + " deleted", "dismiss", {
+        duration: 2000
+      });
+    });
+  }
+
+  // async completeTask() {
+  //   (await this.boardService.)
+  // }
 }

@@ -5,6 +5,7 @@ import { Task } from '../../models/task';
 import { TaskService } from '../../services/task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Time } from 'src/app/models/time';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-task-detail',
@@ -56,5 +57,15 @@ export class TaskDetailsComponent implements OnInit {
         });
         this.goBack();
       });
+  }
+
+  async deleteTask() {
+    (await this.taskService.deleteTask(this.task.id))
+    .subscribe( () => {
+      this.goBack();
+      this._snackBar.open(this.task.name + " deleted", "dismiss", {
+        duration: 2000
+      });
+    });
   }
 }

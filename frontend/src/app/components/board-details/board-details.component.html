@@ -1,8 +1,11 @@
 <button mat-button (click)="goBack()">BACK</button>
 
 <div *ngIf="board" style="margin:10px;">
-    <h2>{{board.title | uppercase}}</h2>
-
+    <div>
+        <h2>{{board.title | uppercase}}</h2>
+        <button mat-button (click)="deleteBoard()">DELETE BOARD</button>
+    </div>
+    
     <div>
         <h3>Details</h3>
         <p>ID: {{board.id}}</p>
@@ -29,7 +32,7 @@
             </mat-expansion-panel>
         </mat-accordion>
     </div>
-
+    
     <div>
         <h3>Tasks</h3>
 
@@ -40,15 +43,7 @@
             <button mat-button (click)="addTask(newTask.value); newTask.value = '';">ADD</button>
         </div>
 
-        <mat-card *ngFor="let task of tasks">
-            <mat-card-title>{{task.name}}</mat-card-title>
-            <mat-card-subtitle></mat-card-subtitle>
-            <mat-card-content>{{task.detail}}</mat-card-content>
-            <mat-card-actions>
-                <button mat-button routerLink="/tasks/detail/{{task.id}}">VIEW</button>
-                <button mat-button (click)="deleteTask(task)">DEL</button>
-            </mat-card-actions>
-        </mat-card>
+        <app-task *ngFor="let task of tasks" [task]="task"></app-task>
     </div>
 </div>
 

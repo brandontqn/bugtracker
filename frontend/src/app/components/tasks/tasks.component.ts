@@ -33,7 +33,7 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  async deleteTask(task: Task) {
+  async onDeleted(task: Task) {
     (await this.taskService.deleteTask(task.id))
     .subscribe( () => {
       this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
@@ -41,5 +41,9 @@ export class TasksComponent implements OnInit {
         duration: 2000
       });
     });
+  }
+
+  async onCompleted(task: Task) {
+    
   }
 }

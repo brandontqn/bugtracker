@@ -2,14 +2,14 @@
 
 <div *ngIf="task" style="margin:10px;">
     <h2>{{task.name | uppercase}}</h2>
-
+    <button mat-button (click)="deleteTask()">DELETE TASK</button>
     <div>
         <h3>Details</h3>
         <p>ID: {{task.id}}</p>
         <p>Details: {{task.detail}}</p>
         <p>Created: {{task.created}}</p>
-        <p>Estimate: days-{{task.timeEstimate.days}}, hours-{{task.timeEstimate.hours}}, minutes-{{task.timeEstimate.mintues}}, seconds-{{task.timeEstimate.seconds}}</p>
-        <p>Logged: days-{{task.timeLogged.days}}, hours-{{task.timeLogged.hours}}, minutes-{{task.timeLogged.mintues}}, seconds-{{task.timeLogged.seconds}}</p>
+        <p>Estimate: days: {{task.timeEstimate.days}}, hours: {{task.timeEstimate.hours}}, minutes: {{task.timeEstimate.minutes}}, seconds: {{task.timeEstimate.seconds}}</p>
+        <p>Logged: days: {{task.timeLogged.days}}, hours: {{task.timeLogged.hours}}, minutes: {{task.timeLogged.minutes}}, seconds: {{task.timeLogged.seconds}}</p>
     </div>
 
     <div>

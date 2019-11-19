@@ -70,34 +70,6 @@ namespace ProjectManagementService.Controllers
             return Ok(_workItemService.UpdateItem(newItem));
         }
 
-        //[HttpPatch("name/{id}")]
-        //public IActionResult UpdateName([FromRoute]string id, [FromBody]Text body)
-        //{
-        //    WorkItem item = _workItemService.Get(id);
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    item.name = body.text;
-
-        //    return Ok(_workItemService.UpdateItem(item));
-        //}
-
-        //[HttpPatch("detail/{id}")]
-        //public IActionResult UpdateDetail([FromRoute]string id, [FromBody]Text body)
-        //{
-        //    WorkItem item = _workItemService.Get(id);
-        //    if (item == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    item.detail = body.text;
-
-        //    return Ok(_workItemService.UpdateItem(item));
-        //}
-
         [HttpDelete("{id}")]
         public IActionResult DeleteOne([FromRoute]string id)
         {

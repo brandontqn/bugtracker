@@ -22,6 +22,7 @@ import { BoardDetailsComponent } from './components/board-details/board-details.
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterService } from './services/register.service';
 import { ValidationComponent } from './components/validation/validation.component';
+import { TaskComponent } from './components/task/task.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ValidationComponent } from './components/validation/validation.componen
     BoardsComponent,
     BoardDetailsComponent,
     RegisterComponent,
-    ValidationComponent
+    ValidationComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
