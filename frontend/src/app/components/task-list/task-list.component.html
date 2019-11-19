@@ -1,6 +1,6 @@
 <div>
     <h2 style="margin:10px;">
-        All Tasks
+        {{title}}
     </h2>
     
     <p style="display: block; width: 250px; margin:10px;">
@@ -10,8 +10,8 @@
         <button mat-button (click)="addTask(newTask.value); newTask.value = '';">ADD</button>
     </p>
     
-    <app-task *ngFor="let task of tasks"
+    <app-task-card *ngFor="let task of tasks"
         [task]="task"
         (deleted)="onDeleted($event)"
-        (completed)="onCompleted($event)"></app-task>
+        (completed)="onCompleted($event)"></app-task-card>
 </div>

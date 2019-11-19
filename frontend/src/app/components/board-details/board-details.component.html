@@ -25,21 +25,12 @@
         </mat-accordion>
     </div>
     
-    <div>
-        <h3>Tasks</h3>
-
-        <div style="display: block; width: 250px;">
-            <mat-form-field>
-                <input #newTask matInput placeholder="New Task">
-            </mat-form-field>
-            <button mat-button (click)="addTask(newTask.value); newTask.value = '';">ADD</button>
-        </div>
-
-        <app-task *ngFor="let task of tasks"
-            [task]="task"
-            (deleted)="onDeleted($event)"
-            (completed)="onCompleted($event)"></app-task>
-    </div>
+    <app-task-list
+        [title]="tasksTitle"
+        [tasks]="tasks"
+        (added)="onAdded($event)"
+        (deleted)="onDeleted($event)"
+        (completed)="onCompleted($event)"></app-task-list>
 </div>
 
 <button mat-button (click)="goBack()">BACK</button>

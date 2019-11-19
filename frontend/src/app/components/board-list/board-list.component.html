@@ -1,0 +1,16 @@
+<div>
+    <h2 style="margin:10px;">
+        {{title}}
+    </h2>
+
+    <p style="display: block; width: 250px; margin:10px;">
+        <mat-form-field>
+            <input #newBoard matInput placeholder="New Board">
+        </mat-form-field>
+        <button mat-button (click)="addBoard(newBoard.value); newBoard.value = '';">ADD</button>
+    </p>
+
+    <app-board-card *ngFor="let board of boards"
+        [board]="board"
+        (deleted)="onDeleted($event)"></app-board-card>
+</div>

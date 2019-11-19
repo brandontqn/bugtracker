@@ -14,30 +14,29 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class BoardDetailsComponent implements OnInit {
 
-  @Input() board: Board;
-
+  tasksTitle: string;
+  board: Board;
   panelOpenState = false;
-
   tasks: Task[];
-
   currentItemId: string;
 
   constructor(
-    private route: ActivatedRoute,
-    private boardService: BoardService,
-    private taskService: TaskService,
-    private location: Location,
+    private _route: ActivatedRoute,
+    private _boardService: BoardService,
+    private _taskService: TaskService,
+    private _location: Location,
     private _snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
+    this.tasksTitle = "Tasks";
     this.getBoard();
   }
 
   async getBoard() {
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this._route.snapshot.paramMap.get('id');
 
-    (await this.boardService.getBoard(id))
+    (await this._boardService.getBoard(id))
     .subscribe( async (data: Board) => {
       this.board = data;
       this.getTasks();
@@ -45,18 +44,18 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async getTasks() {
-    (await this.taskService.getTasks())
+    (await this._taskService.getTasks())
     .subscribe( (data: Task[]) => 
       this.tasks = data.filter((task: Task) => this.board.itemIds.includes(task.id)
     ));
   }
 
   goBack(): void {
-    this.location.back();
+    this._location.back();
   }
 
   async save() {
-    (await this.boardService.updateBoard(this.board))
+    (await this._boardService.updateBoard(this.board))
     .subscribe(() => {
       this._snackBar.open(this.board.title + " saved", "dismiss", {
         duration: 2000
@@ -65,10 +64,20 @@ export class BoardDetailsComponent implements OnInit {
     });
   }
 
-  async addTask(name: string) {
-    (await this.taskService.createTask(name))
+  async deleteBoard() {
+    (await this._boardService.deleteBoard(this.board.id))
+    .subscribe( () => {
+      this.goBack();
+      this._snackBar.open(this.board.title + " deleted", "dismiss", {
+        duration: 2000
+      });
+    });
+  }
+
+  async onAdded(name: string) {
+    (await this._taskService.createTask(name))
     .subscribe( async (data: Task) => {
-      (await this.boardService.addTask(this.board, data.id))
+      (await this._boardService.addTask(this.board, data.id))
       .subscribe( async () => {
         this.getTasks();
         this.board.itemIds.push(data.id);
@@ -79,18 +88,8 @@ export class BoardDetailsComponent implements OnInit {
     });
   }
 
-  async deleteBoard() {
-    (await this.boardService.deleteBoard(this.board.id))
-    .subscribe( () => {
-      this.goBack();
-      this._snackBar.open(this.board.title + " deleted", "dismiss", {
-        duration: 2000
-      });
-    });
-  }
-
   async onDeleted(task: Task) {
-    (await this.boardService.deleteTask(this.board, task.id))
+    (await this._boardService.deleteTask(this.board, task.id))
     .subscribe( () => {
       this.getTasks();
       this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
@@ -99,17 +98,13 @@ export class BoardDetailsComponent implements OnInit {
       });
     });
     
-    (await this.taskService.deleteTask(task.id))
+    (await this._taskService.deleteTask(task.id))
     .subscribe( () => {
       this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
     });
   }
 
   async onCompleted(isCompleted: boolean) {
-    console.log(isCompleted);
+    console.log(isCompleted + " 3");
   }
-
-  // async completeTask() {
-  //   (await this.boardService.)
-  // }
 }

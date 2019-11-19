@@ -4,27 +4,32 @@ import { TaskService } from '../../services/task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-tasks',
-  templateUrl: './tasks.component.html',
-  styleUrls: ['./tasks.component.scss']
+  selector: 'app-all-tasks',
+  templateUrl: './all-tasks.component.html',
+  styleUrls: ['./all-tasks.component.scss']
 })
-export class TasksComponent implements OnInit {
+export class AllTasksComponent implements OnInit {
 
+  title: string;
   tasks: Task[];
   
-  constructor( private taskService: TaskService, private _snackBar: MatSnackBar ) { }
+  constructor( 
+    private _taskService: TaskService, 
+    private _snackBar: MatSnackBar 
+  ) { }
 
   ngOnInit() {
+    this.title = "All Tasks";
     this.getTasks();
   }
 
   async getTasks() {
-    (await this.taskService.getTasks())
+    (await this._taskService.getTasks())
       .subscribe(data => this.tasks = data);
   }
 
-  async addTask(name: string) {
-    (await this.taskService.createTask(name))
+  async onAdded(name: string) {
+    (await this._taskService.createTask(name))
     .subscribe( (item: Task) => {
       this.tasks.push(item);
       this._snackBar.open(name + " added", "dismiss", {
@@ -34,7 +39,7 @@ export class TasksComponent implements OnInit {
   }
 
   async onDeleted(task: Task) {
-    (await this.taskService.deleteTask(task.id))
+    (await this._taskService.deleteTask(task.id))
     .subscribe( () => {
       this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
       this._snackBar.open(task.name + " deleted", "dismiss", {
@@ -43,7 +48,7 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  async onCompleted(isCompleted: boolean) {
-    console.log(isCompleted);
+  onCompleted(isCompleted: boolean) {
+    console.log(isCompleted + " 3");
   }
 }

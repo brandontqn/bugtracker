@@ -1,0 +1,6 @@
+<app-task-list 
+    [title]="title"
+    [tasks]="tasks"
+    (added)="onAdded($event)"
+    (deleted)="onDeleted($event)"
+    (completed)="onCompleted($event)"></app-task-list>

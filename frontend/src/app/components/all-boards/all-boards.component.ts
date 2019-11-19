@@ -3,19 +3,19 @@ import { Board } from '../../models/board';
 import { BoardService } from '../../services/board.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
-  selector: 'app-boards',
-  templateUrl: './boards.component.html',
-  styleUrls: ['./boards.component.scss']
+  selector: 'app-all-boards',
+  templateUrl: './all-boards.component.html',
+  styleUrls: ['./all-boards.component.scss']
 })
-export class BoardsComponent implements OnInit {
+export class AllBoardsComponent implements OnInit {
 
+  title: string;
   boards: Board[];
-
-  newBoardName: string;
 
   constructor( private boardService: BoardService, private _snackBar: MatSnackBar ) { }
 
   ngOnInit() {
+    this.title = "All Boards"
     this.getBoards();
   }
 
@@ -26,7 +26,7 @@ export class BoardsComponent implements OnInit {
     });
   }
 
-  async addBoard(title: string) {
+  async onAdded(title: string) {
     (await this.boardService.addBoard(title))
     .subscribe( (data: Board) => {
         this.boards.push(data);
@@ -36,7 +36,7 @@ export class BoardsComponent implements OnInit {
     });
   }
 
-  async deleteBoard(board: Board) {
+  async onDeleted(board: Board) {
     (await this.boardService.deleteBoard(board.id))
     .subscribe( () => {
       this.boards = this.boards.filter( (x: Board) => x.id !== board.id);

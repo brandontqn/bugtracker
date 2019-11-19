@@ -12,31 +12,37 @@ import { BoardService } from './services/board.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TasksComponent } from './components/tasks/tasks.component';
+import { AllTasksComponent } from './components/all-tasks/all-tasks.component';
 import { TaskDetailsComponent } from './components/task-detail/task-detail.component';
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { BoardsComponent } from './components/boards/boards.component';
+import { AllBoardsComponent } from './components/all-boards/all-boards.component';
 import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { RegisterService } from './services/register.service';
 import { ValidationComponent } from './components/validation/validation.component';
-import { TaskComponent } from './components/task/task.component';
+import { TaskCardComponent } from './components/task-card/task-card.component';
+import { TaskListComponent } from './components/task-list/task-list.component';
+import { BoardCardComponent } from './components/board-card/board-card.component';
+import { BoardListComponent } from './components/board-list/board-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TasksComponent,
+    AllTasksComponent,
     TaskDetailsComponent,
     NavMenuComponent,
     DashboardComponent,
     LandingPageComponent,
-    BoardsComponent,
+    AllBoardsComponent,
     BoardDetailsComponent,
     RegisterComponent,
     ValidationComponent,
-    TaskComponent
+    TaskCardComponent,
+    TaskListComponent,
+    BoardCardComponent,
+    BoardListComponent
   ],
   imports: [
     BrowserModule,
