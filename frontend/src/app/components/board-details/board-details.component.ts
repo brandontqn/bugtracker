@@ -77,7 +77,7 @@ export class BoardDetailsComponent implements OnInit {
   async onAdded(name: string) {
     (await this._taskService.createTask(name))
     .subscribe( async (data: Task) => {
-      (await this._boardService.addTask(this.board, data.id))
+      (await this._boardService.addTask(this.board.id, data.id))
       .subscribe( async () => {
         this.getTasks();
         this.board.itemIds.push(data.id);
@@ -89,7 +89,7 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async onDeleted(task: Task) {
-    (await this._boardService.deleteTask(this.board, task.id))
+    (await this._boardService.deleteTask(this.board.id, task.id))
     .subscribe( () => {
       this.getTasks();
       this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);

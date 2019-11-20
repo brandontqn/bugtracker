@@ -60,24 +60,44 @@ export class TaskDetailsComponent implements OnInit {
 
   async save() {
     // delete task from current board
-    // console.log(this.task.currentBoardId);
+    console.log("currentBoardId: " + this.task.currentBoardId);
     // console.log(this.task.id);
     if (this.task.currentBoardId !== null) {
       (await this._boardService.deleteTask(this.task.currentBoardId, this.task.id))
-      .subscribe(() => console.log("task deleted from current board"));
+      .subscribe(async () => {
+        console.log("task deleted from current board");
+        // add task to new board
+        (await this._boardService.addTask(this.selectedBoard, this.task.id))
+        .subscribe(async () => {
+          console.log("task added to new board");
+          (await this._taskService.updateTask(this.task))
+          .subscribe(() => {
+            console.log("task updated");
+            this._snackBar.open(this.task.name + " saved", "dismiss", {
+              duration: 2000
+            });
+            this.goBack();
+          });
+        });
+      });
     }
 
-    // add task to new board
-    (await this._boardService.addTask(this.selectedBoard, this.task.id))
-    .subscribe(() => console.log("task added to new board"));
-    
-    (await this._taskService.updateTask(this.task))
-    .subscribe(() => {
-      this._snackBar.open(this.task.name + " saved", "dismiss", {
-        duration: 2000
+    else {
+      // add task to new board
+      (await this._boardService.addTask(this.selectedBoard, this.task.id))
+      .subscribe(async () => {
+        console.log("task added to new board");
+        this.task.currentBoardId = this.selectedBoard;
+        (await this._taskService.updateTask(this.task))
+        .subscribe(() => {
+          console.log("task updated");
+          this._snackBar.open(this.task.name + " saved", "dismiss", {
+            duration: 2000
+          });
+          this.goBack();
+        });
       });
-      this.goBack();
-    });
+    }
   }
 
   async add(days: number, hours: number, minutes: number, seconds: number) {
