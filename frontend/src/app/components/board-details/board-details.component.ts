@@ -104,7 +104,8 @@ export class BoardDetailsComponent implements OnInit {
     });
   }
 
-  async onCompleted(isCompleted: boolean) {
-    console.log(isCompleted + " 3");
+  async onCompleted(task: Task) {
+    (await this._taskService.updateTask(task))
+    .subscribe(() => console.log(task.completed + " 3"));
   }
 }
