@@ -29,8 +29,8 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label>Board</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let board of availableBoards" [value]="board.title">{{board.title}}</mat-option>
+                    <mat-select [(value)]="selectedBoard">
+                        <mat-option *ngFor="let board of availableBoards" value="board.id">{{board.title}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <button mat-button (click)="save()">SAVE</button>

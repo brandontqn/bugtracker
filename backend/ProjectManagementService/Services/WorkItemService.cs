@@ -45,9 +45,9 @@ namespace ProjectManagementService.Services
             return _workItems.Find(item => item.id == id).FirstOrDefault();
         }
 
-        public WorkItem Create(string name, string details, Time time)
+        public WorkItem Create(string name, string details, Time time, string boardId)
         {
-            WorkItem item = new WorkItem(name, details, time);
+            WorkItem item = new WorkItem(name, details, time, boardId);
 
             try
             {

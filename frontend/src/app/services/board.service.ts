@@ -45,10 +45,10 @@ export class BoardService {
     return this.http.patch(url, board, { headers: httpOptions });
   }
 
-  async addTask(board: Board, item: String) {
+  async addTask(boardId: string, itemId: String) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/items/add/' + board.id;
-    return this.http.put(url, { text: item }, { headers: httpOptions });
+    const url = this.currentEndpoint + '/items/add/' + boardId;
+    return this.http.put(url, { text: itemId }, { headers: httpOptions });
   }
 
   async deleteBoard(id: string) {
@@ -57,10 +57,10 @@ export class BoardService {
     return this.http.delete(url, { headers: httpOptions });
   }
 
-  async deleteTask(board: Board, item: string) {
+  async deleteTask(boardId: string, itemId: string) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/items/delete/' + board.id;
-    return this.http.put(url, { text: item }, { headers: httpOptions });
+    const url = this.currentEndpoint + '/items/delete/' + boardId;
+    return this.http.put(url, { text: itemId }, { headers: httpOptions });
   }
 
   // async completeTask(item: string) {

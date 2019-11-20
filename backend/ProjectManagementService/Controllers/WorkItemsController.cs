@@ -48,7 +48,7 @@ namespace ProjectManagementService.Controllers
         [HttpPost]
         public IActionResult CreateWorkItem([FromBody]NameDetailTime nd)
         {
-            WorkItem item = _workItemService.Create(nd.name, nd.detail, nd.time);
+            WorkItem item = _workItemService.Create(nd.name, nd.detail, nd.time, null); // boordId null to start...
 
             if (item.id == null)
             {

@@ -8,6 +8,7 @@ import { Time } from 'src/app/models/time';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Board } from 'src/app/models/board';
 import { AllBoardsComponent } from '../all-boards/all-boards.component';
+import { BoardService } from 'src/app/services/board.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -20,10 +21,13 @@ export class TaskDetailsComponent implements OnInit {
   progress: number;
   availableBoards: Board[];
   
+  selectedBoard: string;
+
   constructor(
-    private route: ActivatedRoute,
-    private taskService: TaskService,
-    private location: Location,
+    private _route: ActivatedRoute,
+    private _taskService: TaskService,
+    private _boardService: BoardService,
+    private _location: Location,
     private _snackBar: MatSnackBar
   ) { }
 
@@ -40,8 +44,8 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async getTask() {
-    const id = this.route.snapshot.paramMap.get('id');
-    (await this.taskService.getTask(id))
+    const id = this._route.snapshot.paramMap.get('id');
+    (await this._taskService.getTask(id))
       .subscribe(data => {
         this.task = data;
         var logged = this.TimeToSeconds(this.task.timeLogged);
@@ -51,23 +55,35 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   goBack(): void {
-    this.location.back();
+    this._location.back();
   }
 
   async save() {
-    (await this.taskService.updateTask(this.task))
-      .subscribe(() => {
-        this._snackBar.open(this.task.name + " saved", "dismiss", {
-          duration: 2000
-        });
-        this.goBack();
+    // delete task from current board
+    // console.log(this.task.currentBoardId);
+    // console.log(this.task.id);
+    if (this.task.currentBoardId !== null) {
+      (await this._boardService.deleteTask(this.task.currentBoardId, this.task.id))
+      .subscribe(() => console.log("task deleted from current board"));
+    }
+
+    // add task to new board
+    (await this._boardService.addTask(this.selectedBoard, this.task.id))
+    .subscribe(() => console.log("task added to new board"));
+    
+    (await this._taskService.updateTask(this.task))
+    .subscribe(() => {
+      this._snackBar.open(this.task.name + " saved", "dismiss", {
+        duration: 2000
       });
+      this.goBack();
+    });
   }
 
   async add(days: number, hours: number, minutes: number, seconds: number) {
     var t = new Time(+days, +hours, +minutes, +seconds);
     this.task.timeLogged = Time.add(this.task.timeLogged, t);
-    (await this.taskService.updateTask(this.task))
+    (await this._taskService.updateTask(this.task))
       .subscribe(() => {
         this._snackBar.open(this.task.name + ": time added.", "dismiss", {
           duration: 2000
@@ -77,7 +93,7 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async deleteTask() {
-    (await this.taskService.deleteTask(this.task.id))
+    (await this._taskService.deleteTask(this.task.id))
     .subscribe( () => {
       this.goBack();
       this._snackBar.open(this.task.name + " deleted", "dismiss", {
