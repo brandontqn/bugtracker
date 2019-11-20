@@ -10,7 +10,7 @@ using TokenGenerationService.Services;
 
 using Swashbuckle.AspNetCore.Swagger;
 
-using Okta.AspNetCore;
+//using Okta.AspNetCore;
 
 namespace TokenGenerationService
 {
@@ -49,15 +49,15 @@ namespace TokenGenerationService
                 });
             });
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
-                options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
-                options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
-            }).AddOktaWebApi(new OktaWebApiOptions()
-            {
-                OktaDomain = Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value
-            });
+            //services.AddAuthentication(options =>
+            //{
+            //    options.DefaultAuthenticateScheme = OktaDefaults.ApiAuthenticationScheme;
+            //    options.DefaultChallengeScheme = OktaDefaults.ApiAuthenticationScheme;
+            //    options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
+            //}).AddOktaWebApi(new OktaWebApiOptions()
+            //{
+            //    OktaDomain = Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value
+            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -87,7 +87,7 @@ namespace TokenGenerationService
                 c.SwaggerEndpoint($"/swagger/v1/swagger.json", "My API V1");
             });
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseMvc();

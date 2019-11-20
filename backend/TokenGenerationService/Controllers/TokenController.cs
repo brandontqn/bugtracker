@@ -6,13 +6,13 @@ using TokenGenerationService.Common;
 using TokenGenerationService.Models;
 using TokenGenerationService.Services;
 
-using Microsoft.AspNetCore.Authorization;
+//using Microsoft.AspNetCore.Authorization;
 
 namespace TokenGenerationService.Controllers
 {
     [Route("api/[controller]s")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class TokenController : ControllerBase
     {
         /// <summary>
