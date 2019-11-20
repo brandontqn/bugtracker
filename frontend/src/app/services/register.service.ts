@@ -11,7 +11,8 @@ export class RegisterService {
     console.log( 'Hello from RegisterService!' );
   }
 
-  protected currentEndpoint = environment.development.localhostEndpoints.registration.iis;
+  // protected currentEndpoint = environment.development.localhostEndpoints.registration.iis;
+  protected currentEndpoint = environment.development.localhostEndpoints.registration.docker;
 
   sendActivationEmail(email: string) {
     const httpOptions = { 

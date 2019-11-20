@@ -19,7 +19,8 @@ export class TaskService {
     console.log( 'Hello from TaskService!' );
   }
 
-  protected currentEndpoint = environment.development.localhostEndpoints.workItems.iis;
+  // protected currentEndpoint = environment.development.localhostEndpoints.workItems.iis;
+  protected currentEndpoint = environment.development.localhostEndpoints.workItems.docker;
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();

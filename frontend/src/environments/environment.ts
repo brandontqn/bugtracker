@@ -18,7 +18,7 @@ export const environment = {
           },
           registration: {
               iis: "https://localhost:44321/api/registration",
-              docker: "http://localhost:8080/api/registration",
+              docker: "http://localhost:8082/api/registration",
               app: "http://localhost:5001/api/registration"
           }
       },
