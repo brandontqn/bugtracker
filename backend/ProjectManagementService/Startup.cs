@@ -51,7 +51,7 @@ namespace ProjectManagementService
                 options.DefaultSignInScheme = OktaDefaults.ApiAuthenticationScheme;
             }).AddOktaWebApi(new OktaWebApiOptions()
             {
-                OktaDomain = "https://dev-662146.okta.com"
+                OktaDomain = Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value
             });
         }
 

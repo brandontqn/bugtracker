@@ -27,6 +27,13 @@ namespace UserManagementService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+            //services.AddCors(options =>
+            //{
+            //    options.AddDefaultPolicy(builder => builder
+            //    .AllowAnyOrigin()
+            //    .AllowAnyHeader()
+            //    .AllowAnyMethod());
+            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
