@@ -43,6 +43,12 @@ export class TaskDetailsComponent implements OnInit {
            t.seconds;
   }
 
+  // prepend(value, array) {
+  //   var newArray = array.slice();
+  //   newArray.unshift(value);
+  //   return newArray
+  // }
+
   async getTask() {
     const id = this._route.snapshot.paramMap.get('id');
     (await this._taskService.getTask(id))
@@ -59,20 +65,28 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async save() {
-    // delete task from current board
-    console.log("currentBoardId: " + this.task.currentBoardId);
-    // console.log(this.task.id);
-    if (this.task.currentBoardId !== null) {
+    if (this.task.currentBoardId == null) {
+      (await this._boardService.addTask(this.selectedBoard, this.task.id))
+      .subscribe(async () => {
+        this.task.currentBoardId = this.selectedBoard;
+        (await this._taskService.updateTask(this.task))
+        .subscribe(() => {
+          this._snackBar.open(this.task.name + " saved", "dismiss", {
+            duration: 2000
+          });
+          this.goBack();
+        });
+      });
+    }
+
+    else {
       (await this._boardService.deleteTask(this.task.currentBoardId, this.task.id))
       .subscribe(async () => {
-        console.log("task deleted from current board");
-        // add task to new board
         (await this._boardService.addTask(this.selectedBoard, this.task.id))
         .subscribe(async () => {
-          console.log("task added to new board");
+          this.task.currentBoardId = this.selectedBoard;
           (await this._taskService.updateTask(this.task))
           .subscribe(() => {
-            console.log("task updated");
             this._snackBar.open(this.task.name + " saved", "dismiss", {
               duration: 2000
             });
@@ -80,23 +94,7 @@ export class TaskDetailsComponent implements OnInit {
           });
         });
       });
-    }
-
-    else {
-      // add task to new board
-      (await this._boardService.addTask(this.selectedBoard, this.task.id))
-      .subscribe(async () => {
-        console.log("task added to new board");
-        this.task.currentBoardId = this.selectedBoard;
-        (await this._taskService.updateTask(this.task))
-        .subscribe(() => {
-          console.log("task updated");
-          this._snackBar.open(this.task.name + " saved", "dismiss", {
-            duration: 2000
-          });
-          this.goBack();
-        });
-      });
+      
     }
   }
 

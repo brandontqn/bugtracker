@@ -3,6 +3,7 @@ import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 import { Board } from '../models/board';
 import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -62,9 +63,4 @@ export class BoardService {
     const url = this.currentEndpoint + '/items/delete/' + boardId;
     return this.http.put(url, { text: itemId }, { headers: httpOptions });
   }
-
-  // async completeTask(item: string) {
-  //   const httpOptions = await this.getHeaders();
-  //   const url = this.currentEndpoint + 
-  // }
 }

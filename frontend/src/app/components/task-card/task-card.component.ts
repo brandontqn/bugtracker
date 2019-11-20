@@ -13,7 +13,6 @@ export class TaskCardComponent {
   @Input() task: Task;
 
   @Output() deleted = new EventEmitter<Task>();
-  // @Output() completed = new EventEmitter<boolean>();
   @Output() completed = new EventEmitter<Task>();
   
   delete() {
