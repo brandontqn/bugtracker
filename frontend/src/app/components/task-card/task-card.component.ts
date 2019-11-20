@@ -8,21 +8,22 @@ import { Task } from 'src/app/models/task';
 })
 export class TaskCardComponent {
 
-  isCompleted = false;
+  // isCompleted = false;
   
   @Input() task: Task;
 
   @Output() deleted = new EventEmitter<Task>();
-  @Output() completed = new EventEmitter<boolean>();
+  // @Output() completed = new EventEmitter<boolean>();
+  @Output() completed = new EventEmitter<Task>();
   
   delete() {
     this.deleted.emit(this.task);
   }
 
   complete() {
-    this.isCompleted = !this.isCompleted;
-    this.completed.emit(this.isCompleted);
-    console.log(this.isCompleted + " 1");
+    this.task.completed = !this.task.completed;
+    this.completed.emit(this.task);
+    console.log(this.task.completed + " 1");
   }
 
 }

@@ -35,6 +35,9 @@ namespace ProjectManagementService.Models
         [BsonElement("currentBoardId")]
         public string currentBoardId { get; set; }
 
+        [BsonElement("completed")]
+        public bool completed { get; set; }
+
         public WorkItem()
         {
             this.name = "default_name";
@@ -43,6 +46,7 @@ namespace ProjectManagementService.Models
             this.timeEstimate = new Time(1, 0, 0, 0);
             this.timeLogged = new Time();
             this.currentBoardId = null;
+            this.completed = false;
         }
 
         public WorkItem(string name, string detail, Time timeEstimation, string? boardId)
@@ -53,6 +57,7 @@ namespace ProjectManagementService.Models
             this.timeEstimate = timeEstimation;
             this.timeLogged = new Time();
             this.currentBoardId = boardId ?? null;
+            this.completed = false;
         }
     }
 

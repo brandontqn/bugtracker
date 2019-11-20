@@ -13,7 +13,7 @@ export class TaskListComponent {
   
   @Output() added = new EventEmitter<string>();
   @Output() deleted = new EventEmitter<Task>();
-  @Output() completed = new EventEmitter<boolean>();
+  @Output() completed = new EventEmitter<Task>();
 
   addTask(name: string) {
     this.added.emit(name);
@@ -23,9 +23,9 @@ export class TaskListComponent {
     this.deleted.emit(task);
   }
 
-  onCompleted(isCompleted: boolean) {
-    this.completed.emit(isCompleted);
-    console.log(isCompleted + " 2");
+  onCompleted(task: Task) {
+    this.completed.emit(task);
+    console.log(task.completed + " 2");
   }
 
 }

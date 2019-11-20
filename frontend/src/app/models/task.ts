@@ -8,6 +8,5 @@ export class Task {
     timeEstimate: Time; 
     timeLogged: Time;
     currentBoardId: string; // id 
-    
-    // completed: boolean;
+    completed: boolean;
 }
