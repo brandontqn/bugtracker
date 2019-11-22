@@ -30,8 +30,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: brandon-poc-rg
   name: project-management-frontend
 spec:
+  loadBalancerIP: 40.114.72.211
   type: LoadBalancer
   ports:
   - port: 80
