@@ -1,18 +1,23 @@
-<h2 style="margin:10px;">Top Tasks</h2>
-
-<div class="grid grid-pad" style="margin:10px;">
-  <a *ngFor="let task of tasks" class="col-1-4"
-        routerLink="tasks/detail/{{task.id}}">
-    <div class="module task">
-      <h4>{{task.name}}</h4>
-    </div>
-  </a>
+<div>
+  <h2 style="margin:10px;">Top Tasks</h2>
+  <div class="grid grid-pad" style="margin:10px;">
+    <a *ngFor="let task of tasks" class="col-1-4"
+          routerLink="/tasks/detail/{{task.id}}">
+      <div class="module task">
+        <h4>{{task.name}}</h4>
+      </div>
+    </a>
+  </div>
 </div>
 
-<!-- <mat-grid-list cols="1" rowHeight="10:1">
-  <mat-grid-tile *ngFor="let task of tasks">
-    <a routerLink="/detail/{{task.id}}">
-      {{task.name}}
+<div style="clear:both;">
+  <h2 style="margin:10px;">Top Boards</h2>
+  <div class="grid grid-pad" style="margin:10px;">
+    <a *ngFor="let board of boards" class="col-1-4"
+          routerLink="/boards/detail/{{board.id}}">
+      <div class="module task">
+        <h4>{{board.title}}</h4>
+      </div>
     </a>
-  </mat-grid-tile>
-</mat-grid-list> -->
+  </div>
+</div>
