@@ -1,21 +1,13 @@
 <div>
-  <h1 style="margin:10px;">{{title}}</h1>
-  <button style="float: right;" mat-button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
-  <button style="float: right;" mat-button *ngIf="!isAuthenticated"><a routerLink="register"> Register </a></button>
-  <button style="float: right;" mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
+  <h1>{{title}}</h1>
+  <button mat-button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
+  <button mat-button *ngIf="!isAuthenticated"><a routerLink="register"> Register </a></button>
+  <button mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
 </div>
 
-<mat-drawer-container class="md-container" autosize>
-  <mat-drawer mode="side" opened>
-    <nav class="btn_group">
-      <button type="button" mat-button *ngIf="isAuthenticated"><a routerLink="dashboard">Dashboard</a></button>
-      <button type="button" mat-button *ngIf="isAuthenticated"><a routerLink="boards">Boards</a></button>
-      <button type="button" mat-button *ngIf="isAuthenticated"><a routerLink="tasks">Tasks</a></button>
-    </nav>
-
-  </mat-drawer>
+<mat-drawer-container autosize>
   <mat-drawer-content>
-    <nav mat-tab-nav-bar [backgroundColor]="background">
+    <nav mat-tab-nav-bar *ngIf="isAuthenticated" [backgroundColor]="background">
       <a mat-tab-link *ngFor="let link of links"
                       (click)="activeLink = link"
                       [routerLink]="link.route"
