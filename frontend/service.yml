@@ -30,13 +30,29 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-resource-group: brandon-poc-rg
+  # annotations:
+  #   service.beta.kubernetes.io/azure-load-balancer-resource-group: brandon-poc-rg
   name: project-management-frontend
 spec:
-  loadBalancerIP: 52.188.220.64
-  type: LoadBalancer
+  # loadBalancerIP: 52.188.220.64
+  # type: LoadBalancer
   ports:
   - port: 80
   selector:
     app: project-management-frontend
+---
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: pm-ui
+spec:
+  prefix: /
+  service: project-management-frontend:80
+---
+apiVersion: getambassador.io/v1
+kind: TLSContext
+metadata:
+  name: tls
+spec:
+  hosts: ["*"]
+  secret: tls-cert
