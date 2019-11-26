@@ -34,7 +34,7 @@ metadata:
     service.beta.kubernetes.io/azure-load-balancer-resource-group: brandon-poc-rg
   name: project-management-frontend
 spec:
-  loadBalancerIP: 40.114.72.211
+  loadBalancerIP: 52.188.220.64
   type: LoadBalancer
   ports:
   - port: 80
