@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RegisterService } from 'src/app/services/register.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-validation',
@@ -9,15 +10,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ValidationComponent implements OnInit {
 
-  private validToken = false;
+  validToken = false;
+  email: string;
 
-  constructor(private registerService: RegisterService, private _snackBar: MatSnackBar) { }
+  constructor(
+    private _route: ActivatedRoute,
+    private _registerService: RegisterService, 
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    this.validateToken();
   }
 
   async validate(token: string) {
-    (await this.registerService.validateToken(token))
+    this._registerService.validateToken(token)
     .subscribe( (response: boolean) => {
       this.validToken = response;
       if (this.validToken) {
@@ -29,8 +35,20 @@ export class ValidationComponent implements OnInit {
     });
   }
 
+  async validateToken() {
+    const token = this._route.snapshot.paramMap.get('token');
+
+    this._registerService.validateToken(token)
+    .subscribe(
+      {
+        next(rest) { console.log('res: ', rest); },
+        error(msg) { console.log('Error Getting res: ', msg); }
+      }
+    );
+  }
+
   async createAccount(firstName: string, lastName: string, email: string, password: string) {
-    (await this.registerService.createOktaAccountWithCredentials(firstName, lastName, email, email, password))
+    (await this._registerService.createOktaAccountWithCredentials(firstName, lastName, email, email, password))
     .subscribe( () => {
       this.validToken = false;
       this._snackBar.open("Account created! You can now log into your account.", "dismiss", { duration: 2000 })
@@ -38,3 +56,23 @@ export class ValidationComponent implements OnInit {
   }
 
 }
+
+class asdf {
+  email: string;
+  validated: boolean;   
+}
+
+
+// (response: asdf) => {
+//   console.log('response', response);
+//   // this.email = response.email;
+//   // console.log("this.email: " + this.email + ", response.email: " + response.email);
+//   // this.validToken = response.validated;
+//   // console.log("this.validToken: " + this.validToken + ", response.validated: " + response.validated);
+//   if (this.validToken) {
+//     this._snackBar.open("Token has been validated!", "dismiss", { duration: 2000 });
+//   }
+//   else {
+//     this._snackBar.open("Token is not valid.", "dismiss", { duration: 2000 })
+//   }
+// }

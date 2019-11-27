@@ -12,17 +12,17 @@ import { ValidationComponent } from './components/validation/validation.componen
 import { environment } from 'src/environments/environment';
 
 const config = {
-  issuer: environment.development.okta.issuer,
-  redirectUri: environment.development.okta.redirectUri,
-  clientId: environment.development.okta.clientId,
-  pkce: environment.development.okta.pkce
+  issuer: environment.okta.issuer,
+  redirectUri: environment.okta.redirectUri,
+  clientId: environment.okta.clientId,
+  pkce: environment.okta.pkce
 };
 
 const routes: Routes = [
   { path: '', component: LandingPageComponent },
   { path: 'implicit/callback', component: OktaCallbackComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'validate', component: ValidationComponent },
+  { path: 'validate/:token', component: ValidationComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'tasks', component: AllTasksComponent },
   { path: 'tasks/detail/:id', component: TaskDetailsComponent },

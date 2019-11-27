@@ -45,14 +45,14 @@ namespace TokenGenerationService.Services
             return _tokens.Find(token => token.TokenString == tokenString).FirstOrDefault();
         }
 
-        public Token Create(Time t)
+        public Token Create(string email, Time t)
         {
-            Token token = new Token(t);
+            Token token = new Token(email, t);
 
             // token is not unique, already exists in the database, create a new token
             while (Get(token.TokenString) != null)
             {
-                token = new Token(t);
+                token = new Token(email, t);
             }
 
             try

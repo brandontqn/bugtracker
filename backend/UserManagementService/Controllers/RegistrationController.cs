@@ -31,7 +31,7 @@ namespace UserManagementService.Controllers
         [HttpPost]
         public async Task<ActionResult> PostAsync([FromBody]Email email)
         {
-            var tokenTime = await _registrationService.GetAsync(); // requesting new token from TokenGenerationService
+            var tokenTime = await _registrationService.GetToken(email.value); // requesting new token from TokenGenerationService
             _registrationService.SendEmail(email.value, tokenTime.tokenString);
 
             return Ok(tokenTime);
@@ -41,7 +41,8 @@ namespace UserManagementService.Controllers
         public async Task<ActionResult> ValidateToken(string tokenString)
         {
             var patchResponse = await _registrationService.PatchAsync(tokenString); // calling TokenGenerationService to validate token
-            return Ok(patchResponse.IsSuccessStatusCode);
+            return Ok(patchResponse.Content);
+            //return Ok(patchResponse.IsSuccessStatusCode);
         }
 
         [HttpPost("create")]

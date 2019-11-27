@@ -12,7 +12,6 @@ namespace TokenGenerationService.Controllers
 {
     [Route("api/[controller]s")]
     [ApiController]
-    //[Authorize]
     public class TokenController : ControllerBase
     {
         /// <summary>
@@ -82,10 +81,10 @@ namespace TokenGenerationService.Controllers
         /// <returns>
         ///     Returns the token which was just created.
         /// </returns>
-        [HttpPost("default")]
-        public IActionResult CreateDefault()
+        [HttpPost("default/{email}")]
+        public IActionResult CreateDefault([FromRoute]string email)
         {
-            Token token = _tokenService.Create(Utils.DEFAULT_TIME);
+            Token token = _tokenService.Create(email, Utils.DEFAULT_TIME);
             TokenTime tokenTime = new TokenTime { tokenString = token.TokenString, time = token.TimeRemaining() };
             return CreatedAtRoute("GetToken", new { tokenTime.tokenString }, tokenTime);
         }
@@ -100,11 +99,11 @@ namespace TokenGenerationService.Controllers
         ///     Returns the token which was just created.
         /// </returns>
         [HttpPost]
-        public IActionResult Create([FromBody]Time t)
+        public IActionResult Create([FromBody]EmailTime emailTime)
         {
-            Token token = _tokenService.Create(t);
+            Token token = _tokenService.Create(emailTime.email, emailTime.time);
 
-            if (!token.MeetsMinimumTimeRequirement(t))
+            if (!token.MeetsMinimumTimeRequirement(emailTime.time))
             {
                 _tokenService.Remove(token.TokenString);
                 return BadRequest();
@@ -158,10 +157,10 @@ namespace TokenGenerationService.Controllers
             Token token = _tokenService.Get(tokenString);
             if (token != null && _tokenService.Validate(token.TokenString))
             {
-                return Ok();
+                return Ok( new { email = token.email, validated = true } );
             }
 
-            return NotFound();
+            return NotFound( new { email = token.email, validated = false } );
         }
 
         /// <summary>

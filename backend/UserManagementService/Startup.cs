@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using UserManagementService.Models;
 using UserManagementService.Services;
 
 namespace UserManagementService
@@ -27,28 +28,18 @@ namespace UserManagementService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            //services.AddCors(options =>
-            //{
-            //    options.AddDefaultPolicy(builder => builder
-            //    .AllowAnyOrigin()
-            //    .AllowAnyHeader()
-            //    .AllowAnyMethod());
-            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            //services.AddSingleton<RegistrationService>();
+            //services.Configure<UserDatabaseSettings>(
+            //    Configuration.GetSection(nameof(UserDatabaseSettings)));
 
-            //services.AddSingleton(s =>
-            //    new RegistrationService(Configuration["Frontend:baseLocalHost"], 
-            //                            Configuration["Backend:TokenService:iis"], 
-            //                            Configuration["Backend:Okta:Domain"],
-            //                            Configuration["Backend:Okta:Token"],
-            //                            Configuration["Backend:Email:username"],
-            //                            Configuration["Backend:Email:password"]));
+            //services.AddSingleton<IUserDatabaseSettings>(sp =>
+            //    sp.GetRequiredService<IOptions<UserDatabaseSettings>>().Value);
 
             services.AddSingleton(s =>
-                new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
+                new RegistrationService(//Configuration.GetSection("UserDatabaseSettings").Value.Cast<IUserDatabaseSettings>().FirstOrDefault(),
+                                        Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
                                         Configuration.GetSection("Backend").GetSection("TokenService").GetSection("iis").Value,
                                         //Configuration.GetSection("Backend").GetSection("TokenService").GetSection("docker").Value,
                                         Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,

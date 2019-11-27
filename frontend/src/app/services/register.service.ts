@@ -11,8 +11,8 @@ export class RegisterService {
     console.log( 'Hello from RegisterService!' );
   }
 
-  protected currentEndpoint = environment.development.localhostEndpoints.registration.iis;
-  // protected currentEndpoint = environment.development.localhostEndpoints.registration.docker;
+  protected currentEndpoint = environment.apiEndpoints.registration.iis;
+  // protected currentEndpoint = environment.apiEndpoints.registration.docker;
 
   sendActivationEmail(email: string) {
     const httpOptions = { 
@@ -26,8 +26,11 @@ export class RegisterService {
 
   validateToken(token: string) {
     const url = this.currentEndpoint + "/validate/" + token;
-    
-    return this.http.post(url, "")
+    console.log('token to validate:', token);
+    let ret = this.http.post(url, "", { headers: { 'Content-type': 'application/json' } });
+    console.log('response:', ret);
+    return ret;
+
   }
 
   createOktaAccountWithCredentials(firstName: string, lastName: string, email: string, login: string, password: string) {

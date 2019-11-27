@@ -19,15 +19,20 @@ namespace TokenGenerationService.Models
         [BsonElement("ttl")]
         public int ttl;
 
+        [BsonElement("email")]
+        public string email;
+
         // somehow need to modify the accessibility level of this property...
         public string created;
         
-        public Token(Time t)
+        public Token(string email, Time t)
         {
             TokenString = GenerateToken(Utils.TOKEN_LENGTH);
             ttl = TimeToTtl(t);
 
             created = DateTime.Now.ToString();
+
+            this.email = email;
         }
 
         public void ExtendTime(Time t)

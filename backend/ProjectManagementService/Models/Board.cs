@@ -11,6 +11,8 @@ namespace ProjectManagementService.Models
         public string description { get; set; }
 
         public List<string> itemIds { get; set; }
+
+        public string created { get; set; }
     }
 
     public class Board : IBoard
@@ -27,6 +29,9 @@ namespace ProjectManagementService.Models
 
         [BsonElement("itemIds")]
         public List<string> itemIds { get; set; }
+
+        [BsonElement("created")]
+        public string created { get; set; }
 
         public Board(string t, string d)
         {

@@ -1,10 +1,10 @@
-<p style="display: block; width: 250px; margin: 10px;">
+<!-- <p style="display: block; width: 250px; margin: 10px;">
     <mat-form-field >
         <input #token matInput placeholder="token">
     </mat-form-field>
 
     <button mat-button (click)="validate(token.value); token.value = '';">Validate</button>
-</p>
+</p> -->
 
 <div *ngIf="this.validToken">
     <p>TOKEN VALIDATED! Set up your credentials below:</p>
@@ -16,16 +16,21 @@
         <input #lastName matInput placeholder="last name">
     </mat-form-field>
     <mat-form-field >
-        <input #email matInput placeholder="email (used for login)">
+            Use the email "{{email}}" as your login.<!-- <input #email matInput placeholder="email (used for login)"> -->
     </mat-form-field>
     <mat-form-field >
         <input #password matInput placeholder="password">
     </mat-form-field>
 
-    <button mat-button (click)="createAccount(firstName.value, lastName.value, email.value, password.value);
+    <button mat-button (click)="createAccount(firstName.value, lastName.value, this.email, password.value);
                                 firstName.value = '';
                                 lastName.value = '';
                                 email.value = '';
                                 password.value = '';">Create Account</button>
+    <!-- <button mat-button (click)="createAccount(firstName.value, lastName.value, email.value, password.value);
+                                firstName.value = '';
+                                lastName.value = '';
+                                email.value = '';
+                                password.value = '';">Create Account</button> -->
 </div>
 

@@ -21,6 +21,12 @@
         }
     }
 
+    public class EmailTime 
+    {
+        public string email;
+        public Time time;
+    }
+
     public class TokenTime
     {
         public string tokenString;

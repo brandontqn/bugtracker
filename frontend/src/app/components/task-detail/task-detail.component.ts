@@ -17,6 +17,8 @@ import { BoardService } from 'src/app/services/board.service';
 })
 export class TaskDetailsComponent implements OnInit {
 
+  panelOpenState = false;
+
   task: Task;
   progress: number;
   availableBoards: Board[];
@@ -42,12 +44,6 @@ export class TaskDetailsComponent implements OnInit {
            (t.minutes * 60) +
            t.seconds;
   }
-
-  // prepend(value, array) {
-  //   var newArray = array.slice();
-  //   newArray.unshift(value);
-  //   return newArray
-  // }
 
   async getTask() {
     const id = this._route.snapshot.paramMap.get('id');

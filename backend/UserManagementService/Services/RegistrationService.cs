@@ -7,6 +7,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using UserManagementService.Models;
+using MongoDB.Driver;
 
 using Okta.Sdk;
 using Okta.Sdk.Configuration;
@@ -18,10 +19,9 @@ namespace UserManagementService.Services
     {
         public RegistrationService(string fBLH, string bTSI, string bOD, string bOT, string bEU, string bEP)
         {
+            // Okta
             _frontendBaseLocalHost = fBLH;
             _backendTokenServiceIis = bTSI;
-            //_oktaDomain = oD;
-            //_oktaToken = oT;
             _emailUsername = bEU;
             _emailPassword = bEP;
 
@@ -30,31 +30,21 @@ namespace UserManagementService.Services
                 OktaDomain = bOD,
                 Token = bOT
             });
-
         }
 
         private string _frontendBaseLocalHost { get; set; }
         private string _backendTokenServiceIis { get; set; }
-        //private string _oktaDomain { get; set; }
-        //private string _oktaToken { get; set; }
 
         private string _emailUsername { get; set; }
         private string _emailPassword { get; set; }
 
         private readonly HttpClient httpClient = new HttpClient();
         private OktaClient oktaClient { get; set; }
-        //private readonly OktaClient oktaClient = new OktaClient(new OktaClientConfiguration { 
-        //    OktaDomain = _oktaDomain,//"https://dev-662146.okta.com",
-        //    Token = "00DRoQkIV_LHzRxwkDg5wquFocGrqkAgj2Tp1KPxqg"
-        //});
 
-        //private string tokenApi = "https://localhost:44364/api/tokens/default";
-
-        public async Task<HttpResponseMessage> PostAsync()
+        public async Task<HttpResponseMessage> PostAsync(string email)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            //var response = await httpClient.PostAsync(tokenApi, content);
-            var response = await httpClient.PostAsync(_backendTokenServiceIis + "/default", content);
+            var content = new StringContent(JsonConvert.SerializeObject(/*email*/""), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(_backendTokenServiceIis + "/default/" + email, content);
             return response;
         }
 
@@ -64,10 +54,9 @@ namespace UserManagementService.Services
             return response;
         }
 
-        public async Task<TokenTime> GetAsync()
+        public async Task<TokenTime> GetToken(string email)
         {
-            Debug.WriteLine("hello");
-            var postResponse = await PostAsync();
+            var postResponse = await PostAsync(email);
             var getResponse = await GetAsync(postResponse.Headers.Location.ToString());
             var jsonString = await getResponse.Content.ReadAsStringAsync();
             var tokenTime = JsonConvert.DeserializeObject<TokenTime>(jsonString);
@@ -78,24 +67,21 @@ namespace UserManagementService.Services
         public async Task<HttpResponseMessage> PatchAsync(string tokenString)
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            //var uri = "https://localhost:44364/api/tokens/validate/" + tokenString;
             var uri = _backendTokenServiceIis + "/validate/" + tokenString;
             var patchResponse = await httpClient.PostAsync(uri, content);
 
             return patchResponse;
         }
 
-        public void SendEmail(string email, string token)
+        public void SendEmail(string email, string token) // save email and token for user creation, when user validates, create user with same email.
         {
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
 
-            //mail.From = new MailAddress("brandon.nguyen@finning.com");
             mail.From = new MailAddress(_emailUsername);
             mail.To.Add(email);
             mail.Subject = "Project-Tracker account activation";
-            mail.Body = "Here's your token: " + token +
-                        "\nPlease visit " + _frontendBaseLocalHost + "/validate and paste the token in the provided field to create your account!";
+            mail.Body = "Please visit " + _frontendBaseLocalHost + "/validate/" + token + " to create your account!";
 
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential(_emailUsername, _emailPassword);
