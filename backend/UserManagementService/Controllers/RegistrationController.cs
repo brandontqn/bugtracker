@@ -41,7 +41,7 @@ namespace UserManagementService.Controllers
         public async Task<ActionResult> ValidateToken(string tokenString)
         {
             var patchResponse = await _registrationService.PatchAsync(tokenString); // calling TokenGenerationService to validate token
-            return Ok(patchResponse.Content);
+            return Ok(patchResponse);
             //return Ok(patchResponse.IsSuccessStatusCode);
         }
 

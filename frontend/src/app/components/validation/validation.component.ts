@@ -38,13 +38,17 @@ export class ValidationComponent implements OnInit {
   async validateToken() {
     const token = this._route.snapshot.paramMap.get('token');
 
-    this._registerService.validateToken(token)
-    .subscribe(
-      {
-        next(rest) { console.log('res: ', rest); },
-        error(msg) { console.log('Error Getting res: ', msg); }
+    (await this._registerService.validateToken(token))
+    .subscribe( (response: {email: string, validated: boolean}) => { 
+      this.email = response.email;
+      this.validToken = response.validated;
+      if (this.validToken) {
+        this._snackBar.open("Token has been validated!", "dismiss", { duration: 2000 });
       }
-    );
+      else {
+        this._snackBar.open("Token is not valid.", "dismiss", { duration: 2000 })
+      }
+    });
   }
 
   async createAccount(firstName: string, lastName: string, email: string, password: string) {
@@ -57,10 +61,10 @@ export class ValidationComponent implements OnInit {
 
 }
 
-class asdf {
-  email: string;
-  validated: boolean;   
-}
+// class asdf {
+//   email: string;
+//   validated: boolean;   
+// }
 
 
 // (response: asdf) => {
@@ -75,4 +79,16 @@ class asdf {
 //   else {
 //     this._snackBar.open("Token is not valid.", "dismiss", { duration: 2000 })
 //   }
+// }
+
+// async validateToken() {
+//   const token = this._route.snapshot.paramMap.get('token');
+
+//   this._registerService.validateToken(token)
+//   .subscribe(
+//     {
+//       next(rest) { console.log('res: ', rest); },
+//       error(msg) { console.log('Error Getting res: ', msg); }
+//     }
+//   );
 // }

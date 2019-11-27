@@ -12,6 +12,7 @@ using MongoDB.Driver;
 using Okta.Sdk;
 using Okta.Sdk.Configuration;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
 
 namespace UserManagementService.Services
 {
@@ -64,13 +65,19 @@ namespace UserManagementService.Services
             return tokenTime;
         }
 
-        public async Task<HttpResponseMessage> PatchAsync(string tokenString)
+        //public async Task<HttpResponseMessage> PatchAsync(string tokenString)
+        public async Task<EmailValidated> PatchAsync(string tokenString)
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var uri = _backendTokenServiceIis + "/validate/" + tokenString;
             var patchResponse = await httpClient.PostAsync(uri, content);
 
-            return patchResponse;
+            //string jsonContent = patchResponse.Content.ReadAsStringAsync().Result;
+
+            var json = await patchResponse.Content.ReadAsAsync<EmailValidated>();
+            return json;
+            //return new HttpResponseMessage();
+            //return new StringContent(JsonConvert.SerializeObject(jsonContent), Encoding.UTF8, "application/json");
         }
 
         public void SendEmail(string email, string token) // save email and token for user creation, when user validates, create user with same email.

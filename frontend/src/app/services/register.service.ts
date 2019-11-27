@@ -26,11 +26,7 @@ export class RegisterService {
 
   validateToken(token: string) {
     const url = this.currentEndpoint + "/validate/" + token;
-    console.log('token to validate:', token);
-    let ret = this.http.post(url, "", { headers: { 'Content-type': 'application/json' } });
-    console.log('response:', ret);
-    return ret;
-
+    return this.http.post(url, "", { headers: { 'Content-type': 'application/json' } });
   }
 
   createOktaAccountWithCredentials(firstName: string, lastName: string, email: string, login: string, password: string) {

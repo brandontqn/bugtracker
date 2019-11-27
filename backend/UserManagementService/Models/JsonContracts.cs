@@ -88,4 +88,10 @@ namespace UserManagementService.Models
         public string login { get; set; }
         public string password { get; set; }
     }
+
+    public class EmailValidated
+    {
+        public string email { get; set; }
+        public bool validated { get; set; }
+    }
 }

@@ -152,15 +152,15 @@ namespace TokenGenerationService.Controllers
         /// </returns>
         //[HttpPatch("{tokenString}")]
         [HttpPost("validate/{tokenString}")]
-        public IActionResult Validate(string tokenString)
+        public object Validate(string tokenString)
         {
             Token token = _tokenService.Get(tokenString);
             if (token != null && _tokenService.Validate(token.TokenString))
             {
-                return Ok( new { email = token.email, validated = true } );
+                return ( new { email = token.email, validated = true } );
             }
 
-            return NotFound( new { email = token.email, validated = false } );
+            return ( new { email = token.email, validated = false } );
         }
 
         /// <summary>
