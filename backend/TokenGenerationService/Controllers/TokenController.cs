@@ -82,11 +82,11 @@ namespace TokenGenerationService.Controllers
         ///     Returns the token which was just created.
         /// </returns>
         [HttpPost("default/{email}")]
-        public IActionResult CreateDefault([FromRoute]string email)
+        public object CreateDefault([FromRoute]string email)
         {
             Token token = _tokenService.Create(email, Utils.DEFAULT_TIME);
             TokenTime tokenTime = new TokenTime { tokenString = token.TokenString, time = token.TimeRemaining() };
-            return CreatedAtRoute("GetToken", new { tokenTime.tokenString }, tokenTime);
+            return tokenTime;
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace TokenGenerationService.Controllers
         ///     Returns the token which was just created.
         /// </returns>
         [HttpPost]
-        public IActionResult Create([FromBody]EmailTime emailTime)
+        public object Create([FromBody]EmailTime emailTime)
         {
             Token token = _tokenService.Create(emailTime.email, emailTime.time);
 
@@ -110,7 +110,7 @@ namespace TokenGenerationService.Controllers
             }
 
             TokenTime tokenTime = new TokenTime { tokenString = token.TokenString, time = token.TimeRemaining() };
-            return CreatedAtRoute("GetToken", new { tokenTime.tokenString }, tokenTime);
+            return tokenTime;
         }
 
         /// <summary>

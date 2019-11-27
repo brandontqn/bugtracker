@@ -42,42 +42,22 @@ namespace UserManagementService.Services
         private readonly HttpClient httpClient = new HttpClient();
         private OktaClient oktaClient { get; set; }
 
-        public async Task<HttpResponseMessage> PostAsync(string email)
+        public async Task<TokenTime> GetTokenFromTokenService(string email)
         {
-            var content = new StringContent(JsonConvert.SerializeObject(/*email*/""), Encoding.UTF8, "application/json");
-            var response = await httpClient.PostAsync(_backendTokenServiceIis + "/default/" + email, content);
-            return response;
+            var uri = _backendTokenServiceIis + "/default/" + email;
+            var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
+            var response = await httpClient.PostAsync(uri, content);
+
+            return await response.Content.ReadAsAsync<TokenTime>();
         }
 
-        public async Task<HttpResponseMessage> GetAsync(string uri)
-        {
-            var response = await httpClient.GetAsync(uri);
-            return response;
-        }
-
-        public async Task<TokenTime> GetToken(string email)
-        {
-            var postResponse = await PostAsync(email);
-            var getResponse = await GetAsync(postResponse.Headers.Location.ToString());
-            var jsonString = await getResponse.Content.ReadAsStringAsync();
-            var tokenTime = JsonConvert.DeserializeObject<TokenTime>(jsonString);
-
-            return tokenTime;
-        }
-
-        //public async Task<HttpResponseMessage> PatchAsync(string tokenString)
         public async Task<EmailValidated> PatchAsync(string tokenString)
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var uri = _backendTokenServiceIis + "/validate/" + tokenString;
-            var patchResponse = await httpClient.PostAsync(uri, content);
+            var response = await httpClient.PostAsync(uri, content);
 
-            //string jsonContent = patchResponse.Content.ReadAsStringAsync().Result;
-
-            var json = await patchResponse.Content.ReadAsAsync<EmailValidated>();
-            return json;
-            //return new HttpResponseMessage();
-            //return new StringContent(JsonConvert.SerializeObject(jsonContent), Encoding.UTF8, "application/json");
+            return await response.Content.ReadAsAsync<EmailValidated>(); 
         }
 
         public void SendEmail(string email, string token) // save email and token for user creation, when user validates, create user with same email.

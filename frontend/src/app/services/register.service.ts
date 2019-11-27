@@ -31,7 +31,6 @@ export class RegisterService {
 
   createOktaAccountWithCredentials(firstName: string, lastName: string, email: string, login: string, password: string) {
     const url = this.currentEndpoint + "/create";
-    console.log(url);
     var account = new Account(firstName, lastName, email, login, password);
 
     return this.http.post(url, account)
