@@ -14,8 +14,8 @@ export class BoardService {
     console.log( 'Hello from BoardService!' );
   }
   
-  protected currentEndpoint = environment.apiEndpoints.boards.iis;
-  // protected currentEndpoint = environment.apiEndpoints.boards.docker;
+  // protected currentEndpoint = environment.apiEndpoints.boards.iis;
+  protected currentEndpoint = environment.apiEndpoints.boards.docker;
   
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();

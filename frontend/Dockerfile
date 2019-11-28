@@ -12,7 +12,7 @@ RUN npm install -g @angular/cli@8.3.16
 # add app
 COPY . /app
 
-RUN ng build --prod --output-path=dist
+RUN ng build --output-path=dist
 
 FROM nginx:alpine as publish
 

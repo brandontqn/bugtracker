@@ -21,10 +21,9 @@
         <input #password matInput placeholder="password">
     </mat-form-field>
 
-    <button mat-button (click)="createAccount(firstName.value, lastName.value, this.email, password.value);
+    <button mat-button (click)="createAccount(firstName.value, lastName.value, password.value);
                                 firstName.value = '';
                                 lastName.value = '';
-                                email.value = '';
                                 password.value = '';">Create Account</button>
 </div>
 

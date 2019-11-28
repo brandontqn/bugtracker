@@ -41,18 +41,18 @@ spec:
   selector:
     app: project-management-frontend
 ---
-apiVersion: getambassador.io/v1
-kind: Mapping
-metadata:
-  name: pm-ui
-spec:
-  prefix: /
-  service: project-management-frontend:80
----
-apiVersion: getambassador.io/v1
-kind: TLSContext
-metadata:
-  name: tls
-spec:
-  hosts: ["*"]
-  secret: tls-cert
+# apiVersion: getambassador.io/v1
+# kind: Mapping
+# metadata:
+#   name: pm-ui
+# spec:
+#   prefix: /
+#   service: project-management-frontend:80
+# ---
+# apiVersion: getambassador.io/v1
+# kind: TLSContext
+# metadata:
+#   name: tls
+# spec:
+#   hosts: ["*"]
+#   secret: tls-cert
