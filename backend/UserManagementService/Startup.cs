@@ -40,7 +40,8 @@ namespace UserManagementService
             services.AddSingleton(s =>
                 new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
                                         //Configuration.GetSection("Backend").GetSection("TokenService").GetSection("iis").Value,
-                                        Configuration.GetSection("Backend").GetSection("TokenService").GetSection("docker").Value,
+                                        //Configuration.GetSection("Backend").GetSection("TokenService").GetSection("docker").Value,
+                                        Configuration.GetSection("Backend").GetSection("TokenService").GetSection("k8s").Value,
                                         Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
                                         Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
                                         Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,

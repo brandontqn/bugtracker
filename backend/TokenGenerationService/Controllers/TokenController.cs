@@ -49,7 +49,7 @@ namespace TokenGenerationService.Controllers
                 tokens = new List<Token>();
             }
 
-            return tokens.Select(t => t.ToTokenTime()).Cast<TokenTime>().ToList();
+            return tokens.Select(t => Utils.ToTokenTime(t)).Cast<TokenTime>().ToList();
         }
         
         /// <summary>
@@ -71,7 +71,7 @@ namespace TokenGenerationService.Controllers
                 return NotFound();
             }
 
-            return token.ToTokenTime();
+            return Utils.ToTokenTime(token);
         }
         
         /// <summary>
@@ -85,8 +85,7 @@ namespace TokenGenerationService.Controllers
         public object CreateDefault([FromRoute]string email)
         {
             Token token = _tokenService.Create(email, Utils.DEFAULT_TIME);
-            TokenTime tokenTime = new TokenTime { tokenString = token.TokenString, time = token.TimeRemaining() };
-            return tokenTime;
+            return new TokenTime { tokenString = token.TokenString, time = Utils.TimeRemaining(token.created, token.ttl) };
         }
 
         /// <summary>
@@ -101,16 +100,14 @@ namespace TokenGenerationService.Controllers
         [HttpPost]
         public object Create([FromBody]EmailTime emailTime)
         {
-            Token token = _tokenService.Create(emailTime.email, emailTime.time);
-
-            if (!token.MeetsMinimumTimeRequirement(emailTime.time))
+            if (!Utils.MeetsMinimumTimeRequirement(emailTime.time))
             {
-                _tokenService.Remove(token.TokenString);
                 return BadRequest();
             }
 
-            TokenTime tokenTime = new TokenTime { tokenString = token.TokenString, time = token.TimeRemaining() };
-            return tokenTime;
+            Token token = _tokenService.Create(emailTime.email, emailTime.time);
+
+            return new TokenTime { tokenString = token.TokenString, time = Utils.TimeRemaining(token.created, token.ttl) };
         }
 
         /// <summary>
@@ -134,7 +131,7 @@ namespace TokenGenerationService.Controllers
             }
 
             Token newToken = _tokenService.ExtendTime(data);
-            return Ok(newToken.ToTokenTime());
+            return Ok(Utils.ToTokenTime(newToken));
         }
 
         /// <summary>

@@ -4,12 +4,10 @@
 
 export const environment = {
     production: false,
-    okta: {
-        issuer: "https://dev-662146.okta.com/oauth2/default",
-        // redirectUri: "http://localhost:4200/implicit/callback",
-        redirectUri: "https://52.224.139.134/implicit/callback",
-        clientId: "0oa1pj0whzk15BvVH357",
-        pkce: true
+    apiEndpoints: {
+        workItems: "https://localhost:44359/api/workitems",
+        boards: "https://localhost:44359/api/boards",
+        registration: "https://localhost:44321/api/registration"
     }
 };
 

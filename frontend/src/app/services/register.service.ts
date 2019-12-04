@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.k8s';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,7 @@ export class RegisterService {
     console.log( 'Hello from RegisterService!' );
   }
 
-  // protected currentEndpoint = environment.apiEndpoints.registration.iis;
-  protected currentEndpoint = environment.apiEndpoints.registration.docker;
+  protected currentEndpoint = environment.apiEndpoints.userManagementService + "/api/registration";
 
   sendActivationEmail(email: string) {
     const httpOptions = { 

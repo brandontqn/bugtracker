@@ -61,6 +61,8 @@ alias dpsa='docker ps -a'
 alias db='docker build'
 alias db.='docker build .'
 alias db.t='docker build . -t'
+alias dc='docker-compose'
+alias dcb='docker-compose build'
 alias dcup='docker-compose up'
 alias dcupb='docker-compose up --build'
 alias dcd='docker-compose down'
@@ -68,11 +70,13 @@ alias drmn='docker rmi $(docker images -f "dangling=true" -q)'
 alias drmca='docker rm $(docker ps -a -q)'
 alias drmi='docker rmi'
 alias drp='docker run -p'
+alias dp='docker push'
+alias dt='docker tag'
 
 # K8s shortcuts
 alias k="kubectl"
-alias ka="kubectl apply -f"
-alias kc="kubectl create -f"
+alias ka='kubectl apply'
+alias kc="kubectl create"
 alias kdel="kubectl delete"
 alias kg="kubectl get"
 alias kpo="kubectl get pods"
@@ -83,6 +87,15 @@ alias kds="kubectl get daemonset"
 alias kns="kubectl get ns"
 alias kdsc="kubectl describe"
 alias klog="kubectl logs"
+alias kdsc='kubectl describe'
+alias ke='kubectl expose'
+alias kr='kubectl run'
+alias ks0='kubectl scale --replicas=0'
+alias ks1='kubectl scale --replicas=1'
+alias ks2='kubectl scale --replicas=2'
+alias ks3='kubectl scale --replicas=3'
+alias ks4='kubectl scale --replicas=4'
+alias ks5='kubectl scale --replicas=5'
 
 # MongoDB shortcuts
 alias mongorunfg="mongod --config /usr/local/etc/mongod.conf"

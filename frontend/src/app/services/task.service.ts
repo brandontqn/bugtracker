@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Task } from './../models/task';
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment.k8s';
 
 const seconds = 1000;
 const minutes = 1000 * 60;
@@ -19,8 +19,7 @@ export class TaskService {
     console.log( 'Hello from TaskService!' );
   }
 
-  // protected currentEndpoint = environment.apiEndpoints.workItems.iis;
-  protected currentEndpoint = environment.apiEndpoints.workItems.docker;
+  protected currentEndpoint = environment.apiEndpoints.projectManagementService + "/api/workItems";
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();

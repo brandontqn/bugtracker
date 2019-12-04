@@ -18,11 +18,11 @@ namespace UserManagementService.Services
 {
     public class RegistrationService
     {
-        public RegistrationService(string fBLH, string bTSI, string bOD, string bOT, string bEU, string bEP)
+        public RegistrationService(string fBL, string bTS, string bOD, string bOT, string bEU, string bEP)
         {
             // Okta
-            _frontendBaseLocalHost = fBLH;
-            _backendTokenServiceIis = bTSI;
+            _frontendBase = fBL;
+            _backendTokenService = bTS;
             _emailUsername = bEU;
             _emailPassword = bEP;
 
@@ -33,8 +33,8 @@ namespace UserManagementService.Services
             });
         }
 
-        private string _frontendBaseLocalHost { get; set; }
-        private string _backendTokenServiceIis { get; set; }
+        private string _frontendBase { get; set; }
+        private string _backendTokenService { get; set; }
 
         private string _emailUsername { get; set; }
         private string _emailPassword { get; set; }
@@ -44,7 +44,7 @@ namespace UserManagementService.Services
 
         public async Task<TokenTime> GetTokenFromTokenService(string email)
         {
-            var uri = _backendTokenServiceIis + "/default/" + email;
+            var uri = _backendTokenService + "/default/" + email;
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(uri, content);
 
@@ -54,7 +54,7 @@ namespace UserManagementService.Services
         public async Task<EmailValidated> PatchAsync(string tokenString)
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            var uri = _backendTokenServiceIis + "/validate/" + tokenString;
+            var uri = _backendTokenService + "/validate/" + tokenString;
             var response = await httpClient.PostAsync(uri, content);
 
             return await response.Content.ReadAsAsync<EmailValidated>(); 
@@ -68,7 +68,7 @@ namespace UserManagementService.Services
             mail.From = new MailAddress(_emailUsername);
             mail.To.Add(email);
             mail.Subject = "Project-Tracker account activation";
-            mail.Body = "Please visit " + _frontendBaseLocalHost + "/validate/" + token + " to create your account!";
+            mail.Body = "Please visit " + _frontendBase + "/validate/" + token + " to create your account!";
 
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential(_emailUsername, _emailPassword);
