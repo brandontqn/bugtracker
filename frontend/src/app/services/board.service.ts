@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { HttpClient } from '@angular/common/http';
 import { Board } from '../models/board';
-import { environment } from 'src/environments/environment.k8s';
+import { AppComponent } from 'src/app/app.component'
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ export class BoardService {
     console.log( 'Hello from BoardService!' );
   }
   
-  protected currentEndpoint = environment.apiEndpoints.projectManagementService + "/api/boards";
+  protected currentEndpoint = AppComponent.env.apiEndpoints.projectManagementService + "/api/boards";
   
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();

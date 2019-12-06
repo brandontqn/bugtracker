@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
+import { environment as development} from 'src/environments/environment.iis';
+import { environment as staging } from 'src/environments/environment.docker';
+import { environment as production} from 'src/environments/environment.k8s';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +10,8 @@ import { OktaAuthService } from '@okta/okta-angular';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
+  static env;
 
   title = 'project-tracker';
   isAuthenticated: boolean;
@@ -19,6 +24,7 @@ export class AppComponent {
   background = '';
 
   constructor(public oktaAuth: OktaAuthService) { 
+    AppComponent.env = production;
     this.oktaAuth.$authenticationState.subscribe(
       (isAuthenticated: boolean) => this.isAuthenticated = isAuthenticated
     )

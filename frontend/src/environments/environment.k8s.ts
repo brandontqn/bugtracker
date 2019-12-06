@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     apiEndpoints: {
-        projectManagementService: "project-management-service",
-        userManagementService: "user-management-service"
+        projectManagementService: "http://project-management-service",
+        userManagementService: "http://user-management-service"
     }
   };

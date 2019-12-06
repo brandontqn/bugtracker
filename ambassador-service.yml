@@ -4,14 +4,12 @@ kind: Service
 metadata:
   name: ambassador
 spec:
-  loadBalancerIP: 52.224.139.134
+  loadBalancerIP: 40.121.209.53
   type: LoadBalancer
   externalTrafficPolicy: Local
   ports:
-   - name: https
-     port: 443
-     protocol: TCP
-     targetPort: 8443
+   - port: 80
+     targetPort: 8080
   selector:
     service: ambassador
 ---
@@ -23,10 +21,22 @@ spec:
   prefix: /
   service: project-management-frontend:80
 ---
-apiVersion: getambassador.io/v1
-kind: TLSContext
-metadata:
-  name: tls
-spec:
-  hosts: ["*"]
-  secret: tls-cert
+# apiVersion: getambassador.io/v1
+# kind: TLSContext
+# metadata:
+#   name: tls
+# spec:
+#   hosts: ["*"]
+#   secret: tls-cert
+# ---
+# apiVersion: getambassador.io/v1
+# kind: Mapping
+# metadata:
+#   name: pm-ums
+# spec:
+#   prefix: /ums
+#   service: user-management-service:80
+#   labels:
+#     - request_label:
+#         - ums
+# ---
