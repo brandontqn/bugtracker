@@ -17,6 +17,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8080:80'
+    environment:
+      - ASPNETCORE_ENVIRONMENT="Staging"
   token-generation-service:
     container_name: token-generation-service
     build:
@@ -24,6 +26,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8081:80'
+    environment:
+      - ASPNETCORE_ENVIRONMENT="Staging"
   user-management-service:
     container_name: user-management-service
     build:
@@ -31,3 +35,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - '8082:80'
+    environment:
+      - ASPNETCORE_ENVIRONMENT="Staging"

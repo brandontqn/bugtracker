@@ -18,25 +18,36 @@ kind: Mapping
 metadata:
   name: pm-ui
 spec:
+  cors:
+    origins: "*"
   prefix: /
   service: project-management-frontend:80
+---
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: pm-ums
+spec:
+  cors:
+    origins: "*"
+  prefix: /ums/
+  service: user-management-service:80
+---
+apiVersion: getambassador.io/v1
+kind: Mapping
+metadata:
+  name: pm-pms
+spec:
+  cors:
+    origins: "*"
+  prefix: /pms/
+  service: project-management-service:80
 ---
 # apiVersion: getambassador.io/v1
 # kind: TLSContext
 # metadata:
-#   name: tls
+  # name: tls
 # spec:
-#   hosts: ["*"]
-#   secret: tls-cert
-# ---
-# apiVersion: getambassador.io/v1
-# kind: Mapping
-# metadata:
-#   name: pm-ums
-# spec:
-#   prefix: /ums
-#   service: user-management-service:80
-#   labels:
-#     - request_label:
-#         - ums
+  # hosts: ["*"]
+  # secret: tls-cert
 # ---

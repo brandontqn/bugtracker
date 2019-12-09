@@ -19,9 +19,13 @@ namespace UserManagementService
     {
         private readonly IHostingEnvironment _env;
 
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
+            var builder = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true) ;
+
+            Configuration = builder.Build();
             _env = env;
         }
 
@@ -30,40 +34,48 @@ namespace UserManagementService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            //services.AddCors();
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            if (_env.IsDevelopment())
-            {
-                services.AddSingleton(s =>
-                    new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
-                                            Configuration.GetSection("Backend").GetSection("TokenService").GetSection("iis").Value,
-                                            Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
-                                            Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
-                                            Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
-                                            Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
-            }
-            else if (_env.IsStaging())
-            {
-                services.AddSingleton(s =>
-                    new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
-                                            Configuration.GetSection("Backend").GetSection("TokenService").GetSection("docker").Value,
-                                            Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
-                                            Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
-                                            Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
-                                            Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
-            }
-            else if (_env.IsProduction())
-            {
-                services.AddSingleton(s =>
-                    new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
+            //if (_env.IsDevelopment())
+            //{
+            //    services.AddSingleton(s =>
+            //        new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
+            //                                Configuration.GetSection("Backend").GetSection("TokenService").GetSection("iis").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
+            //}
+            //else if (_env.IsStaging())
+            //{
+            //    services.AddSingleton(s =>
+            //        new RegistrationService(Configuration.GetSection("Frontend").GetSection("baseLocalHost").Value,
+            //                                Configuration.GetSection("Backend").GetSection("TokenService").GetSection("docker").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
+            //}
+            //else if (_env.IsProduction())
+            //{
+            //    services.AddSingleton(s =>
+            //        new RegistrationService(Configuration.GetSection("Frontend").GetSection("k8s").Value,
+            //                                Configuration.GetSection("Backend").GetSection("TokenService").GetSection("k8s").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
+            //                                Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
+            //}
+            services.AddSingleton(s =>
+                    new RegistrationService(Configuration.GetSection("Frontend").GetSection("k8s").Value,
                                             Configuration.GetSection("Backend").GetSection("TokenService").GetSection("k8s").Value,
                                             Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value,
                                             Configuration.GetSection("Backend").GetSection("Okta").GetSection("Token").Value,
                                             Configuration.GetSection("Backend").GetSection("Email").GetSection("username").Value,
                                             Configuration.GetSection("Backend").GetSection("Email").GetSection("password").Value));
-            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -78,10 +90,11 @@ namespace UserManagementService
                 app.UseHsts();
             }
 
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            //app.UseCors(builder => builder
+            //    .AllowAnyOrigin()
+            //    .AllowAnyMethod()
+            //    .AllowAnyHeader());
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
             app.UseMvc();

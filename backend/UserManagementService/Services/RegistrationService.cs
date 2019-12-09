@@ -44,7 +44,7 @@ namespace UserManagementService.Services
 
         public async Task<TokenTime> GetTokenFromTokenService(string email)
         {
-            var uri = _backendTokenService + "/default/" + email;
+            var uri = _backendTokenService + "/api/tokens/default/" + email;
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(uri, content);
 
@@ -54,7 +54,7 @@ namespace UserManagementService.Services
         public async Task<EmailValidated> PatchAsync(string tokenString)
         {
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
-            var uri = _backendTokenService + "/validate/" + tokenString;
+            var uri = _backendTokenService + "/api/tokens/validate/" + tokenString;
             var response = await httpClient.PostAsync(uri, content);
 
             return await response.Content.ReadAsAsync<EmailValidated>(); 
