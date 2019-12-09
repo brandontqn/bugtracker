@@ -17,6 +17,7 @@ export class AppComponent {
   isAuthenticated: boolean;
   links = [
     {name: 'Dashboard', route: "dashboard"}, 
+    {name: 'Projects', route: "projects"},
     {name: 'Boards', route: "boards"}, 
     {name: 'Tasks', route: "tasks"}
   ];
@@ -24,7 +25,7 @@ export class AppComponent {
   background = '';
 
   constructor(public oktaAuth: OktaAuthService) { 
-    AppComponent.env = production;
+    AppComponent.env = development;
     this.oktaAuth.$authenticationState.subscribe(
       (isAuthenticated: boolean) => this.isAuthenticated = isAuthenticated
     )

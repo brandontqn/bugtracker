@@ -10,6 +10,7 @@ import { BoardDetailsComponent } from './components/board-details/board-details.
 import { RegisterComponent } from './components/register/register.component';
 import { ValidationComponent } from './components/validation/validation.component';
 import { environment } from 'src/environments/environment';
+import { ProjectListComponent } from './components/project-list/project-list.component';
 
 const config = {
   issuer: environment.okta.issuer,
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'boards/detail/:id', component: BoardDetailsComponent },
   { path: 'boards/detail/:bid/tasks/detail/:tid', redirectTo: 'tasks/detail/:tid', pathMatch: 'full' },
   { path: 'dashboard/tasks/detail/:tid', redirectTo: 'tasks/detail/:tid', pathMatch: 'full' },
+  { path: 'projects', component: ProjectListComponent }
 ];
 
 @NgModule({

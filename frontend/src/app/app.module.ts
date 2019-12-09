@@ -26,6 +26,7 @@ import { TaskCardComponent } from './components/task-card/task-card.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { BoardCardComponent } from './components/board-card/board-card.component';
 import { BoardListComponent } from './components/board-list/board-list.component';
+import { ProjectListComponent } from './components/project-list/project-list.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { BoardListComponent } from './components/board-list/board-list.component
     TaskCardComponent,
     TaskListComponent,
     BoardCardComponent,
-    BoardListComponent
+    BoardListComponent,
+    ProjectListComponent
   ],
   imports: [
     BrowserModule,

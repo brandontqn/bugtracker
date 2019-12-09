@@ -7,6 +7,7 @@ namespace ProjectManagementService.Models
 {
     public class DatabaseSettings : IDatabaseSettings
     {
+        public string ProjectsCollectionName { get; set; }
         public string BoardsCollectionName { get; set; }
         public string WorkItemsCollectionName { get; set; }
         public string ConnectionString { get; set; }
@@ -18,6 +19,7 @@ namespace ProjectManagementService.Models
 
     public interface IDatabaseSettings
     {
+        string ProjectsCollectionName { get; set; }
         string BoardsCollectionName { get; set; }
         string WorkItemsCollectionName { get; set; }
         string ConnectionString { get; set; }

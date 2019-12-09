@@ -2,21 +2,20 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProjectManagementService.Models
 {
-    public interface IBoard
+    public interface IProject
     {
         public string title { get; set; }
-
         public string description { get; set; }
-
-        public List<string> itemIds { get; set; }
-
+        public List<string> boardIds { get; set; }
         public string created { get; set; }
     }
 
-    public class Board : IBoard
+    public class Project : IProject
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -28,17 +27,17 @@ namespace ProjectManagementService.Models
         [BsonElement("description")]
         public string description { get; set; }
 
-        [BsonElement("itemIds")]
-        public List<string> itemIds { get; set; }
+        [BsonElement("boardIds")]
+        public List<string> boardIds { get; set; }
 
         [BsonElement("created")]
         public string created { get; set; }
 
-        public Board(string t, string d)
+        public Project(string t, string d)
         {
             title = t;
             description = d;
-            itemIds = new List<string>();
+            boardIds = new List<string>();
             created = DateTime.Now.ToString();
         }
     }

@@ -43,6 +43,7 @@ namespace ProjectManagementService
 
             services.AddSingleton<WorkItemService>();
             services.AddSingleton<BoardService>();
+            services.AddSingleton<ProjectService>();
             
             services.AddAuthentication(options =>
             {

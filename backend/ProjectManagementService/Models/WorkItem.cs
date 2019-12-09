@@ -40,24 +40,24 @@ namespace ProjectManagementService.Models
 
         public WorkItem()
         {
-            this.name = "default_name";
-            this.detail = "default_details";
-            this.created = DateTime.Now.ToString();
-            this.timeEstimate = new Time(1, 0, 0, 0);
-            this.timeLogged = new Time();
-            this.currentBoardId = null;
-            this.completed = false;
+            name = "default_name";
+            detail = "default_details";
+            created = DateTime.Now.ToString();
+            timeEstimate = new Time(1, 0, 0, 0);
+            timeLogged = new Time();
+            currentBoardId = null;
+            completed = false;
         }
 
-        public WorkItem(string name, string detail, Time timeEstimation, string? boardId)
+        public WorkItem(string n, string d, Time te, string? bid)
         {
-            this.name = name;
-            this.detail = detail;
-            this.created = DateTime.Now.ToString();
-            this.timeEstimate = timeEstimation;
-            this.timeLogged = new Time();
-            this.currentBoardId = boardId ?? null;
-            this.completed = false;
+            name = n;
+            detail = d;
+            created = DateTime.Now.ToString();
+            timeEstimate = te;
+            timeLogged = new Time();
+            currentBoardId = bid ?? null;
+            completed = false;
         }
     }
 
