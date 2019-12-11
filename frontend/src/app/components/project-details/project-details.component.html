@@ -1,0 +1,36 @@
+<div *ngIf="project" style="margin:10px;">
+    <div>
+        <h2>{{project.title | uppercase}}</h2>
+        <h3>{{project.description}}</h3>
+    </div>
+
+    <div>
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+                                 (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>EDIT</mat-panel-title>
+                    <mat-panel-description>
+                        {{panelOpenState ? '' : 'Edit this project\'s title and/or description.'}}
+                    </mat-panel-description> 
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="project.title" placeholder="Title">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [(ngModel)]="project.description" placeholder="Description">
+                </mat-form-field>
+                <button mat-button (click)="save()">SAVE</button>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    
+    <app-board-list
+        [title]="boardsTitle"
+        [boards]="boards"
+        (added)="onAdded($event)"
+        (deleted)="onDeleted($event)"></app-board-list>
+</div>
+
+<button mat-button (click)="goBack()">BACK</button>
+<button mat-button (click)="deleteBoard()">DELETE PROJECT</button>

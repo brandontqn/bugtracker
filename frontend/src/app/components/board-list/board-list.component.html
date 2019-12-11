@@ -12,5 +12,5 @@
 
     <app-board-card *ngFor="let board of boards"
         [board]="board"
-        (deleted)="onDeleted($event)"></app-board-card>
+        (deleted)="deleteBoard($event)"></app-board-card>
 </div>

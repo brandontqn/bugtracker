@@ -18,7 +18,6 @@ export class BoardDetailsComponent implements OnInit {
   board: Board;
   panelOpenState = false;
   tasks: Task[];
-  currentItemId: string;
 
   constructor(
     private _route: ActivatedRoute,
@@ -37,7 +36,7 @@ export class BoardDetailsComponent implements OnInit {
     const id = this._route.snapshot.paramMap.get('id');
 
     (await this._boardService.getBoard(id))
-    .subscribe( async (data: Board) => {
+    .subscribe( (data: Board) => {
       this.board = data;
       this.getTasks();
     });
@@ -46,8 +45,8 @@ export class BoardDetailsComponent implements OnInit {
   async getTasks() {
     (await this._taskService.getTasks())
     .subscribe( (data: Task[]) => 
-      this.tasks = data.filter((task: Task) => this.board.itemIds.includes(task.id)
-    ));
+      this.tasks = data.filter((task: Task) => this.board.itemIds.includes(task.id))
+    );
   }
 
   goBack(): void {
@@ -56,7 +55,7 @@ export class BoardDetailsComponent implements OnInit {
 
   async save() {
     (await this._boardService.updateBoard(this.board))
-    .subscribe(() => {
+    .subscribe( () => {
       this._snackBar.open(this.board.title + " saved", "dismiss", {
         duration: 2000
       });
@@ -78,7 +77,7 @@ export class BoardDetailsComponent implements OnInit {
     (await this._taskService.createTask(name))
     .subscribe( async (data: Task) => {
       (await this._boardService.addTask(this.board.id, data.id))
-      .subscribe( async () => {
+      .subscribe( () => {
         this.getTasks();
         this.board.itemIds.push(data.id);
         this._snackBar.open(name + " added", "dismiss", {

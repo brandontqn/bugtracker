@@ -90,7 +90,7 @@ namespace ProjectManagementService.Services
             return project;
         }
 
-        public Project DeleteItem(string projectId, string boardId)
+        public Project DeleteBoard(string projectId, string boardId)
         {
             Project project = _projects.Find(x => x.id == projectId).FirstOrDefault();
 

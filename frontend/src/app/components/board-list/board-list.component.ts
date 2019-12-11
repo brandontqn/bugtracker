@@ -14,11 +14,11 @@ export class BoardListComponent {
   @Output() added = new EventEmitter<string>();
   @Output() deleted = new EventEmitter<Board>();
 
-  addBoard(name: string) {
-    this.added.emit(name);
+  addBoard(title: string) {
+    this.added.emit(title);
   }
 
-  onDeleted(board: Board) {
+  deleteBoard(board: Board) {
     this.deleted.emit(board);
   }
 }

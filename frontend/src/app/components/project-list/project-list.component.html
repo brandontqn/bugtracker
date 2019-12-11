@@ -1,1 +1,16 @@
-<p>project-list works!</p>
+<div>
+    <h2 style="margin:10px;">
+        {{title}}
+    </h2>
+
+    <p style="display: block; width: 250px; margin:10px;">
+        <mat-form-field>
+            <input #newProject matInput placeholder="New Project">
+        </mat-form-field>
+        <button mat-button (click)="addProject(newProject.value); newProject.value = '';">ADD</button>
+    </p>
+
+    <app-project-card *ngFor="let project of projects"
+        [project]="project"
+        (deleted)="deleteProject($event)"></app-project-card>
+</div>

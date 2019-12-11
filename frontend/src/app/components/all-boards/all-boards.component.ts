@@ -13,7 +13,7 @@ export class AllBoardsComponent implements OnInit {
   title: string;
   boards: Board[];
 
-  constructor( private boardService: BoardService, private _snackBar: MatSnackBar ) { }
+  constructor( private _boardService: BoardService, private _snackBar: MatSnackBar ) { }
 
   ngOnInit() {
     this.title = "All Boards"
@@ -21,7 +21,7 @@ export class AllBoardsComponent implements OnInit {
   }
 
   async getBoards() {
-    (await this.boardService.getBoards())
+    (await this._boardService.getBoards())
     .subscribe(data => {
       this.boards = data;
       AllBoardsComponent.boards = this.boards;
@@ -29,18 +29,18 @@ export class AllBoardsComponent implements OnInit {
   }
 
   async onAdded(title: string) {
-    (await this.boardService.addBoard(title))
+    (await this._boardService.addBoard(title))
     .subscribe( (data: Board) => {
       this.boards.push(data);
       AllBoardsComponent.boards.push(data);
-        this._snackBar.open(title + " added", "dismiss", {
-          duration: 2000
-        });
+      this._snackBar.open(title + " added", "dismiss", {
+        duration: 2000
+      });
     });
   }
 
   async onDeleted(board: Board) {
-    (await this.boardService.deleteBoard(board.id))
+    (await this._boardService.deleteBoard(board.id))
     .subscribe( () => {
       this.boards = this.boards.filter( (x: Board) => x.id !== board.id);
       AllBoardsComponent.boards = AllBoardsComponent.boards.filter( (x: Board) => x.id !== board.id);
