@@ -42,17 +42,17 @@ namespace TokenGenerationService.Common
 
         public static int DaysToSeconds(int days)
         {
-            return days * Utils.HOURS_PER_DAY * Utils.MINUTES_PER_HOUR * Utils.SECONDS_PER_MINUTE;
+            return days * HOURS_PER_DAY * MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
         }
 
         public static int HoursToSeconds(int hours)
         {
-            return hours * Utils.MINUTES_PER_HOUR * Utils.SECONDS_PER_MINUTE;
+            return hours * MINUTES_PER_HOUR * SECONDS_PER_MINUTE;
         }
 
         public static int MinutesToSeconds(int minutes)
         {
-            return minutes * Utils.SECONDS_PER_MINUTE;
+            return minutes * SECONDS_PER_MINUTE;
         }
 
         public static Time TtlToTime(int ttl)
