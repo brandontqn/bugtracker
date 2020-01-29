@@ -9,12 +9,12 @@ import { Task } from 'src/app/models/task';
 export class TaskCardComponent {
 
   // isCompleted = false;
-  
+
   @Input() task: Task;
 
   @Output() deleted = new EventEmitter<Task>();
   @Output() completed = new EventEmitter<Task>();
-  
+
   delete() {
     this.deleted.emit(this.task);
   }
@@ -22,7 +22,5 @@ export class TaskCardComponent {
   complete() {
     this.task.completed = !this.task.completed;
     this.completed.emit(this.task);
-    console.log(this.task.completed + " 1");
   }
-
 }

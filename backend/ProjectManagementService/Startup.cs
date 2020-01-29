@@ -41,7 +41,7 @@ namespace ProjectManagementService
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            services.AddSingleton<WorkItemService>();
+            services.AddSingleton<TaskService>();
             services.AddSingleton<BoardService>();
             services.AddSingleton<ProjectService>();
             

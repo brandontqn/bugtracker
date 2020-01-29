@@ -4,24 +4,24 @@ using System;
 
 namespace ProjectManagementService.Models
 {
-    public interface IWorkItem
+    public interface ITask
     {
-        public string name { get; set; }
+        public string title { get; set; }
 
-        public string detail { get; set; }
+        public string description { get; set; }
     }
 
-    public class WorkItem : IWorkItem
+    public class Task : ITask
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string id { get; set; }
         
-        [BsonElement("name")]
-        public string name { get; set; }
+        [BsonElement("title")]
+        public string title { get; set; }
 
-        [BsonElement("detail")]
-        public string detail { get; set; }
+        [BsonElement("description")]
+        public string description { get; set; }
 
         [BsonElement("created")]
         public string created { get; set; }
@@ -38,10 +38,10 @@ namespace ProjectManagementService.Models
         [BsonElement("completed")]
         public bool completed { get; set; }
 
-        public WorkItem()
+        public Task()
         {
-            name = "default_name";
-            detail = "default_details";
+            title = "default_name";
+            description = "default_details";
             created = DateTime.Now.ToString();
             timeEstimate = new Time(1, 0, 0, 0);
             timeLogged = new Time();
@@ -49,14 +49,14 @@ namespace ProjectManagementService.Models
             completed = false;
         }
 
-        public WorkItem(string n, string d, Time te, string? bid)
+        public Task(string title, string description, Time time, string? boardId)
         {
-            name = n;
-            detail = d;
+            this.title = title;
+            this.description = description;
             created = DateTime.Now.ToString();
-            timeEstimate = te;
+            timeEstimate = time;
             timeLogged = new Time();
-            currentBoardId = bid ?? null;
+            currentBoardId = boardId ?? null;
             completed = false;
         }
     }

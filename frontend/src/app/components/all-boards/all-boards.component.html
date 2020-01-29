@@ -1,5 +1,5 @@
 <app-board-list
     [title]="title"
-    [boards]="boards"
+    [boards]="this.boards"
     (added)="onAdded($event)"
     (deleted)="onDeleted($event)"></app-board-list>

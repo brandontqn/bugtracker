@@ -22,20 +22,19 @@ export class TaskDetailsComponent implements OnInit {
   task: Task;
   progress: number;
   availableBoards: Board[];
-  
   selectedBoard: string;
 
   constructor(
-    private _route: ActivatedRoute,
-    private _taskService: TaskService,
-    private _boardService: BoardService,
-    private _location: Location,
-    private _snackBar: MatSnackBar
+    private route: ActivatedRoute,
+    private taskService: TaskService,
+    private boardService: BoardService,
+    private location: Location,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
     this.getTask();
-    this.availableBoards = AllBoardsComponent.boards;
+    this.availableBoards = AllBoardsComponent.allBoards;
   }
 
   TimeToSeconds(t: Time) {
@@ -46,60 +45,57 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async getTask() {
-    const id = this._route.snapshot.paramMap.get('id');
-    (await this._taskService.getTask(id))
+    const id = this.route.snapshot.paramMap.get('id');
+    (await this.taskService.getTask(id))
       .subscribe(data => {
         this.task = data;
-        var logged = this.TimeToSeconds(this.task.timeLogged);
-        var estimate = this.TimeToSeconds(this.task.timeEstimate);
-        this.progress = (logged/estimate) * 100;
+        const logged = this.TimeToSeconds(this.task.timeLogged);
+        const estimate = this.TimeToSeconds(this.task.timeEstimate);
+        this.progress = (logged / estimate) * 100;
       });
   }
 
   goBack(): void {
-    this._location.back();
+    this.location.back();
   }
 
   async save() {
     if (this.task.currentBoardId == null) {
-      (await this._boardService.addTask(this.selectedBoard, this.task.id))
+      (await this.boardService.addTask(this.selectedBoard, this.task.id))
       .subscribe(async () => {
         this.task.currentBoardId = this.selectedBoard;
-        (await this._taskService.updateTask(this.task))
+        (await this.taskService.updateTask(this.task))
         .subscribe(() => {
-          this._snackBar.open(this.task.name + " saved", "dismiss", {
+          this.snackBar.open(this.task.title + ' saved', 'dismiss', {
             duration: 2000
           });
           this.goBack();
         });
       });
-    }
-
-    else {
-      (await this._boardService.deleteTask(this.task.currentBoardId, this.task.id))
+    } else {
+      (await this.boardService.deleteTask(this.task.currentBoardId, this.task.id))
       .subscribe(async () => {
-        (await this._boardService.addTask(this.selectedBoard, this.task.id))
+        (await this.boardService.addTask(this.selectedBoard, this.task.id))
         .subscribe(async () => {
           this.task.currentBoardId = this.selectedBoard;
-          (await this._taskService.updateTask(this.task))
+          (await this.taskService.updateTask(this.task))
           .subscribe(() => {
-            this._snackBar.open(this.task.name + " saved", "dismiss", {
+            this.snackBar.open(this.task.title + ' saved', 'dismiss', {
               duration: 2000
             });
             this.goBack();
           });
         });
       });
-      
     }
   }
 
   async add(days: number, hours: number, minutes: number, seconds: number) {
-    var t = new Time(+days, +hours, +minutes, +seconds);
+    const t = new Time(+days, +hours, +minutes, +seconds);
     this.task.timeLogged = Time.add(this.task.timeLogged, t);
-    (await this._taskService.updateTask(this.task))
+    (await this.taskService.updateTask(this.task))
       .subscribe(() => {
-        this._snackBar.open(this.task.name + ": time added.", "dismiss", {
+        this.snackBar.open(this.task.title + ': time added.', 'dismiss', {
           duration: 2000
         });
         this.goBack();
@@ -107,12 +103,18 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async deleteTask() {
-    (await this._taskService.deleteTask(this.task.id))
+    (await this.taskService.deleteTask(this.task.id))
     .subscribe( () => {
       this.goBack();
-      this._snackBar.open(this.task.name + " deleted", "dismiss", {
+      this.snackBar.open(this.task.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });
+  }
+
+  async completeTask() {
+    this.task.completed = !this.task.completed;
+    (await this.taskService.updateTask(this.task))
+    .subscribe(() => console.log(this.task.completed));
   }
 }

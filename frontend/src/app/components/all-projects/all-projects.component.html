@@ -1,5 +1,5 @@
 <app-project-list
     [title]="title"
-    [projects]="projects"
+    [projects]="this.projects"
     (added)="onAdded($event)"
     (deleted)="onDeleted($event)"></app-project-list>

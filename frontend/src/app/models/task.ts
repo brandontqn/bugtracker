@@ -2,11 +2,11 @@ import { Time } from 'src/app/models/time';
 
 export class Task {
     id: string;
-    name: string;
-    detail: string;
+    title: string;
+    description: string;
     created: string;
-    timeEstimate: Time; 
+    timeEstimate: Time;
     timeLogged: Time;
-    currentBoardId: string; // id 
+    currentBoardId: string;
     completed: boolean;
 }

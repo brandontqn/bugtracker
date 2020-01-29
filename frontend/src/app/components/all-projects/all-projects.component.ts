@@ -10,42 +10,42 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AllProjectsComponent implements OnInit {
 
-  public static projects: Project[];
+  public static allProjects: Project[];
   title: string;
   projects: Project[];
 
-  constructor( private _projectService: ProjectService, private _snackBar: MatSnackBar ) { }
+  constructor( private projectService: ProjectService, private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
-    this.title = "All Projects";
+    this.title = 'All Projects';
     this.getProjects();
   }
 
   async getProjects() {
-    (await this._projectService.getProjects())
+    (await this.projectService.getProjects())
     .subscribe(data => {
       this.projects = data;
-      AllProjectsComponent.projects = this.projects;
+      AllProjectsComponent.allProjects = this.projects;
     });
   }
 
   async onAdded(title: string) {
-    (await this._projectService.addProject(title))
+    (await this.projectService.addProject(title))
     .subscribe( (data: Project) => {
       this.projects.push(data);
-      AllProjectsComponent.projects.push(data);
-      this._snackBar.open(title + " added", "dismiss", {
+      AllProjectsComponent.allProjects.push(data);
+      this.snackBar.open(title + ' added', 'dismiss', {
         duration: 2000
       });
     });
   }
 
   async onDeleted(project: Project) {
-    (await this._projectService.deleteProject(project.id))
+    (await this.projectService.deleteProject(project.id))
     .subscribe( () => {
       this.projects = this.projects.filter( (x: Project) => x.id !== project.id );
-      AllProjectsComponent.projects = AllProjectsComponent.projects.filter( (x: Project) => x.id !== project.id);
-      this._snackBar.open(project.title + " deleted", "dismiss", {
+      AllProjectsComponent.allProjects = AllProjectsComponent.allProjects.filter( (x: Project) => x.id !== project.id);
+      this.snackBar.open(project.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });

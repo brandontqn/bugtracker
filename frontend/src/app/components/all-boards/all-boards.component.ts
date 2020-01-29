@@ -9,42 +9,42 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class AllBoardsComponent implements OnInit {
 
-  public static boards: Board[];
+  public static allBoards: Board[];
   title: string;
   boards: Board[];
 
-  constructor( private _boardService: BoardService, private _snackBar: MatSnackBar ) { }
+  constructor( private boardService: BoardService, private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
-    this.title = "All Boards"
+    this.title = 'All Boards';
     this.getBoards();
   }
 
   async getBoards() {
-    (await this._boardService.getBoards())
+    (await this.boardService.getBoards())
     .subscribe(data => {
       this.boards = data;
-      AllBoardsComponent.boards = this.boards;
+      AllBoardsComponent.allBoards = this.boards;
     });
   }
 
   async onAdded(title: string) {
-    (await this._boardService.addBoard(title))
+    (await this.boardService.addBoard(title))
     .subscribe( (data: Board) => {
       this.boards.push(data);
-      AllBoardsComponent.boards.push(data);
-      this._snackBar.open(title + " added", "dismiss", {
+      AllBoardsComponent.allBoards.push(data);
+      this.snackBar.open(title + ' added', 'dismiss', {
         duration: 2000
       });
     });
   }
 
   async onDeleted(board: Board) {
-    (await this._boardService.deleteBoard(board.id))
+    (await this.boardService.deleteBoard(board.id))
     .subscribe( () => {
       this.boards = this.boards.filter( (x: Board) => x.id !== board.id);
-      AllBoardsComponent.boards = AllBoardsComponent.boards.filter( (x: Board) => x.id !== board.id);
-      this._snackBar.open(board.title + " deleted", "dismiss", {
+      AllBoardsComponent.allBoards = AllBoardsComponent.allBoards.filter( (x: Board) => x.id !== board.id);
+      this.snackBar.open(board.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });

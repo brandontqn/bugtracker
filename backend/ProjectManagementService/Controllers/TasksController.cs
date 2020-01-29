@@ -15,28 +15,28 @@ namespace ProjectManagementService.Controllers
     [ApiController]
     [Route("api/[controller]")]
     [Authorize]
-    public class WorkItemsController : ControllerBase
+    public class TasksController : ControllerBase
     {
-        private readonly ILogger<WorkItemsController> _logger;
+        private readonly ILogger<TasksController> _logger;
 
-        private readonly WorkItemService _workItemService;
+        private readonly TaskService _taskService;
 
-        public WorkItemsController(ILogger<WorkItemsController> logger, WorkItemService service)
+        public TasksController(ILogger<TasksController> logger, TaskService service)
         {
             _logger = logger;
-            _workItemService = service;
+            _taskService = service;
         }
 
         [HttpGet]
-        public IEnumerable<WorkItem> GetAll()
+        public IEnumerable<Task> GetAll()
         {
-            return _workItemService.GetAll();
+            return _taskService.GetAll();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<WorkItem> GetOne([FromRoute]string id)
+        public ActionResult<Task> GetOne([FromRoute]string id)
         {
-            WorkItem item = _workItemService.Get(id);
+            Task item = _taskService.Get(id);
             if (item == null)
             {
                 return NotFound();
@@ -46,9 +46,9 @@ namespace ProjectManagementService.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateWorkItem([FromBody]NameDetailTime nd)
+        public IActionResult CreateTask([FromBody]TitleDescriptionTime titleDescriptionTime)
         {
-            WorkItem item = _workItemService.Create(nd.name, nd.detail, nd.time, null); // boordId null to start...
+            Task item = _taskService.Create(titleDescriptionTime.title, titleDescriptionTime.description, titleDescriptionTime.time, null); // boordId null to start...
 
             if (item.id == null)
             {
@@ -59,34 +59,34 @@ namespace ProjectManagementService.Controllers
         }
 
         [HttpPatch("{id}")]
-        public IActionResult UpdateWorkItem([FromRoute]string id, [FromBody]WorkItem newItem)
+        public IActionResult UpdateTask([FromRoute]string id, [FromBody]Task newItem)
         {
-            WorkItem item = _workItemService.Get(id);
+            Task item = _taskService.Get(id);
             if (item == null)
             {
                 return NotFound();
             }
 
-            return Ok(_workItemService.UpdateItem(newItem));
+            return Ok(_taskService.Update(newItem));
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteOne([FromRoute]string id)
         {
-            WorkItem item = _workItemService.Get(id);
+            Task item = _taskService.Get(id);
             if (item == null)
             {
                 return NotFound(id);
             }
 
-            _workItemService.Remove(id);
+            _taskService.Remove(id);
             return Ok();
         }
 
         [HttpDelete]
         public IActionResult DeleteAll()
         {
-            _workItemService.Remove();
+            _taskService.Remove();
             return Ok();
         }
     }

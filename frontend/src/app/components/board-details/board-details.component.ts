@@ -20,22 +20,22 @@ export class BoardDetailsComponent implements OnInit {
   tasks: Task[];
 
   constructor(
-    private _route: ActivatedRoute,
-    private _boardService: BoardService,
-    private _taskService: TaskService,
-    private _location: Location,
-    private _snackBar: MatSnackBar
+    private route: ActivatedRoute,
+    private boardService: BoardService,
+    private taskService: TaskService,
+    private location: Location,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
-    this.tasksTitle = "Tasks";
+    this.tasksTitle = 'Tasks';
     this.getBoard();
   }
 
   async getBoard() {
-    const id = this._route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    (await this._boardService.getBoard(id))
+    (await this.boardService.getBoard(id))
     .subscribe( (data: Board) => {
       this.board = data;
       this.getTasks();
@@ -43,20 +43,20 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async getTasks() {
-    (await this._taskService.getTasks())
-    .subscribe( (data: Task[]) => 
+    (await this.taskService.getTasks())
+    .subscribe( (data: Task[]) =>
       this.tasks = data.filter((task: Task) => this.board.itemIds.includes(task.id))
     );
   }
 
   goBack(): void {
-    this._location.back();
+    this.location.back();
   }
 
   async save() {
-    (await this._boardService.updateBoard(this.board))
+    (await this.boardService.updateBoard(this.board))
     .subscribe( () => {
-      this._snackBar.open(this.board.title + " saved", "dismiss", {
+      this.snackBar.open(this.board.title + ' saved', 'dismiss', {
         duration: 2000
       });
       this.goBack();
@@ -64,23 +64,23 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async deleteBoard() {
-    (await this._boardService.deleteBoard(this.board.id))
+    (await this.boardService.deleteBoard(this.board.id))
     .subscribe( () => {
       this.goBack();
-      this._snackBar.open(this.board.title + " deleted", "dismiss", {
+      this.snackBar.open(this.board.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });
   }
 
   async onAdded(name: string) {
-    (await this._taskService.createTask(name))
+    (await this.taskService.createTask(name))
     .subscribe( async (data: Task) => {
-      (await this._boardService.addTask(this.board.id, data.id))
+      (await this.boardService.addTask(this.board.id, data.id))
       .subscribe( () => {
         this.getTasks();
         this.board.itemIds.push(data.id);
-        this._snackBar.open(name + " added", "dismiss", {
+        this.snackBar.open(name + ' added', 'dismiss', {
           duration: 2000
         });
       });
@@ -88,23 +88,23 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async onDeleted(task: Task) {
-    (await this._boardService.deleteTask(this.board.id, task.id))
+    (await this.boardService.deleteTask(this.board.id, task.id))
     .subscribe( () => {
       this.getTasks();
       this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
-      this._snackBar.open(task.name + " deleted", "dismiss", {
+      this.snackBar.open(task.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });
-    
-    (await this._taskService.deleteTask(task.id))
+
+    (await this.taskService.deleteTask(task.id))
     .subscribe( () => {
       this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
     });
   }
 
   async onCompleted(task: Task) {
-    (await this._taskService.updateTask(task))
-    .subscribe(() => console.log(task.completed + " 3"));
+    (await this.taskService.updateTask(task))
+    .subscribe(() => console.log(task.completed + ' 3'));
   }
 }

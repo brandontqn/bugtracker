@@ -1,7 +1,7 @@
 <div *ngIf="task" style="margin:10px;display:inline;">
     <div>
-        <h2>{{task.name | uppercase}}</h2>
-        <h3>{{task.detail}}</h3>
+        <h2>{{task.title | uppercase}}</h2>
+        <h3>{{task.description}}</h3>
     </div>
     
     <div>
@@ -17,7 +17,7 @@
                 <mat-expansion-panel-header>
                     <mat-panel-title>EDIT</mat-panel-title>
                     <mat-panel-description>
-                        {{panelOpenState ? '' : 'Edit this task\'s name and/or details.'}}
+                        {{panelOpenState ? '' : 'Edit this task\'s title and/or description.'}}
                     </mat-panel-description> 
                 </mat-expansion-panel-header>
                 <mat-form-field>
@@ -63,3 +63,4 @@
 
 <button mat-button (click)="goBack()">BACK</button>
 <button mat-button (click)="deleteTask()">DELETE TASK</button>
+<button mat-button (click)="completeTask()">MARK DONE</button>

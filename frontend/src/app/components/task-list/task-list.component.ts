@@ -10,13 +10,13 @@ export class TaskListComponent {
 
   @Input() title: string;
   @Input() tasks: Task[];
-  
+
   @Output() added = new EventEmitter<string>();
   @Output() deleted = new EventEmitter<Task>();
   @Output() completed = new EventEmitter<Task>();
 
-  addTask(name: string) {
-    this.added.emit(name);
+  addTask(title: string) {
+    this.added.emit(title);
   }
 
   onDeleted(task: Task) {
@@ -25,7 +25,6 @@ export class TaskListComponent {
 
   onCompleted(task: Task) {
     this.completed.emit(task);
-    console.log(task.completed + " 2");
   }
 
 }

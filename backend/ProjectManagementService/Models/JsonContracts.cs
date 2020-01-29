@@ -6,10 +6,10 @@ namespace ProjectManagementService.Models
         public string text { get; set; }
     }
 
-    public class NameDetailTime
+    public class TitleDescriptionTime
     {
-        public string name { get; set; }
-        public string detail { get; set; }
+        public string title { get; set; }
+        public string description { get; set; }
         public Time time { get; set; }
     }
 

@@ -8,11 +8,11 @@ using ProjectManagementService.Models;
 
 namespace ProjectManagementService.Services
 {
-    public class WorkItemService
+    public class TaskService
     {
-        private readonly IMongoCollection<WorkItem> _workItems;
+        private readonly IMongoCollection<Task> _workItems;
 
-        public WorkItemService(IDatabaseSettings settings)
+        public TaskService(IDatabaseSettings settings)
         {
             var mongoSettings = new MongoClientSettings
             {
@@ -32,22 +32,22 @@ namespace ProjectManagementService.Services
             var client = new MongoClient(mongoSettings);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _workItems = database.GetCollection<WorkItem>(settings.WorkItemsCollectionName);
+            _workItems = database.GetCollection<Task>(settings.TasksCollectionName);
         }
 
-        public List<WorkItem> GetAll()
+        public List<Task> GetAll()
         {
             return _workItems.Find(item => true).ToList();
         }
 
-        public WorkItem Get(string id)
+        public Task Get(string id)
         {
             return _workItems.Find(item => item.id == id).FirstOrDefault();
         }
 
-        public WorkItem Create(string name, string details, Time time, string boardId)
+        public Task Create(string title, string description, Time time, string boardId)
         {
-            WorkItem item = new WorkItem(name, details, time, boardId);
+            Task item = new Task(title, description, time, boardId);
 
             try
             {
@@ -61,7 +61,7 @@ namespace ProjectManagementService.Services
             return item;
         }
 
-        public WorkItem UpdateItem(WorkItem updatedItem)
+        public Task Update(Task updatedItem)
         {
             _workItems.ReplaceOne(x => x.id == updatedItem.id, updatedItem);
 

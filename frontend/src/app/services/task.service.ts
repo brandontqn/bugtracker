@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { formatDate } from '@angular/common';
 import { OktaAuthService } from '@okta/okta-angular';
 import { Task } from './../models/task';
-import { AppComponent } from 'src/app/app.component'
+import { AppComponent } from 'src/app/app.component';
 
 const seconds = 1000;
 const minutes = 1000 * 60;
@@ -19,12 +19,12 @@ export class TaskService {
     console.log( 'Hello from TaskService!' );
   }
 
-  protected currentEndpoint = AppComponent.env.apiEndpoints.projectManagementService + "/api/workItems";
+  protected currentEndpoint = AppComponent.env.apiEndpoints.projectManagementService + '/api/tasks';
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();
-    return { 
-      'Authorization' : 'Bearer ' + accessToken,
+    return {
+      Authorization : 'Bearer ' + accessToken,
       'Content-type': 'application/json'
     };
   }
@@ -43,20 +43,19 @@ export class TaskService {
   async updateTask(task: Task) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + task.id;
-    console.log(task);
     return this.http.patch(url, task, { headers: httpOptions });
   }
 
-  async createTask(name: string) {
+  async createTask(title: string) {
     const httpOptions = await this.getHeaders();
-    var time = { days: 3, hours: 0, minutes: 0, seconds: 0 };
-    var newTask = { name: name, detail: "", time: time };
+    const time = { days: 3, hours: 0, minutes: 0, seconds: 0 };
+    const newTask = { title: title, description: '', time: time };
     return this.http.post(this.currentEndpoint, newTask, { headers: httpOptions });
   }
 
   async deleteTask(id: string) {
     const httpOptions = await this.getHeaders();
     const url = this.currentEndpoint + '/' + id;
-    return this.http.delete(url, { headers: httpOptions })
+    return this.http.delete(url, { headers: httpOptions });
   }
 }

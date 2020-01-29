@@ -1,6 +1,6 @@
 <app-task-list 
     [title]="title"
-    [tasks]="tasks"
+    [tasks]="this.tasks"
     (added)="onAdded($event)"
     (deleted)="onDeleted($event)"
     (completed)="onCompleted($event)"></app-task-list>

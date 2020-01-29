@@ -9,7 +9,7 @@ namespace ProjectManagementService.Models
     {
         public string ProjectsCollectionName { get; set; }
         public string BoardsCollectionName { get; set; }
-        public string WorkItemsCollectionName { get; set; }
+        public string TasksCollectionName { get; set; }
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
         public string UserName { get; set; }
@@ -21,7 +21,7 @@ namespace ProjectManagementService.Models
     {
         string ProjectsCollectionName { get; set; }
         string BoardsCollectionName { get; set; }
-        string WorkItemsCollectionName { get; set; }
+        string TasksCollectionName { get; set; }
         string ConnectionString { get; set; }
         string DatabaseName { get; set; }
         string UserName { get; set; }
