@@ -65,11 +65,15 @@ export class ProjectDetailsComponent implements OnInit {
 
   async onDeleted(board: Board) {
     (await this.projectService.deleteBoard(this.project.id, board.id))
-    .subscribe( () => {
+    .subscribe(async () => {
       this.getBoards();
       this.project.boardIds = this.project.boardIds.filter( (boardId: string) => boardId !== board.id );
-      this.snackBar.open(board.title + ' deleted', 'dismiss', {
-        duration: 2000
+      board.currentProjectId = null;
+      (await this.boardService.updateBoard(board))
+      .subscribe(() => {
+        this.snackBar.open(board.title + ' deleted', 'dismiss', {
+          duration: 2000
+        });
       });
     });
   }

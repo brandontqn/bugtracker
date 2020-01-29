@@ -117,17 +117,16 @@ export class BoardDetailsComponent implements OnInit {
 
   async onDeleted(task: Task) {
     (await this.boardService.deleteTask(this.board.id, task.id))
-    .subscribe( () => {
+    .subscribe(async () => {
       this.getTasks();
       this.board.itemIds = this.board.itemIds.filter((item: string) => item !== task.id);
-      this.snackBar.open(task.title + ' deleted', 'dismiss', {
-        duration: 2000
+      task.currentBoardId = null;
+      (await this.taskService.updateTask(task))
+      .subscribe(() => {
+        this.snackBar.open(task.title + ' deleted', 'dismiss', {
+          duration: 2000
+        });
       });
-    });
-
-    (await this.taskService.deleteTask(task.id))
-    .subscribe( () => {
-      this.tasks = this.tasks.filter((x: Task) => x.id !== task.id);
     });
   }
 
