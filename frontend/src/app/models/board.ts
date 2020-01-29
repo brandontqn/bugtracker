@@ -3,4 +3,6 @@ export class Board {
     title: string;
     description: string;
     itemIds: string[];
+    currentProjectId: string;
+    created: string;
 }

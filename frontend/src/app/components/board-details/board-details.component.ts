@@ -6,6 +6,9 @@ import { BoardService } from '../../services/board.service';
 import { TaskService } from 'src/app/services/task.service';
 import { Task } from 'src/app/models/task';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProjectService } from 'src/app/services/project.service';
+import { Project } from 'src/app/models/project';
+import { AllProjectsComponent } from '../all-projects/all-projects.component';
 
 @Component({
   selector: 'app-board-details',
@@ -18,9 +21,12 @@ export class BoardDetailsComponent implements OnInit {
   board: Board;
   panelOpenState = false;
   tasks: Task[];
+  availableProjects: Project[];
+  selectedProject: string;
 
   constructor(
     private route: ActivatedRoute,
+    private projectService: ProjectService,
     private boardService: BoardService,
     private taskService: TaskService,
     private location: Location,
@@ -30,6 +36,7 @@ export class BoardDetailsComponent implements OnInit {
   ngOnInit() {
     this.tasksTitle = 'Tasks';
     this.getBoard();
+    this.availableProjects = AllProjectsComponent.allProjects;
   }
 
   async getBoard() {
@@ -54,13 +61,34 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async save() {
-    (await this.boardService.updateBoard(this.board))
-    .subscribe( () => {
-      this.snackBar.open(this.board.title + ' saved', 'dismiss', {
-        duration: 2000
+    if (this.board.currentProjectId == null) {
+      (await this.projectService.addBoard(this.selectedProject, this.board.id))
+      .subscribe(async () => {
+        this.board.currentProjectId = this.selectedProject;
+        (await this.boardService.updateBoard(this.board))
+        .subscribe(() => {
+          this.snackBar.open(this.board.title + ' saved', 'dismiss', {
+            duration: 2000
+          });
+          this.goBack();
+        });
       });
-      this.goBack();
-    });
+    } else {
+      (await this.projectService.deleteBoard(this.board.currentProjectId, this.board.id))
+      .subscribe(async () => {
+        (await this.projectService.addBoard(this.selectedProject, this.board.id))
+        .subscribe(async () => {
+          this.board.currentProjectId = this.selectedProject;
+          (await this.boardService.updateBoard(this.board))
+          .subscribe(() => {
+            this.snackBar.open(this.board.title + ' saved', 'dismiss', {
+              duration: 2000
+            });
+            this.goBack();
+          });
+        });
+      });
+    }
   }
 
   async deleteBoard() {

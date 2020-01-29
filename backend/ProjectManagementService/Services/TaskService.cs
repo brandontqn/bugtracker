@@ -10,7 +10,7 @@ namespace ProjectManagementService.Services
 {
     public class TaskService
     {
-        private readonly IMongoCollection<Task> _workItems;
+        private readonly IMongoCollection<Task> _tasks;
 
         public TaskService(IDatabaseSettings settings)
         {
@@ -32,17 +32,17 @@ namespace ProjectManagementService.Services
             var client = new MongoClient(mongoSettings);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _workItems = database.GetCollection<Task>(settings.TasksCollectionName);
+            _tasks = database.GetCollection<Task>(settings.TasksCollectionName);
         }
 
         public List<Task> GetAll()
         {
-            return _workItems.Find(item => true).ToList();
+            return _tasks.Find(item => true).ToList();
         }
 
         public Task Get(string id)
         {
-            return _workItems.Find(item => item.id == id).FirstOrDefault();
+            return _tasks.Find(item => item.id == id).FirstOrDefault();
         }
 
         public Task Create(string title, string description, Time time, string boardId)
@@ -51,7 +51,7 @@ namespace ProjectManagementService.Services
 
             try
             {
-                _workItems.InsertOne(item);
+                _tasks.InsertOne(item);
             }
             catch (MongoWriteException e)
             {
@@ -61,17 +61,16 @@ namespace ProjectManagementService.Services
             return item;
         }
 
-        public Task Update(Task updatedItem)
+        public Task Update(Task updatedTask)
         {
-            _workItems.ReplaceOne(x => x.id == updatedItem.id, updatedItem);
-
-            return updatedItem;
+            _tasks.ReplaceOne(x => x.id == updatedTask.id, updatedTask);
+            return updatedTask;
         }
 
         public void Remove(string id) =>
-            _workItems.DeleteOne(item => item.id == id);
+            _tasks.DeleteOne(item => item.id == id);
 
         public void Remove() =>
-            _workItems.DeleteMany(item => true);
+            _tasks.DeleteMany(item => true);
     }
 }

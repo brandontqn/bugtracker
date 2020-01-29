@@ -42,7 +42,7 @@ export class TaskService {
 
   async updateTask(task: Task) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/' + task.id;
+    const url = this.currentEndpoint;
     return this.http.patch(url, task, { headers: httpOptions });
   }
 

@@ -58,16 +58,16 @@ namespace ProjectManagementService.Controllers
             return Ok(item);
         }
 
-        [HttpPatch("{id}")]
-        public IActionResult UpdateTask([FromRoute]string id, [FromBody]Task newItem)
+        [HttpPatch]
+        public IActionResult UpdateTask([FromBody]Task newTask)
         {
-            Task item = _taskService.Get(id);
+            Task item = _taskService.Get(newTask.id);
             if (item == null)
             {
                 return NotFound();
             }
 
-            return Ok(_taskService.Update(newItem));
+            return Ok(_taskService.Update(newTask));
         }
 
         [HttpDelete("{id}")]

@@ -44,9 +44,9 @@ namespace ProjectManagementService.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public IActionResult CreateBoard([FromBody]TitleDescription td)
+        public IActionResult CreateBoard([FromBody]TitleDescription titleDescription)
         {
-            Board item = _boardService.Create(td.title, td.description);
+            Board item = _boardService.Create(titleDescription.title, titleDescription.description, null);
             if (item.id == null)
             {
                 return BadRequest();
@@ -55,43 +55,15 @@ namespace ProjectManagementService.Controllers
             return Ok(item);
         }
 
-        [HttpPatch("{id}")]
-        public IActionResult UpdateBoard([FromRoute]string id, [FromBody]TitleDescription td)
+        [HttpPatch]
+        public IActionResult UpdateBoard([FromBody]Board updatedBoard)
         {
-            Board item = _boardService.Get(id);
+            Board item = _boardService.Get(updatedBoard.id);
             if(item == null)
             {
-                return NotFound(id);
+                return NotFound(updatedBoard.id);
             }
-
-            _boardService.UpdateTitle(id, td.title);
-
-            return Ok(_boardService.UpdateDescription(id, td.description));
-        }
-
-        // PUT api/<controller>/5
-        [HttpPatch("title/{id}")]
-        public IActionResult UpdateTitle([FromRoute]string id, [FromBody]Text body)
-        {
-            Board item = _boardService.Get(id);
-            if (item == null)
-            {
-                return NotFound(id);
-            }
-
-            return Ok(_boardService.UpdateTitle(id, body.text));
-        }
-
-        [HttpPatch("description/{id}")]
-        public IActionResult UpdateDescription([FromRoute]string id, [FromBody]Text body)
-        {
-            Board item = _boardService.Get(id);
-            if (item == null)
-            {
-                return NotFound(id);
-            }
-
-            return Ok(_boardService.UpdateDescription(id, body.text));
+            return Ok(_boardService.Update(updatedBoard));
         }
 
         [HttpPut("items/add/{id}")]

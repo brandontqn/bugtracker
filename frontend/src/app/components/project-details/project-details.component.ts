@@ -20,22 +20,22 @@ export class ProjectDetailsComponent implements OnInit {
   boards: Board[];
 
   constructor(
-    private _route: ActivatedRoute,
-    private _projectService: ProjectService,
-    private _boardService: BoardService,
-    private _location: Location,
-    private _snackBar: MatSnackBar
+    private route: ActivatedRoute,
+    private projectService: ProjectService,
+    private boardService: BoardService,
+    private location: Location,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
-    this.boardsTitle = "Boards";
+    this.boardsTitle = 'Boards';
     this.getProject();
   }
 
   async getProject() {
-    const id = this._route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
 
-    (await this._projectService.getProject(id))
+    (await this.projectService.getProject(id))
     .subscribe( (data: Project) => {
       this.project = data;
       this.getBoards();
@@ -43,20 +43,20 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   async getBoards() {
-    (await this._boardService.getBoards())
+    (await this.boardService.getBoards())
     .subscribe( (data: Board[]) =>
       this.boards = data.filter( (board: Board) => this.project.boardIds.includes(board.id))
     );
   }
 
   async onAdded(title: string) {
-    (await this._boardService.addBoard(title))
-    .subscribe( async (data: Board) => {
-      (await this._projectService.addBoard(this.project, data))
+    (await this.boardService.addBoard(title))
+    .subscribe( async (board: Board) => {
+      (await this.projectService.addBoard(this.project.id, board.id))
       .subscribe( () => {
         this.getBoards();
-        this.project.boardIds.push(data.id);
-        this._snackBar.open(title + " added", "dismiss", {
+        this.project.boardIds.push(board.id);
+        this.snackBar.open(title + ' added', 'dismiss', {
           duration: 2000
         });
       });
@@ -64,27 +64,27 @@ export class ProjectDetailsComponent implements OnInit {
   }
 
   async onDeleted(board: Board) {
-    (await this._projectService.deleteBoard(this.project, board))
+    (await this.projectService.deleteBoard(this.project.id, board.id))
     .subscribe( () => {
       this.getBoards();
       this.project.boardIds = this.project.boardIds.filter( (boardId: string) => boardId !== board.id );
-      this._snackBar.open(board.title + " deleted", "dismiss", {
+      this.snackBar.open(board.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });
   }
 
   async save() {
-    (await this._projectService.updateProject(this.project))
+    (await this.projectService.updateProject(this.project))
     .subscribe( () => {
-      this._snackBar.open(this.project.title + " saved", "dismiss", {
+      this.snackBar.open(this.project.title + ' saved', 'dismiss', {
         duration: 2000
       });
       this.goBack();
-    })
+    });
   }
 
   goBack(): void {
-    this._location.back();
+    this.location.back();
   }
 }

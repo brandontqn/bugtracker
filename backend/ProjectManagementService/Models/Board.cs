@@ -12,8 +12,6 @@ namespace ProjectManagementService.Models
         public string description { get; set; }
 
         public List<string> itemIds { get; set; }
-
-        public string created { get; set; }
     }
 
     public class Board : IBoard
@@ -34,12 +32,25 @@ namespace ProjectManagementService.Models
         [BsonElement("created")]
         public string created { get; set; }
 
-        public Board(string t, string d)
+        [BsonElement("currentProjectId")]
+        public string currentProjectId { get; set; }
+
+        public Board()
         {
-            title = t;
-            description = d;
+            title = "default_name";
+            description = "default_details";
             itemIds = new List<string>();
             created = DateTime.Now.ToString();
+            currentProjectId = null;
+        }
+
+        public Board(string title, string description, string? projectId)
+        {
+            this.title = title;
+            this.description = description;
+            itemIds = new List<string>();
+            created = DateTime.Now.ToString();
+            currentProjectId = projectId ?? null;
         }
     }
 }

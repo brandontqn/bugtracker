@@ -53,15 +53,15 @@ export class ProjectService {
     return this.http.post(url, { title: project.title, description: project.description }, { headers: httpOptions } );
   }
 
-  async addBoard(project: Project, board: Board) {
+  async addBoard(projectId: string, boardId: string) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/add/' + project.id + '/' + board.id;
+    const url = this.currentEndpoint + '/add/' + projectId + '/' + boardId;
     return this.http.post(url, '', { headers: httpOptions });
   }
 
-  async deleteBoard(project: Project, board: Board) {
+  async deleteBoard(projectId: string, boardId: string) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/delete/' + project.id + '/' + board.id;
+    const url = this.currentEndpoint + '/delete/' + projectId + '/' + boardId;
     return this.http.post(url, '', { headers: httpOptions });
   }
 }

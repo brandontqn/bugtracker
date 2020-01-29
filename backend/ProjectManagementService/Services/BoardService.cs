@@ -43,9 +43,9 @@ namespace ProjectManagementService.Services
             return _boards.Find(item => item.id == id).FirstOrDefault();
         }
 
-        public Board Create(string title, string description)
+        public Board Create(string title, string description, string projectId)
         {
-            Board item = new Board(title, description);
+            Board item = new Board(title, description, projectId);
 
             try
             {
@@ -59,24 +59,10 @@ namespace ProjectManagementService.Services
             return item;
         }
 
-        public Board UpdateTitle(string id, string title)
+        public Board Update(Board updatedBoard)
         {
-            Board item = _boards.Find(x => x.id == id).FirstOrDefault();
-
-            item.title = title;
-            _boards.ReplaceOne(x => x.id == item.id, item);
-
-            return item;
-        }
-
-        public Board UpdateDescription(string id, string description)
-        {
-            Board item = _boards.Find(x => x.id == id).FirstOrDefault();
-
-            item.description = description;
-            _boards.ReplaceOne(x => x.id == item.id, item);
-
-            return item;
+            _boards.ReplaceOne(x => x.id == updatedBoard.id, updatedBoard);
+            return updatedBoard;
         }
 
         public Board AddItem(string boardId, string itemId)

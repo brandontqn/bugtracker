@@ -41,7 +41,7 @@ export class BoardService {
 
   async updateBoard(board: Board) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/' + board.id;
+    const url = this.currentEndpoint;
     return this.http.patch(url, board, { headers: httpOptions });
   }
 
