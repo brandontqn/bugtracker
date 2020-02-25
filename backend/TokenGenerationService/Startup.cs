@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -9,6 +8,8 @@ using TokenGenerationService.Models;
 using TokenGenerationService.Services;
 
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 //using Okta.AspNetCore;
 
@@ -36,18 +37,13 @@ namespace TokenGenerationService
 
             services.AddSingleton<TokenService>();
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info {
-                    Title = "My Api",
-                    Version = "v1",
-                    Contact = new Contact()
-                    {
-                        Email = "brandon.nguyen@finning.com",
-                        Name = "Brandon Nguyen"
-                    }
-                });
-            });
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo {
+            //        Title = "My Api",
+            //        Version = "v1"
+            //    });
+            //});
 
             //services.AddAuthentication(options =>
             //{
@@ -59,21 +55,16 @@ namespace TokenGenerationService
             //    OktaDomain = Configuration.GetSection("Backend").GetSection("Okta").GetSection("Domain").Value
             //});
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseHsts();
             }
 
             app.UseCors(builder => builder
@@ -82,15 +73,14 @@ namespace TokenGenerationService
                 .AllowAnyHeader());
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "My API V1");
-            });
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint($"/swagger/v1/swagger.json", "My API V1");
+            //});
 
             //app.UseAuthentication();
 
             app.UseHttpsRedirection();
-            app.UseMvc();
 
             app.UseHealthChecks("/health");
         }

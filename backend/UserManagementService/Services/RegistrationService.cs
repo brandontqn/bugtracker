@@ -48,7 +48,7 @@ namespace UserManagementService.Services
             var content = new StringContent(JsonConvert.SerializeObject(""), Encoding.UTF8, "application/json");
             var response = await httpClient.PostAsync(uri, content);
 
-            return await response.Content.ReadAsAsync<TokenTime>();
+            return JsonConvert.DeserializeObject<TokenTime>(await response.Content.ReadAsStringAsync());
         }
 
         public async Task<EmailValidated> PatchAsync(string tokenString)
@@ -57,7 +57,7 @@ namespace UserManagementService.Services
             var uri = _backendTokenService + "/api/tokens/validate/" + tokenString;
             var response = await httpClient.PostAsync(uri, content);
 
-            return await response.Content.ReadAsAsync<EmailValidated>(); 
+            return JsonConvert.DeserializeObject<EmailValidated>(await response.Content.ReadAsStringAsync());
         }
 
         public void SendEmail(string email, string token) // save email and token for user creation, when user validates, create user with same email.
