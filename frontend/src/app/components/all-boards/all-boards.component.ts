@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Board } from '../../models/board';
 import { BoardService } from '../../services/board.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-all-boards',
   templateUrl: './all-boards.component.html',

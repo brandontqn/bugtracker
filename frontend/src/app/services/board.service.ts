@@ -36,7 +36,7 @@ export class BoardService {
 
   async addBoard(title: string) {
     const httpOptions = await this.getHeaders();
-    return this.http.post(this.currentEndpoint, { title: title, description: '' }, { headers: httpOptions } );
+    return this.http.post(this.currentEndpoint, { title, description: '' }, { headers: httpOptions } );
   }
 
   async updateBoard(board: Board) {

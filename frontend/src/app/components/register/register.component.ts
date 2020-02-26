@@ -9,14 +9,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class RegisterComponent implements OnInit {
 
-  constructor(private registerService: RegisterService, private _snackBar: MatSnackBar) { }
+  constructor(private registerService: RegisterService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
 
   async register(email: string) {
     (await this.registerService.sendActivationEmail(email))
-    .subscribe( () => this._snackBar.open("Email verification link sent to : " + email, "dismiss", { duration: 2000 }) );
+    .subscribe( () => this.snackBar.open('Email verification link sent to : ' + email, 'dismiss', { duration: 2000 }) );
   }
 
 }

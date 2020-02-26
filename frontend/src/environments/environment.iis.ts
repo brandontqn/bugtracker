@@ -5,8 +5,8 @@
 export const environment = {
     production: false,
     apiEndpoints: {
-        projectManagementService: "https://localhost:44359",
-        userManagementService: "https://localhost:44321"
+        projectManagementService: 'https://localhost:44359',
+        userManagementService: 'https://localhost:44321'
     }
 };
 

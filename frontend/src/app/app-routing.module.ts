@@ -1,18 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { OktaCallbackComponent, OktaAuthModule } from '@okta/okta-angular';
-import { LandingPageComponent } from './components/landing-page/landing-page.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AllTasksComponent } from './components/all-tasks/all-tasks.component';
-import { TaskDetailsComponent } from './components/task-detail/task-detail.component';
-import { AllBoardsComponent } from './components/all-boards/all-boards.component';
-import { BoardDetailsComponent } from './components/board-details/board-details.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ValidationComponent } from './components/validation/validation.component';
-import { environment } from 'src/environments/environment';
-import { ProjectListComponent } from './components/project-list/project-list.component';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { AllProjectsComponent } from './components/all-projects/all-projects.component';
 import { ProjectDetailsComponent } from './components/project-details/project-details.component';
+import { AllBoardsComponent } from './components/all-boards/all-boards.component';
+import { BoardDetailsComponent } from './components/board-details/board-details.component';
+import { AllTasksComponent } from './components/all-tasks/all-tasks.component';
+import { TaskDetailsComponent } from './components/task-detail/task-detail.component';
+import { environment } from 'src/environments/environment';
 
 const config = {
   issuer: environment.okta.issuer,

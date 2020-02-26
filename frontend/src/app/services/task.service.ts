@@ -49,7 +49,7 @@ export class TaskService {
   async createTask(title: string) {
     const httpOptions = await this.getHeaders();
     const time = { days: 3, hours: 0, minutes: 0, seconds: 0 };
-    const newTask = { title: title, description: '', time: time };
+    const newTask = { title, description: '', time };
     return this.http.post(this.currentEndpoint, newTask, { headers: httpOptions });
   }
 

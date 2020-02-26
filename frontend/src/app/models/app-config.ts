@@ -23,5 +23,5 @@ export interface IAppConfig {
             clientId: string;
             pkce: boolean;
         }
-    }
+    };
 }
