@@ -1,0 +1,29 @@
+<div>
+    <h2 style="margin:10px;">
+        {{title}}
+    </h2>
+    
+    <p style="display: block; width: 250px; margin:10px;">
+        <mat-form-field>
+            <input #tl matInput placeholder="Title">
+        </mat-form-field>
+        <mat-form-field>
+            <input #dc matInput placeholder="Description">
+        </mat-form-field>
+        <mat-form-field>
+            <input #tm matInput placeholder="Time Estimate">
+        </mat-form-field>
+        <mat-form-field>
+            <input #bi matInput placeholder="Parent Board">
+        </mat-form-field>
+        <mat-form-field>
+            <input #tg matInput placeholder="Tags">
+        </mat-form-field>
+        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, bi.value, th.value); tl.value = ''; dc.value = ''; tm.value = ''; bi.value = ''; tg.value = '';">ADD</button>
+    </p>
+    
+    <app-task-card *ngFor="let task of tasks"
+        [task]="task"
+        (deleted)="onDeleted($event)"
+        (completed)="onCompleted($event)"></app-task-card>
+</div>

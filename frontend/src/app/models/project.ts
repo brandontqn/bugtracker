@@ -3,4 +3,5 @@ export class Project {
     title: string;
     description: string;
     boardIds: string[];
+    createdAt: string;
 }

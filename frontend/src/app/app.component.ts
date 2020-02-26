@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { OktaAuthService } from '@okta/okta-angular';
 import { environment as development} from 'src/environments/environment.iis';
-// import { environment as staging } from 'src/environments/environment.docker';
-// import { environment as production} from 'src/environments/environment.k8s';
+import { environment as staging } from 'src/environments/environment.docker';
+import { environment as production} from 'src/environments/environment.k8s';
 
 @Component({
   selector: 'app-root',

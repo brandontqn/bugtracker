@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace ProjectManagementService.Models
 {
@@ -23,8 +24,8 @@ namespace ProjectManagementService.Models
         [BsonElement("description")]
         public string description { get; set; }
 
-        [BsonElement("created")]
-        public string created { get; set; }
+        [BsonElement("createdAt")]
+        public string createdAt { get; set; }
 
         [BsonElement("timeEstimate")]
         public Time timeEstimate { get; set; }
@@ -38,26 +39,31 @@ namespace ProjectManagementService.Models
         [BsonElement("completed")]
         public bool completed { get; set; }
 
+        [BsonElement("tags")]
+        public List<string> tags { get; set; }
+
         public Task()
         {
             title = "default_name";
             description = "default_details";
-            created = DateTime.Now.ToString();
+            createdAt = DateTime.Now.ToString();
             timeEstimate = new Time(1, 0, 0, 0);
             timeLogged = new Time();
             currentBoardId = null;
             completed = false;
+            tags = new List<string>();
         }
 
-        public Task(string title, string description, Time time, string? boardId)
+        public Task(string t, string d, Time time, string? boardId, List<string>? tagList)
         {
-            this.title = title;
-            this.description = description;
-            created = DateTime.Now.ToString();
+            title = t;
+            description = d;
+            createdAt = DateTime.Now.ToString();
             timeEstimate = time;
             timeLogged = new Time();
             currentBoardId = boardId ?? null;
             completed = false;
+            tags = tagList ?? new List<string>();
         }
     }
 

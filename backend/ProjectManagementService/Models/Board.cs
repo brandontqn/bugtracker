@@ -30,7 +30,7 @@ namespace ProjectManagementService.Models
         public List<string> itemIds { get; set; }
 
         [BsonElement("created")]
-        public string created { get; set; }
+        public string createdAt { get; set; }
 
         [BsonElement("currentProjectId")]
         public string currentProjectId { get; set; }
@@ -40,16 +40,16 @@ namespace ProjectManagementService.Models
             title = "default_name";
             description = "default_details";
             itemIds = new List<string>();
-            created = DateTime.Now.ToString();
+            createdAt = DateTime.Now.ToString();
             currentProjectId = null;
         }
 
-        public Board(string title, string description, string? projectId)
+        public Board(string t, string d, string? projectId)
         {
-            this.title = title;
-            this.description = description;
+            title = t;
+            description = d;
             itemIds = new List<string>();
-            created = DateTime.Now.ToString();
+            createdAt = DateTime.Now.ToString();
             currentProjectId = projectId ?? null;
         }
     }

@@ -12,7 +12,7 @@ namespace ProjectManagementService.Models
         public string title { get; set; }
         public string description { get; set; }
         public List<string> boardIds { get; set; }
-        public string created { get; set; }
+        public string createdAt { get; set; }
     }
 
     public class Project : IProject
@@ -31,14 +31,14 @@ namespace ProjectManagementService.Models
         public List<string> boardIds { get; set; }
 
         [BsonElement("created")]
-        public string created { get; set; }
+        public string createdAt { get; set; }
 
         public Project(string t, string d)
         {
             title = t;
             description = d;
             boardIds = new List<string>();
-            created = DateTime.Now.ToString();
+            createdAt = DateTime.Now.ToString();
         }
     }
 }

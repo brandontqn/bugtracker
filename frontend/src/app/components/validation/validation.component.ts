@@ -51,11 +51,6 @@ export class ValidationComponent implements OnInit {
   }
 
   async createAccount(firstName: string, lastName: string, password: string) {
-    // var fn = (<HTMLInputElement>document.getElementById(firstName)).value;
-    // var ln = (<HTMLInputElement>document.getElementById(lastName)).value;
-    // var pw = (<HTMLInputElement>document.getElementById(password)).value;
-
-    // (await this._registerService.createOktaAccountWithCredentials(fn, ln, this.email, this.email, pw))
     (await this.registerService.createOktaAccountWithCredentials(firstName, lastName, this.email, this.email, password))
     .subscribe( () => {
       this.validToken = false;

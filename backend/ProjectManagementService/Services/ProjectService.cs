@@ -34,16 +34,7 @@ namespace ProjectManagementService.Services
             _projects = database.GetCollection<Project>(settings.ProjectsCollectionName);
         }
 
-        public List<Project> GetAll()
-        {
-            return _projects.Find(item => true).ToList();
-        }
-
-        public Project Get(string id)
-        {
-            return _projects.Find(item => item.id == id).FirstOrDefault();
-        }
-
+        #region CREATE
         public Project Create(string title, string description)
         {
             Project item = new Project(title, description);
@@ -59,51 +50,34 @@ namespace ProjectManagementService.Services
 
             return item;
         }
+        #endregion
 
-        public Project UpdateTitle(string id, string title)
+        #region READ
+        public List<Project> GetAll()
         {
-            Project item = _projects.Find(x => x.id == id).FirstOrDefault();
-
-            item.title = title;
-            _projects.ReplaceOne(x => x.id == item.id, item);
-
-            return item;
+            return _projects.Find(item => true).ToList();
         }
 
-        public Project UpdateDescription(string id, string description)
+        public Project Get(string id)
         {
-            Project item = _projects.Find(x => x.id == id).FirstOrDefault();
-
-            item.description = description;
-            _projects.ReplaceOne(x => x.id == item.id, item);
-
-            return item;
+            return _projects.Find(item => item.id == id).FirstOrDefault();
         }
+        #endregion
 
-        public Project AddBoard(string projectId, string boardId)
+        #region UPDATE
+        public Project Update(Project updatedProject)
         {
-            Project project = _projects.Find(x => x.id == projectId).FirstOrDefault();
-
-            project.boardIds = project.boardIds.Append(boardId).ToList();
-            _projects.ReplaceOne(x => x.id == projectId, project);
-
-            return project;
+            _projects.ReplaceOne(x => x.id == updatedProject.id, updatedProject);
+            return updatedProject;
         }
+        #endregion
 
-        public Project DeleteBoard(string projectId, string boardId)
-        {
-            Project project = _projects.Find(x => x.id == projectId).FirstOrDefault();
-
-            project.boardIds = project.boardIds.Where(x => x != boardId).ToList();
-            _projects.ReplaceOne(x => x.id == projectId, project);
-
-            return project;
-        }
-
+        #region DELETE
         public void Remove(string id) =>
             _projects.DeleteOne(item => item.id == id);
 
         public void Remove() =>
             _projects.DeleteMany(item => true);
+        #endregion        
     }
 }

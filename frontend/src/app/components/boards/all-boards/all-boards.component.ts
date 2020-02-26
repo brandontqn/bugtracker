@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Board } from '../../models/board';
-import { BoardService } from '../../services/board.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BoardService } from '../../../services/board.service';
+import { Board } from '../../../models/board';
 
 @Component({
   selector: 'app-all-boards',
@@ -14,7 +14,9 @@ export class AllBoardsComponent implements OnInit {
   title: string;
   boards: Board[];
 
-  constructor( private boardService: BoardService, private snackBar: MatSnackBar ) { }
+  constructor(
+    private boardService: BoardService,
+    private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
     this.title = 'All Boards';
@@ -29,23 +31,24 @@ export class AllBoardsComponent implements OnInit {
     });
   }
 
-  async onAdded(title: string) {
-    (await this.boardService.addBoard(title))
+  async onAdded(board: any) {
+    (await this.boardService.createBoard(board.title, board.description, board.currentProjectId))
     .subscribe( (data: Board) => {
       this.boards.push(data);
       AllBoardsComponent.allBoards.push(data);
-      this.snackBar.open(title + ' added', 'dismiss', {
+      this.snackBar.open(board.title + ' added', 'dismiss', {
         duration: 2000
       });
     });
   }
 
-  async onDeleted(board: Board) {
-    (await this.boardService.deleteBoard(board.id))
+  async onDeleted(boardId: string) {
+    (await this.boardService.deleteBoard(boardId))
     .subscribe( () => {
-      this.boards = this.boards.filter( (x: Board) => x.id !== board.id);
-      AllBoardsComponent.allBoards = AllBoardsComponent.allBoards.filter( (x: Board) => x.id !== board.id);
-      this.snackBar.open(board.title + ' deleted', 'dismiss', {
+      const deletedBoard = this.boards.filter((x: Board) => x.id === boardId)[0];
+      this.boards = this.boards.filter((x: Board) => x.id !== boardId);
+      AllBoardsComponent.allBoards = AllBoardsComponent.allBoards.filter( (x: Board) => x.id !== boardId);
+      this.snackBar.open(deletedBoard.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });

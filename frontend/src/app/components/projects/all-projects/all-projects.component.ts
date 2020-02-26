@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Project } from 'src/app/models/project';
-import { ProjectService } from 'src/app/services/project.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProjectService } from '../../../services/project.service';
+import { Project } from '../../../models/project';
 
 @Component({
   selector: 'app-all-projects',
@@ -14,7 +14,9 @@ export class AllProjectsComponent implements OnInit {
   title: string;
   projects: Project[];
 
-  constructor( private projectService: ProjectService, private snackBar: MatSnackBar ) { }
+  constructor(
+    private projectService: ProjectService,
+    private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
     this.title = 'All Projects';
@@ -29,23 +31,24 @@ export class AllProjectsComponent implements OnInit {
     });
   }
 
-  async onAdded(title: string) {
-    (await this.projectService.addProject(title))
+  async onAdded(project: any) {
+    (await this.projectService.createProject(project.title, project.description))
     .subscribe( (data: Project) => {
       this.projects.push(data);
       AllProjectsComponent.allProjects.push(data);
-      this.snackBar.open(title + ' added', 'dismiss', {
+      this.snackBar.open(project.title + ' added', 'dismiss', {
         duration: 2000
       });
     });
   }
 
-  async onDeleted(project: Project) {
-    (await this.projectService.deleteProject(project.id))
+  async onDeleted(projectId: string) {
+    (await this.projectService.deleteProject(projectId))
     .subscribe( () => {
-      this.projects = this.projects.filter( (x: Project) => x.id !== project.id );
-      AllProjectsComponent.allProjects = AllProjectsComponent.allProjects.filter( (x: Project) => x.id !== project.id);
-      this.snackBar.open(project.title + ' deleted', 'dismiss', {
+      const deletedProject = this.projects.filter((x: Project) => x.id === projectId)[0];
+      this.projects = this.projects.filter((x: Project) => x.id !== projectId);
+      AllProjectsComponent.allProjects = AllProjectsComponent.allProjects.filter( (x: Project) => x.id !== projectId);
+      this.snackBar.open(deletedProject.title + ' deleted', 'dismiss', {
         duration: 2000
       });
     });

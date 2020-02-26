@@ -35,19 +35,10 @@ namespace ProjectManagementService.Services
             _tasks = database.GetCollection<Task>(settings.TasksCollectionName);
         }
 
-        public List<Task> GetAll()
+        #region CREATE
+        public Task Create(string title, string description, Time time, string boardId, List<string> tags)
         {
-            return _tasks.Find(item => true).ToList();
-        }
-
-        public Task Get(string id)
-        {
-            return _tasks.Find(item => item.id == id).FirstOrDefault();
-        }
-
-        public Task Create(string title, string description, Time time, string boardId)
-        {
-            Task item = new Task(title, description, time, boardId);
+            Task item = new Task(title, description, time, boardId, tags);
 
             try
             {
@@ -60,17 +51,34 @@ namespace ProjectManagementService.Services
 
             return item;
         }
+        #endregion
 
+        #region READ
+        public List<Task> GetAll()
+        {
+            return _tasks.Find(item => true).ToList();
+        }
+
+        public Task Get(string id)
+        {
+            return _tasks.Find(item => item.id == id).FirstOrDefault();
+        }
+        #endregion
+
+        #region UPDATE
         public Task Update(Task updatedTask)
         {
             _tasks.ReplaceOne(x => x.id == updatedTask.id, updatedTask);
             return updatedTask;
         }
+        #endregion
 
+        #region DELETE
         public void Remove(string id) =>
             _tasks.DeleteOne(item => item.id == id);
 
         public void Remove() =>
             _tasks.DeleteMany(item => true);
+        #endregion
     }
 }

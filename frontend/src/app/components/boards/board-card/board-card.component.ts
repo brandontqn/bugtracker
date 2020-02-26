@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Board } from 'src/app/models/board';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Board } from '../../../models/board';
 
 @Component({
   selector: 'app-board-card',
@@ -10,10 +10,10 @@ export class BoardCardComponent {
 
   @Input() board: Board;
 
-  @Output() deleted = new EventEmitter<Board>();
+  @Output() deleted = new EventEmitter<string>();
 
   delete() {
-    this.deleted.emit(this.board);
+    this.deleted.emit(this.board.id);
   }
 
 }

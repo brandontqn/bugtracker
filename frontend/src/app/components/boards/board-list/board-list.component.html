@@ -1,0 +1,22 @@
+<div>
+    <h2 style="margin:10px;">
+        {{title}}
+    </h2>
+
+    <p style="display: block; width: 250px; margin:10px;">
+        <mat-form-field>
+            <input #tl matInput placeholder="Title">
+        </mat-form-field>
+        <mat-form-field>
+            <input #dc matInput placeholder="Description">
+        </mat-form-field>
+        <mat-form-field>
+            <input #pi matInput placeholder="Parent Project">
+        </mat-form-field>
+        <button mat-button (click)="addBoard(tl.value, dc.value, pi.value); tl.value = ''; dc.value = ''; pi.value = '';">ADD</button>
+    </p>
+
+    <app-board-card *ngFor="let board of boards"
+        [board]="board"
+        (deleted)="deleteBoard($event)"></app-board-card>
+</div>

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Task } from 'src/app/models/task';
+import { Task } from '../../../models/task';
+import { Time } from '../../../models/time';
 
 @Component({
   selector: 'app-task-list',
@@ -11,20 +12,19 @@ export class TaskListComponent {
   @Input() title: string;
   @Input() tasks: Task[];
 
-  @Output() added = new EventEmitter<string>();
-  @Output() deleted = new EventEmitter<Task>();
+  @Output() added = new EventEmitter<any>();
+  @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();
 
-  addTask(title: string) {
-    this.added.emit(title);
+  addTask(title: string, description: string, time: Time, boardId: string, tags: string[]) {
+    this.added.emit({ title, description, time, boardId, tags });
   }
 
-  onDeleted(task: Task) {
-    this.deleted.emit(task);
+  onDeleted(taskId: string) {
+    this.deleted.emit(taskId);
   }
 
   onCompleted(task: Task) {
     this.completed.emit(task);
   }
-
 }

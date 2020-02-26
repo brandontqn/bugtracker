@@ -22,6 +22,15 @@ namespace ProjectManagementService.Controllers
             _projectService = projectService;
         }
 
+        #region CREATE
+        [HttpPost]
+        public IActionResult Create([FromBody]ProjectMessage project)
+        {
+            return Ok(_projectService.Create(project.title, project.description));
+        }
+        #endregion
+
+        #region READ
         [HttpGet]
         public IActionResult Get()
         {
@@ -38,127 +47,56 @@ namespace ProjectManagementService.Controllers
             return Ok(projects);
         }
 
-        [HttpGet]
-        [Route("details/{id}")]
+        [HttpGet("{id}")]
         public IActionResult Get([FromRoute]string id)
         {
             Project project = _projectService.Get(id);
 
-            if (project != null)
+            if (project == null)
             {
-                return Ok(project);
+                return NotFound(id);
             }
-            else
-            {
-                return NotFound();
-            }
+
+            return Ok(project);
         }
+        #endregion
 
-
-        [HttpPost]
-        [Route("new")]
-        //public IActionResult Create([FromBody]TitleDescription ts)
-        public IActionResult Create([FromBody]Text title)
+        #region UPDATE
+        [HttpPatch("{id}")]
+        public IActionResult UpdateProject([FromRoute]string id, [FromBody]Project updatedProject)
         {
-            return Ok(_projectService.Create(title.text, "default description"));
-        }
+            Project project = _projectService.Get(id);
 
-        [HttpPost]
-        [Route("delete/{projectId}")]
-        public IActionResult Delete([FromRoute]string projectId)
+            if (project == null)
+            {
+                return NotFound(id);
+            }
+
+            return Ok(_projectService.Update(updatedProject));
+        }
+        #endregion
+
+        #region DELETE
+        [HttpDelete("{id}")]
+        public IActionResult Delete([FromRoute]string id)
         {
-            Project project = _projectService.Get(projectId);
+            Project project = _projectService.Get(id);
 
-            if (project != null)
+            if (project == null)
             {
-                _projectService.Remove(projectId);
-                return Ok();
+                return NotFound(id);
             }
-            else
-            {
-                return NotFound();
-            }
+
+            _projectService.Remove(id);
+            return Ok(id);
         }
 
-        [HttpPost]
-        [Route("add/{projectId}/{boardId}")]
-        public IActionResult AddBoard([FromRoute]string projectId, [FromRoute]string boardId)
+        [HttpDelete]
+        public IActionResult DeleteAll()
         {
-            Project project = _projectService.Get(projectId);
-
-            if (project != null)
-            {
-                return Ok(_projectService.AddBoard(projectId, boardId));
-            }
-            else
-            {
-                return NotFound();
-            }
+            _projectService.Remove();
+            return Ok();
         }
-
-        [HttpPost]
-        [Route("delete/{projectId}/{boardId}")]
-        public IActionResult DeleteBoard([FromRoute]string projectId, [FromRoute]string boardId)
-        {
-            Project project = _projectService.Get(projectId);
-
-            if (project != null)
-            {
-                return Ok(_projectService.DeleteBoard(projectId, boardId));
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpPost]
-        [Route("update/{projectId}")]
-        public IActionResult UpdateProject([FromRoute]string projectId, [FromBody]TitleDescription ts)
-        {
-            Project project = _projectService.Get(projectId);
-
-            if (project != null)
-            {
-                _projectService.UpdateTitle(projectId, ts.title);
-                return Ok(_projectService.UpdateDescription(projectId, ts.description));
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpPost]
-        [Route("title/{projectId}")]
-        public IActionResult UpdateTitle([FromRoute]string projectId, [FromBody]Text projectTitle)
-        {
-            Project project = _projectService.Get(projectId);
-
-            if (project != null)
-            {
-                return Ok(_projectService.UpdateTitle(projectId, projectTitle.text));
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpPost]
-        [Route("description/{projectId}")]
-        public IActionResult UpdateDescription([FromRoute]string projectId, [FromBody]Text projectDescription)
-        {
-            Project project = _projectService.Get(projectId);
-
-            if (project != null)
-            {
-                return Ok(_projectService.UpdateDescription(projectId, projectDescription.text));
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
+        #endregion
     }
 }

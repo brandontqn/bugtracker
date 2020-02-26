@@ -5,9 +5,12 @@
 
     <p style="display: block; width: 250px; margin:10px;">
         <mat-form-field>
-            <input #newProject matInput placeholder="New Project">
+            <input #tl matInput placeholder="Title">
         </mat-form-field>
-        <button mat-button (click)="addProject(newProject.value); newProject.value = '';">ADD</button>
+        <mat-form-field>
+            <input #dc matInput placeholder="Description">
+        </mat-form-field>
+        <button mat-button (click)="addProject(tl.value, dc.value); tl.value = ''; dc.value = ''">ADD</button>
     </p>
 
     <app-project-card *ngFor="let project of projects"

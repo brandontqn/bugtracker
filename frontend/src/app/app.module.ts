@@ -19,18 +19,18 @@ import { ValidationComponent } from './components/validation/validation.componen
 import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { AllProjectsComponent } from './components/all-projects/all-projects.component';
-import { ProjectListComponent } from './components/project-list/project-list.component';
-import { ProjectCardComponent } from './components/project-card/project-card.component';
-import { ProjectDetailsComponent } from './components/project-details/project-details.component';
-import { AllBoardsComponent } from './components/all-boards/all-boards.component';
-import { BoardDetailsComponent } from './components/board-details/board-details.component';
-import { BoardListComponent } from './components/board-list/board-list.component';
-import { BoardCardComponent } from './components/board-card/board-card.component';
-import { AllTasksComponent } from './components/all-tasks/all-tasks.component';
-import { TaskListComponent } from './components/task-list/task-list.component';
-import { TaskCardComponent } from './components/task-card/task-card.component';
-import { TaskDetailsComponent } from './components/task-detail/task-detail.component';
+import { AllProjectsComponent } from './components/projects/all-projects/all-projects.component';
+import { ProjectListComponent } from './components/projects/project-list/project-list.component';
+import { ProjectCardComponent } from './components/projects/project-card/project-card.component';
+import { ProjectDetailsComponent } from './components/projects/project-details/project-details.component';
+import { AllBoardsComponent } from './components/boards/all-boards/all-boards.component';
+import { BoardDetailsComponent } from './components/boards/board-details/board-details.component';
+import { BoardListComponent } from './components/boards/board-list/board-list.component';
+import { BoardCardComponent } from './components/boards/board-card/board-card.component';
+import { AllTasksComponent } from './components/tasks/all-tasks/all-tasks.component';
+import { TaskListComponent } from './components/tasks/task-list/task-list.component';
+import { TaskCardComponent } from './components/tasks/task-card/task-card.component';
+import { TaskDetailsComponent } from './components/tasks/task-detail/task-detail.component';
 
 @NgModule({
   declarations: [

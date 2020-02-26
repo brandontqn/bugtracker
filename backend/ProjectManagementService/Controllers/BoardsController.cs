@@ -22,7 +22,22 @@ namespace ProjectManagementService.Controllers
             _boardService = service;
         }
 
-        // GET: api/<controller>
+        #region CREATE
+        [HttpPost]
+        public IActionResult CreateBoard([FromBody]BoardMessage board)
+        {
+            Board item = _boardService.Create(board.title, board.description, board.projectId);
+
+            if (item.id == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(item);
+        }
+        #endregion
+
+        #region READ
         [HttpGet]
         public IEnumerable<Board> GetAll()
         {
@@ -34,6 +49,7 @@ namespace ProjectManagementService.Controllers
         public IActionResult GetOne([FromRoute]string id)
         {
             Board item = _boardService.Get(id);
+
             if (item == null)
             {
                 return NotFound(id);
@@ -41,74 +57,44 @@ namespace ProjectManagementService.Controllers
 
             return Ok(item);
         }
+        #endregion
 
-        // POST api/<controller>
-        [HttpPost]
-        public IActionResult CreateBoard([FromBody]TitleDescription titleDescription)
+        #region UPDATE
+        [HttpPatch("{id}")]
+        public IActionResult UpdateBoard([FromRoute]string id, [FromBody]Board updatedBoard)
         {
-            Board item = _boardService.Create(titleDescription.title, titleDescription.description, null);
-            if (item.id == null)
+            Board item = _boardService.Get(id);
+
+            if (item == null)
             {
-                return BadRequest();
+                return NotFound(id);
             }
 
-            return Ok(item);
-        }
-
-        [HttpPatch]
-        public IActionResult UpdateBoard([FromBody]Board updatedBoard)
-        {
-            Board item = _boardService.Get(updatedBoard.id);
-            if(item == null)
-            {
-                return NotFound(updatedBoard.id);
-            }
             return Ok(_boardService.Update(updatedBoard));
         }
+        #endregion
 
-        [HttpPut("items/add/{id}")]
-        public IActionResult AddItem([FromRoute]string id, [FromBody]Text body)
-        {
-            Board item = _boardService.Get(id);
-            if (item == null || item.itemIds.Contains(body.text))
-            {
-                return NotFound(id);
-            }
-
-            return Ok(_boardService.AddItem(id, body.text));
-        }
-
-        [HttpPut("items/delete/{id}")]
-        public IActionResult DeleteItem([FromRoute]string id, [FromBody]Text body)
-        {
-            Board item = _boardService.Get(id);
-            if (item == null || !item.itemIds.Contains(body.text))
-            {
-                return NotFound(id);
-            }
-
-            return Ok(_boardService.DeleteItem(id, body.text));
-        }
-
+        #region DELETE
         [HttpDelete("{id}")]
         public IActionResult DeleteOne([FromRoute]string id)
         {
             Board item = _boardService.Get(id);
+
             if (item == null)
             {
                 return NotFound(id);
             }
 
             _boardService.Remove(id);
-            return Ok();
+            return Ok(id);
         }
 
-        // DELETE api/<controller>/5
         [HttpDelete]
         public IActionResult DeleteAll()
         {
             _boardService.Remove();
             return Ok();
         }
+        #endregion
     }
 }

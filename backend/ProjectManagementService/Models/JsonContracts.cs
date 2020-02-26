@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace ProjectManagementService.Models
 {
     public class Text
@@ -6,17 +8,32 @@ namespace ProjectManagementService.Models
         public string text { get; set; }
     }
 
-    public class TitleDescriptionTime
+    public class Tags
+    {
+        public List<string> tags { get; set; }
+    }
+
+    public class TaskMessage
     {
         public string title { get; set; }
         public string description { get; set; }
         public Time time { get; set; }
+        public string boardId { get; set; }
+        public List<string> tags { get; set; }
     }
 
-    public class TitleDescription
+    public class BoardMessage
     {
         public string title { get; set; }
         public string description { get; set; }
+        public string projectId { get; set; }
+    }
+
+    public class ProjectMessage
+    {
+        public string title { get; set; }
+        public string description { get; set; }
+        public List<string> boardIds { get; set; }
     }
 
     public class Time

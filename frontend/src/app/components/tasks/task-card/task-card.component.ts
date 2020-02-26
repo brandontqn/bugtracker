@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Task } from 'src/app/models/task';
+import { Task } from '../../../models/task';
 
 @Component({
   selector: 'app-task-card',
@@ -7,16 +7,13 @@ import { Task } from 'src/app/models/task';
   styleUrls: ['./task-card.component.scss']
 })
 export class TaskCardComponent {
-
-  // isCompleted = false;
-
   @Input() task: Task;
 
-  @Output() deleted = new EventEmitter<Task>();
+  @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();
 
   delete() {
-    this.deleted.emit(this.task);
+    this.deleted.emit(this.task.id);
   }
 
   complete() {

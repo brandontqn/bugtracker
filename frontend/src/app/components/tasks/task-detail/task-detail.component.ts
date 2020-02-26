@@ -1,14 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Task } from '../../models/task';
-import { TaskService } from '../../services/task.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Time } from 'src/app/models/time';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { Board } from 'src/app/models/board';
-import { AllBoardsComponent } from '../all-boards/all-boards.component';
-import { BoardService } from 'src/app/services/board.service';
+import { BoardService } from '../../../services/board.service';
+import { TaskService } from '../../../services/task.service';
+import { AllBoardsComponent } from '../../boards/all-boards/all-boards.component';
+import { Board } from '../../../models/board';
+import { Task } from '../../../models/task';
+import { Time } from '../../../models/time';
 
 @Component({
   selector: 'app-task-detail',
@@ -60,39 +59,24 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async save() {
-    if (this.task.currentBoardId == null) {
-      (await this.boardService.addTask(this.selectedBoard, this.task.id))
-      .subscribe(async () => {
-        this.task.currentBoardId = this.selectedBoard;
-        (await this.taskService.updateTask(this.task))
-        .subscribe(() => {
-          this.snackBar.open(this.task.title + ' saved', 'dismiss', {
-            duration: 2000
-          });
-          this.goBack();
-        });
-      });
-    } else {
-      (await this.boardService.deleteTask(this.task.currentBoardId, this.task.id))
-      .subscribe(async () => {
-        (await this.boardService.addTask(this.selectedBoard, this.task.id))
-        .subscribe(async () => {
-          this.task.currentBoardId = this.selectedBoard;
-          (await this.taskService.updateTask(this.task))
-          .subscribe(() => {
-            this.snackBar.open(this.task.title + ' saved', 'dismiss', {
-              duration: 2000
-            });
-            this.goBack();
-          });
-        });
-      });
-    }
+    (await this.boardService.getBoard(this.selectedBoard))
+    .subscribe(async (board: Board) => {
+      board.itemIds.push(this.task.id);
+      (await this.boardService.updateBoard(board));
+    });
+
+    this.task.currentBoardId = this.selectedBoard;
+    (await this.taskService.updateTask(this.task));
+
+    this.snackBar.open(this.task.title + ' saved', 'dismiss', {
+      duration: 2000
+    });
+    this.goBack();
   }
 
-  async add(days: number, hours: number, minutes: number, seconds: number) {
-    const t = new Time(+days, +hours, +minutes, +seconds);
-    this.task.timeLogged = Time.add(this.task.timeLogged, t);
+  async logTime(days: number, hours: number, minutes: number, seconds: number) {
+    const time = new Time(+days, +hours, +minutes, +seconds);
+    this.task.timeLogged = Time.add(this.task.timeLogged, time);
     (await this.taskService.updateTask(this.task))
       .subscribe(() => {
         this.snackBar.open(this.task.title + ': time added.', 'dismiss', {

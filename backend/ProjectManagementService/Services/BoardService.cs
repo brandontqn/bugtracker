@@ -33,16 +33,7 @@ namespace ProjectManagementService.Services
             _boards = database.GetCollection<Board>(settings.BoardsCollectionName);
         }
 
-        public List<Board> GetAll()
-        {
-            return _boards.Find(item => true).ToList();
-        }
-
-        public Board Get(string id)
-        {
-            return _boards.Find(item => item.id == id).FirstOrDefault();
-        }
-
+        #region CREATE
         public Board Create(string title, string description, string projectId)
         {
             Board item = new Board(title, description, projectId);
@@ -58,37 +49,35 @@ namespace ProjectManagementService.Services
 
             return item;
         }
+        #endregion
 
+        #region READ
+        public List<Board> GetAll()
+        {
+            return _boards.Find(item => true).ToList();
+        }
+
+        public Board Get(string id)
+        {
+            return _boards.Find(item => item.id == id).FirstOrDefault();
+        }
+        #endregion
+
+        #region UPDATE
         public Board Update(Board updatedBoard)
         {
             _boards.ReplaceOne(x => x.id == updatedBoard.id, updatedBoard);
             return updatedBoard;
         }
 
-        public Board AddItem(string boardId, string itemId)
-        {
-            Board board = _boards.Find(x => x.id == boardId).FirstOrDefault();
+        #endregion
 
-            board.itemIds = board.itemIds.Append(itemId).ToList();
-            _boards.ReplaceOne(x => x.id == boardId, board);
-
-            return board;
-        }
-
-        public Board DeleteItem(string boardId, string itemId)
-        {
-            Board board = _boards.Find(x => x.id == boardId).FirstOrDefault();
-
-            board.itemIds = board.itemIds.Where(x => x != itemId).ToList();
-            _boards.ReplaceOne(x => x.id == boardId, board);
-
-            return board;
-        }
-
+        #region DELETE
         public void Remove(string id) =>
             _boards.DeleteOne(item => item.id == id);
 
         public void Remove() =>
             _boards.DeleteMany(item => true);
+        #endregion
     }
 }

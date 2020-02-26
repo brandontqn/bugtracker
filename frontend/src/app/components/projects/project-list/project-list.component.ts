@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Project } from 'src/app/models/project';
+import { Project } from '../../../models/project';
 
 @Component({
   selector: 'app-project-list',
@@ -11,15 +11,15 @@ export class ProjectListComponent {
   @Input() title: string;
   @Input() projects: Project[];
 
-  @Output() added = new EventEmitter<string>();
-  @Output() deleted = new EventEmitter<Project>();
+  @Output() added = new EventEmitter();
+  @Output() deleted = new EventEmitter<string>();
 
 
-  addProject(title: string) {
-    this.added.emit(title);
+  addProject(title: string, description: string) {
+    this.added.emit({ title, description });
   }
 
-  deleteProject(project: Project) {
-    this.deleted.emit(project);
+  deleteProject(projectId: string) {
+    this.deleted.emit(projectId);
   }
 }

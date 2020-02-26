@@ -9,11 +9,9 @@ import { AppComponent } from 'src/app/app.component';
 })
 export class BoardService {
 
-  constructor(private oktaAuth: OktaAuthService, private http: HttpClient) {
-    console.log( 'Hello from BoardService!' );
-  }
+  constructor(private oktaAuth: OktaAuthService, private http: HttpClient) { }
 
-  protected currentEndpoint = AppComponent.env.apiEndpoints.projectManagementService + '/api/boards';
+  protected currentEndpoint = AppComponent.env.apiEndpoints.projectManagementService + '/api/boards/';
 
   async getHeaders() {
     const accessToken = await this.oktaAuth.getAccessToken();
@@ -23,6 +21,13 @@ export class BoardService {
     };
   }
 
+  // CREATE
+  async createBoard(title: string, description: string, currentProjectId: string) {
+    const httpOptions = await this.getHeaders();
+    return this.http.post(this.currentEndpoint, { title, description, currentProjectId }, { headers: httpOptions } );
+  }
+
+  // READ
   async getBoards() {
     const httpOptions = await this.getHeaders();
     return this.http.get<Board[]>( this.currentEndpoint, { headers: httpOptions });
@@ -30,36 +35,20 @@ export class BoardService {
 
   async getBoard(id: string) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/' + id;
+    const url = this.currentEndpoint + id;
     return this.http.get<Board>( url, { headers: httpOptions });
   }
 
-  async addBoard(title: string) {
-    const httpOptions = await this.getHeaders();
-    return this.http.post(this.currentEndpoint, { title, description: '' }, { headers: httpOptions } );
-  }
-
+  // UPDATE
   async updateBoard(board: Board) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint;
-    return this.http.patch(url, board, { headers: httpOptions });
+    return this.http.patch(this.currentEndpoint, board, { headers: httpOptions });
   }
 
-  async addTask(boardId: string, itemId: string) {
-    const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/items/add/' + boardId;
-    return this.http.put(url, { text: itemId }, { headers: httpOptions });
-  }
-
+  // DELETE
   async deleteBoard(id: string) {
     const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/' + id;
+    const url = this.currentEndpoint + id;
     return this.http.delete(url, { headers: httpOptions });
-  }
-
-  async deleteTask(boardId: string, itemId: string) {
-    const httpOptions = await this.getHeaders();
-    const url = this.currentEndpoint + '/items/delete/' + boardId;
-    return this.http.put(url, { text: itemId }, { headers: httpOptions });
   }
 }

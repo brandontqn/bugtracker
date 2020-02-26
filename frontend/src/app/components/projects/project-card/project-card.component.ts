@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Project } from 'src/app/models/project';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Project } from '../../../models/project';
 
 @Component({
   selector: 'app-project-card',
@@ -10,9 +10,9 @@ export class ProjectCardComponent {
 
   @Input() project: Project;
 
-  @Output() deleted = new EventEmitter<Project>();
+  @Output() deleted = new EventEmitter<string>();
 
   delete() {
-    this.deleted.emit(this.project);
+    this.deleted.emit(this.project.id);
   }
 }

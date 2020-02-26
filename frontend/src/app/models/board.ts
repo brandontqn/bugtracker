@@ -4,5 +4,5 @@ export class Board {
     description: string;
     itemIds: string[];
     currentProjectId: string;
-    created: string;
+    createdAt: string;
 }

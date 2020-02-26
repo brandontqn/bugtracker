@@ -27,6 +27,22 @@ namespace ProjectManagementService.Controllers
             _taskService = service;
         }
 
+        #region CREATE
+        [HttpPost]
+        public IActionResult CreateTask([FromBody]TaskMessage task)
+        {
+            Task item = _taskService.Create(task.title, task.description, task.time, task.boardId, task.tags);
+
+            if (item.id == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(item);
+        }
+        #endregion
+
+        #region READ
         [HttpGet]
         public IEnumerable<Task> GetAll()
         {
@@ -45,42 +61,41 @@ namespace ProjectManagementService.Controllers
             return Ok(item);
         }
 
-        [HttpPost]
-        public IActionResult CreateTask([FromBody]TitleDescriptionTime titleDescriptionTime)
+        [HttpGet("/filter/tags")]
+        public IEnumerable<Task> GetSome([FromBody]Tags tags)
         {
-            Task item = _taskService.Create(titleDescriptionTime.title, titleDescriptionTime.description, titleDescriptionTime.time, null); // boordId null to start...
-
-            if (item.id == null)
-            {
-                return BadRequest();
-            }
-
-            return Ok(item);
+            return _taskService.GetAll().Where(task => tags.tags.All(tag => task.tags.Contains(tag)));
         }
+        #endregion
 
+        #region UPDATE
         [HttpPatch]
-        public IActionResult UpdateTask([FromBody]Task newTask)
+        public IActionResult UpdateTask([FromBody]Task updatedTask)
         {
-            Task item = _taskService.Get(newTask.id);
+            Task item = _taskService.Get(updatedTask.id);
+
             if (item == null)
             {
                 return NotFound();
             }
 
-            return Ok(_taskService.Update(newTask));
+            return Ok(_taskService.Update(updatedTask));
         }
+        #endregion
 
+        #region DELETE
         [HttpDelete("{id}")]
         public IActionResult DeleteOne([FromRoute]string id)
         {
             Task item = _taskService.Get(id);
+
             if (item == null)
             {
                 return NotFound(id);
             }
 
             _taskService.Remove(id);
-            return Ok();
+            return Ok(id);
         }
 
         [HttpDelete]
@@ -89,5 +104,6 @@ namespace ProjectManagementService.Controllers
             _taskService.Remove();
             return Ok();
         }
+        #endregion
     }
 }
