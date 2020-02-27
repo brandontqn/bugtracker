@@ -14,12 +14,11 @@ export class BoardListComponent {
   @Output() added = new EventEmitter();
   @Output() deleted = new EventEmitter<string>();
 
-  addBoard(title: string, description: string, currentProjectId: string) {
-    this.added.emit({ title, description, currentProjectId });
+  addBoard(title: string, description: string) {
+    this.added.emit({ title, description });
   }
 
   deleteBoard(boardId: string) {
-    console.log('board-list:board = ', boardId);
     this.deleted.emit(boardId);
   }
 }

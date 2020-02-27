@@ -10,13 +10,11 @@
         <mat-form-field>
             <input #dc matInput placeholder="Description">
         </mat-form-field>
-        <mat-form-field>
-            <input #pi matInput placeholder="Parent Project">
-        </mat-form-field>
-        <button mat-button (click)="addBoard(tl.value, dc.value, pi.value); tl.value = ''; dc.value = ''; pi.value = '';">ADD</button>
+        <button mat-button (click)="addBoard(tl.value, dc.value); tl.value = ''; dc.value = '';">ADD</button>
     </p>
 
     <app-board-card *ngFor="let board of boards"
         [board]="board"
+        [parentProjectId]="board.currentProjectId"
         (deleted)="deleteBoard($event)"></app-board-card>
 </div>

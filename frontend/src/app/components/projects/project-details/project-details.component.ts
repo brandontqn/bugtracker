@@ -49,14 +49,10 @@ export class ProjectDetailsComponent implements OnInit {
     });
   }
 
-  async onAdded(board: { title: string, description: string, currentProjectId: string }) {
-    console.log('this.project: ', this.project);
-    console.log('board: ', board);
+  async onAdded(board: { title: string, description: string }) {
     (await this.boardService.createBoard(board.title, board.description, this.project.id))
     .subscribe(async (newBoard: Board) => {
-      console.log('newBoard: ', newBoard);
       this.project.boardIds.push(newBoard.id);
-      console.log('newProject: ', this.project);
       (await this.projectService.updateProject(this.project))
       .subscribe(() => {
         this.snackBar.open(board + ' added', 'dismiss', {
