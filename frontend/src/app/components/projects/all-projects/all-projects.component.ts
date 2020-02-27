@@ -10,7 +10,6 @@ import { Project } from '../../../models/project';
 })
 export class AllProjectsComponent implements OnInit {
 
-  public static allProjects: Project[];
   title: string;
   projects: Project[];
 
@@ -27,7 +26,6 @@ export class AllProjectsComponent implements OnInit {
     (await this.projectService.getProjects())
     .subscribe((projects: Project[]) => {
       this.projects = projects;
-      AllProjectsComponent.allProjects = this.projects;
     });
   }
 
@@ -35,7 +33,6 @@ export class AllProjectsComponent implements OnInit {
     (await this.projectService.createProject(project.title, project.description))
     .subscribe( (data: Project) => {
       this.projects.push(data);
-      AllProjectsComponent.allProjects.push(data);
       this.snackBar.open(project.title + ' added', 'dismiss', {
         duration: 2000
       });
@@ -47,7 +44,6 @@ export class AllProjectsComponent implements OnInit {
     .subscribe(() => {
       const deletedProject = this.projects.filter((x: Project) => x.id === projectId)[0];
       this.projects = this.projects.filter((x: Project) => x.id !== projectId);
-      AllProjectsComponent.allProjects = this.projects;
       this.snackBar.open(deletedProject.title + ' deleted', 'dismiss', {
         duration: 2000
       });

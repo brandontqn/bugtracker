@@ -24,6 +24,7 @@ export class BoardService {
   // CREATE
   async createBoard(title: string, description: string, currentProjectId: string) {
     const httpOptions = await this.getHeaders();
+    console.log('board.service currentProjectId: ', currentProjectId);
     return this.http.post(this.currentEndpoint, { title, description, currentProjectId }, { headers: httpOptions } );
   }
 

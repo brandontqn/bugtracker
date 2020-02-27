@@ -36,24 +36,30 @@ export class BoardDetailsComponent implements OnInit {
   ngOnInit() {
     this.tasksTitle = 'Tasks';
     this.getBoard();
-    this.availableProjects = AllProjectsComponent.allProjects;
   }
 
   async getBoard() {
     const id = this.route.snapshot.paramMap.get('id');
-
     (await this.boardService.getBoard(id))
-    .subscribe( (data: Board) => {
-      this.board = data;
+    .subscribe(async (board: Board) => {
+      this.board = board;
       this.getTasks();
     });
   }
 
   async getTasks() {
     (await this.taskService.getTasks())
-    .subscribe( (data: Task[]) =>
-      this.tasks = data.filter((task: Task) => this.board.itemIds.includes(task.id))
-    );
+    .subscribe((tasks: Task[]) => {
+      this.tasks = tasks.filter((task: Task) => this.board.itemIds.includes(task.id));
+      this.getProjects();
+    });
+  }
+
+  async getProjects() {
+    (await this.projectService.getProjects())
+    .subscribe((projects: Project[]) => {
+      this.availableProjects = projects.filter((project: Project) => project.id !== this.board.currentProjectId);
+    });
   }
 
   goBack(): void {
@@ -61,29 +67,44 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async save() {
+    this.updateProjects();
+  }
+
+  async updateProjects() {
+    this.removeBoardFromCurrentProject();
+  }
+
+  async removeBoardFromCurrentProject() {
     // remove board from current project
     (await this.projectService.getProject(this.board.currentProjectId))
     .subscribe(async (currentProject: Project) => {
       currentProject.boardIds = currentProject.boardIds.filter((id: string) => id !== this.board.id);
       (await this.projectService.updateProject(currentProject))
       .subscribe(async () => {
-        // add board to new project
-        (await this.projectService.getProject(this.selectedProject))
-        .subscribe(async (newProject: Project) => {
-          newProject.boardIds.push(this.board.id);
-          (await this.projectService.updateProject(newProject))
-          .subscribe(async () => {
-            // update boards 'current project'
-            (await this.boardService.updateBoard(this.board))
-            .subscribe(() => {
-              this.snackBar.open(this.board.title + ' saved', 'dismiss', {
-                duration: 2000
-              });
-              this.goBack();
-            });
-          });
-        });
+        this.addBoardToNewProject();
       });
+    });
+  }
+
+  async addBoardToNewProject() {
+    // add board to new project
+    (await this.projectService.getProject(this.selectedProject))
+    .subscribe(async (newProject: Project) => {
+      newProject.boardIds.push(this.board.id);
+      (await this.projectService.updateProject(newProject))
+      .subscribe(async () => {
+        this.updateBoard();
+      });
+    });
+  }
+
+  async updateBoard() {
+    (await this.boardService.updateBoard(this.board))
+    .subscribe(() => {
+      this.snackBar.open(this.board.title + ' saved', 'dismiss', {
+        duration: 2000
+      });
+      this.goBack();
     });
   }
 
@@ -102,10 +123,14 @@ export class BoardDetailsComponent implements OnInit {
     .subscribe( async (newTask: Task) => {
       this.board.itemIds.push(newTask.id);
       (await this.boardService.updateBoard(this.board))
-      .subscribe(() => {
-        this.getTasks();
-        this.snackBar.open(task + ' added', 'dismiss', {
-          duration: 2000
+      .subscribe(async () => {
+        (await this.taskService.getTasks())
+        .subscribe( (tasks: Task[]) => {
+          // tslint:disable-next-line: no-shadowed-variable
+          this.tasks = tasks.filter((task: Task) => this.board.itemIds.includes(task.id));
+          this.snackBar.open(task + ' added', 'dismiss', {
+            duration: 2000
+          });
         });
       });
     });

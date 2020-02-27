@@ -36,8 +36,8 @@ export class ProjectDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     (await this.projectService.getProject(id))
-    .subscribe((data: Project) => {
-      this.project = data;
+    .subscribe((project: Project) => {
+      this.project = project;
       this.getBoards();
     });
   }
@@ -46,15 +46,17 @@ export class ProjectDetailsComponent implements OnInit {
     (await this.boardService.getBoards())
     .subscribe((boards: Board[]) => {
       this.boards = boards.filter((board: Board) => this.project.boardIds.includes(board.id));
-      console.log('this.boards: ', this.boards);
-      console.log('boards: ', boards);
     });
   }
 
-  async onAdded(board: any) {
+  async onAdded(board: { title: string, description: string, currentProjectId: string }) {
+    console.log('this.project: ', this.project);
+    console.log('board: ', board);
     (await this.boardService.createBoard(board.title, board.description, this.project.id))
     .subscribe(async (newBoard: Board) => {
+      console.log('newBoard: ', newBoard);
       this.project.boardIds.push(newBoard.id);
+      console.log('newProject: ', this.project);
       (await this.projectService.updateProject(this.project))
       .subscribe(() => {
         this.snackBar.open(board + ' added', 'dismiss', {
@@ -70,7 +72,7 @@ export class ProjectDetailsComponent implements OnInit {
       const deletedBoard = this.boards.filter((x: Board) => x.id === boardId)[0];
       this.project.boardIds = this.project.boardIds.filter((id: string) => id !== boardId);
       (await this.projectService.updateProject(this.project))
-      .subscribe(() => {
+      .subscribe((updatedProject: Project) => {
         this.snackBar.open(deletedBoard.title + ' deleted', 'dismiss', {
           duration: 2000
         });

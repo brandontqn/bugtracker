@@ -63,12 +63,12 @@ namespace ProjectManagementService.Controllers
         public IActionResult UpdateProject([FromBody]Project updatedProject)
         {
             Project project = _projectService.Get(updatedProject.id);
-            System.Diagnostics.Debug.WriteLine("BEFORE");
+
             if (project == null)
             {
                 return NotFound();
             }
-            System.Diagnostics.Debug.WriteLine("AFTER");
+
             return Ok(_projectService.Update(updatedProject));
         }
         #endregion

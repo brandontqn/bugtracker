@@ -26,7 +26,7 @@ namespace ProjectManagementService.Controllers
         [HttpPost]
         public ActionResult<Board> CreateBoard([FromBody]BoardMessage boardMessage)
         {
-            Board board = _boardService.Create(boardMessage.title, boardMessage.description, boardMessage.projectId);
+            Board board = _boardService.Create(boardMessage.title, boardMessage.description, boardMessage.currentProjectId);
 
             if (board == null)
             {

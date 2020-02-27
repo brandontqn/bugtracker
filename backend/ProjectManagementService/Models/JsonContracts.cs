@@ -35,13 +35,13 @@ namespace ProjectManagementService.Models
     {
         public string title { get; set; }
         public string description { get; set; }
-        public string projectId { get; set; }
+        public string currentProjectId { get; set; }
 
         public BoardMessage()
         {
             title = "Default Title";
             description = "Default Description";
-            projectId = "";
+            currentProjectId = "";
         }
     }
 

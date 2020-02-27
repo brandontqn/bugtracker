@@ -19,6 +19,7 @@ export class BoardListComponent {
   }
 
   deleteBoard(boardId: string) {
+    console.log('board-list:board = ', boardId);
     this.deleted.emit(boardId);
   }
 }
