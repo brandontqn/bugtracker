@@ -31,9 +31,12 @@ export class TaskDetailsComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getTask();
-    this.availableBoards = AllBoardsComponent.allBoards;
+    (await this.boardService.getBoards())
+    .subscribe((boards: Board[]) => {
+      this.availableBoards = boards;
+    });
   }
 
   TimeToSeconds(t: Time) {

@@ -8,7 +8,7 @@ import { TaskService } from '../../../services/task.service';
 import { Project } from '../../../models/project';
 import { Board } from '../../../models/board';
 import { Task } from '../../../models/task';
-import { AllProjectsComponent } from '../../projects/all-projects/all-projects.component';
+import { Time } from 'src/app/models/time';
 
 @Component({
   selector: 'app-board-details',
@@ -118,8 +118,8 @@ export class BoardDetailsComponent implements OnInit {
     });
   }
 
-  async onAdded(task: any) {
-    (await this.taskService.createTask(task.title, task.description, task.time, task.boardId, task.tags))
+  async onAdded(task: { title: string, description: string, time: Time, tags: string[] }) {
+    (await this.taskService.createTask(task.title, task.description, task.time, this.board.id, task.tags))
     .subscribe( async (newTask: Task) => {
       this.board.itemIds.push(newTask.id);
       (await this.boardService.updateBoard(this.board))

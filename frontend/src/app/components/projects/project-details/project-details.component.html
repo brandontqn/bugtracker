@@ -28,6 +28,7 @@
     <app-board-list
         [title]="boardsTitle"
         [boards]="boards"
+        [allowBoardAdding]="false"
         (added)="onAdded($event)"
         (deleted)="onDeleted($event)"></app-board-list>
 </div>

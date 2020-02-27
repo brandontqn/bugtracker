@@ -16,8 +16,8 @@ export class TaskListComponent {
   @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();
 
-  addTask(title: string, description: string, time: Time, boardId: string, tags: string[]) {
-    this.added.emit({ title, description, time, boardId, tags });
+  addTask(title: string, description: string, time: Time, tags: string[]) {
+    this.added.emit({ title, description, time, tags });
   }
 
   onDeleted(taskId: string) {

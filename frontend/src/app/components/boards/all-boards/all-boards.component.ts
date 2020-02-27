@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProjectService } from '../../../services/project.service';
 import { BoardService } from '../../../services/board.service';
+import { Project } from '../../../models/project';
 import { Board } from '../../../models/board';
 
 @Component({
@@ -10,11 +12,11 @@ import { Board } from '../../../models/board';
 })
 export class AllBoardsComponent implements OnInit {
 
-  public static allBoards: Board[];
   title: string;
   boards: Board[];
 
   constructor(
+    private projectService: ProjectService,
     private boardService: BoardService,
     private snackBar: MatSnackBar ) { }
 
@@ -27,17 +29,22 @@ export class AllBoardsComponent implements OnInit {
     (await this.boardService.getBoards())
     .subscribe(data => {
       this.boards = data;
-      AllBoardsComponent.allBoards = this.boards;
     });
   }
 
-  async onAdded(board: { title: string, description: string, currentProjectId: string }) {
-    (await this.boardService.createBoard(board.title, board.description, board.currentProjectId))
-    .subscribe( (data: Board) => {
-      this.boards.push(data);
-      AllBoardsComponent.allBoards.push(data);
-      this.snackBar.open(board.title + ' added', 'dismiss', {
-        duration: 2000
+  async onAdded(data: { title: string, description: string, currentProjectId: string }) {
+    (await this.boardService.createBoard(data.title, data.description, data.currentProjectId))
+    .subscribe(async (board: Board) => {
+      this.boards.push(board);
+      (await this.projectService.getProject(board.currentProjectId))
+      .subscribe(async (project: Project) => {
+        project.boardIds.push(board.id);
+        (await this.projectService.updateProject(project))
+        .subscribe(() => {
+          this.snackBar.open(board.title + ' added', 'dismiss', {
+            duration: 2000
+          });
+        });
       });
     });
   }
@@ -47,7 +54,6 @@ export class AllBoardsComponent implements OnInit {
     .subscribe(() => {
       const deletedBoard = this.boards.filter((x: Board) => x.id === boardId)[0];
       this.boards = this.boards.filter((x: Board) => x.id !== boardId);
-      AllBoardsComponent.allBoards = this.boards;
       this.snackBar.open(deletedBoard.title + ' deleted', 'dismiss', {
         duration: 2000
       });

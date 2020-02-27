@@ -13,10 +13,10 @@ export class BoardCardComponent implements OnInit {
   @Input() board: Board;
   @Input() parentProjectId: string;
 
+  @Output() deleted = new EventEmitter<string>();
+
   parentProject: Project;
   parentProjectLoaded: Promise<boolean>;
-
-  @Output() deleted = new EventEmitter<string>();
 
   constructor(private projectService: ProjectService) { }
 

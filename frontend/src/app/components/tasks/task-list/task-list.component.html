@@ -14,12 +14,9 @@
             <input #tm matInput placeholder="Time Estimate">
         </mat-form-field>
         <mat-form-field>
-            <input #bi matInput placeholder="Parent Board">
-        </mat-form-field>
-        <mat-form-field>
             <input #tg matInput placeholder="Tags">
         </mat-form-field>
-        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, bi.value, tg.value); tl.value = ''; dc.value = ''; tm.value = ''; bi.value = ''; tg.value = '';">ADD</button>
+        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, tg.value); tl.value = ''; dc.value = ''; tm.value = ''; tg.value = '';">ADD</button>
     </p>
     
     <app-task-card *ngFor="let task of tasks"

@@ -10,7 +10,13 @@
         <mat-form-field>
             <input #dc matInput placeholder="Description">
         </mat-form-field>
-        <button mat-button (click)="addBoard(tl.value, dc.value); tl.value = ''; dc.value = '';">ADD</button>
+        <mat-form-field *ngIf="allowBoardAdding && availableProjectsLoaded">
+            <mat-label>Project</mat-label>
+            <mat-select [(value)]="selectedProject">
+                <mat-option *ngFor="let project of availableProjects" [value]="project.id">{{project.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-button (click)="addBoard(tl.value, dc.value, selectedProject); tl.value = ''; dc.value = '';">ADD</button>
     </p>
 
     <app-board-card *ngFor="let board of boards"
