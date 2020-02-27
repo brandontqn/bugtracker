@@ -18,7 +18,7 @@ namespace ProjectManagementService.Models
         public string title { get; set; }
         public string description { get; set; }
         public Time time { get; set; }
-        public string boardId { get; set; }
+        public string currentBoardId { get; set; }
         public List<string> tags { get; set; }
 
         public TaskMessage()
@@ -26,7 +26,7 @@ namespace ProjectManagementService.Models
             title = "Default Title";
             description = "Default Description";
             time = new Time();
-            boardId = "";
+            currentBoardId = "";
             tags = new List<string>();
         }
     }

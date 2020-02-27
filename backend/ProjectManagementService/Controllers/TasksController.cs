@@ -31,7 +31,7 @@ namespace ProjectManagementService.Controllers
         [HttpPost]
         public ActionResult<Task> CreateTask([FromBody]TaskMessage taskMessage)
         {
-            Task task = _taskService.Create(taskMessage.title, taskMessage.description, taskMessage.time, taskMessage.boardId, taskMessage.tags);
+            Task task = _taskService.Create(taskMessage.title, taskMessage.description, taskMessage.time, taskMessage.currentBoardId, taskMessage.tags);
 
             if (task == null)
             {

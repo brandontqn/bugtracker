@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { BoardService } from '../../../services/board.service';
+import { Board } from 'src/app/models/board';
 import { Task } from '../../../models/task';
 
 @Component({
@@ -6,11 +8,25 @@ import { Task } from '../../../models/task';
   templateUrl: './task-card.component.html',
   styleUrls: ['./task-card.component.scss']
 })
-export class TaskCardComponent {
+export class TaskCardComponent implements OnInit {
   @Input() task: Task;
+  // @Input() parentBoardId: string;
 
   @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();
+
+  parentBoard: Board;
+  parentBoardLoaded: Promise<boolean>;
+
+  constructor(private boardService: BoardService) { }
+
+  async ngOnInit() {
+    (await this.boardService.getBoard(this.task.currentBoardId))
+    .subscribe((board: Board) => {
+      this.parentBoard = board;
+      this.parentBoardLoaded = Promise.resolve(true);
+    });
+  }
 
   delete() {
     this.deleted.emit(this.task.id);

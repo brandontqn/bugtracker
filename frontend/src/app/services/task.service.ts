@@ -23,10 +23,11 @@ export class TaskService {
   }
 
   // CREATE
-  async createTask(title: string, description: string, time: Time, boardId: string, tags: string[]) {
+  async createTask(title: string, description: string, time: Time, currentBoardId: string, tags: string[]) {
     const httpOptions = await this.getHeaders();
-    const newTask = { title, description, time, boardId, tags };
-    return this.http.post(this.currentEndpoint, newTask, { headers: httpOptions });
+    tags = ['tag1', 'tag2', 'tag3'];
+    console.log('task being created: ', { title, description, time, currentBoardId, tags });
+    return this.http.post(this.currentEndpoint, { title, description, time, currentBoardId, tags }, { headers: httpOptions });
   }
 
   // READ

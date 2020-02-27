@@ -15,7 +15,7 @@ export class TaskListComponent implements OnInit {
   @Input() tasks: Task[];
   @Input() allowTaskAdding: boolean;
 
-  @Output() added = new EventEmitter<any>();
+  @Output() added = new EventEmitter();
   @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();
 
@@ -33,7 +33,8 @@ export class TaskListComponent implements OnInit {
     });
   }
 
-  addTask(title: string, description: string, time: Time, currentBoardId: string, tags: string[]) {
+  addTask(title: string, description: string, days: string, currentBoardId: string, tags: string[]) {
+    const time = new Time(+days, 0, 0, 0);
     this.added.emit({ title, description, time, currentBoardId, tags });
   }
 

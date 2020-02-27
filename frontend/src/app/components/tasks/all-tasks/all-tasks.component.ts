@@ -30,11 +30,11 @@ export class AllTasksComponent implements OnInit {
       });
   }
 
-  async onAdded(task: { title: string, description: string, time: Time, boardId: string, tags: string[] }) {
-    (await this.taskService.createTask(task.title, task.description, task.time, task.boardId, task.tags))
+  async onAdded(data: { title: string, description: string, time: Time, currentBoardId: string, tags: string[] }) {
+    (await this.taskService.createTask(data.title, data.description, data.time, data.currentBoardId, data.tags))
     .subscribe( (item: Task) => {
       this.tasks.push(item);
-      this.snackBar.open(task.title + ' added', 'dismiss', {
+      this.snackBar.open(data.title + ' added', 'dismiss', {
         duration: 2000
       });
     });

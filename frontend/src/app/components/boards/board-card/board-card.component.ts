@@ -11,7 +11,7 @@ import { Board } from '../../../models/board';
 export class BoardCardComponent implements OnInit {
 
   @Input() board: Board;
-  @Input() parentProjectId: string;
+  // @Input() parentProjectId: string;
 
   @Output() deleted = new EventEmitter<string>();
 
@@ -21,7 +21,8 @@ export class BoardCardComponent implements OnInit {
   constructor(private projectService: ProjectService) { }
 
   async ngOnInit() {
-    (await this.projectService.getProject(this.parentProjectId))
+    // (await this.projectService.getProject(this.parentProjectId))
+    (await this.projectService.getProject(this.board.currentProjectId))
     .subscribe((project: Project) => {
       this.parentProject = project;
       if (this.parentProject !== null) {

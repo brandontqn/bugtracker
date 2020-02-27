@@ -21,6 +21,5 @@
 
     <app-board-card *ngFor="let board of boards"
         [board]="board"
-        [parentProjectId]="board.currentProjectId"
         (deleted)="deleteBoard($event)"></app-board-card>
 </div>
