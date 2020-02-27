@@ -1,8 +1,9 @@
 <div>
   <h1>{{title}}</h1>
-  <button mat-button *ngIf="!isAuthenticated" (click)="login()"> Login </button>
-  <button mat-button *ngIf="!isAuthenticated"><a routerLink="register"> Register </a></button>
-  <button mat-button *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
+  <button mat-button class="left"><a routerLink="">Home</a></button>
+  <button mat-button class="right" *ngIf="!isAuthenticated" (click)="login()"> Login </button>
+  <button mat-button class="right" *ngIf="!isAuthenticated"><a routerLink="register"> Register </a></button>
+  <button mat-button class="right" *ngIf="isAuthenticated" (click)="logout()"> Logout </button>    
 </div>
 
 <mat-drawer-container autosize>

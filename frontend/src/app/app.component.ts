@@ -13,7 +13,7 @@ export class AppComponent {
 
   static env;
 
-  title = 'project-tracker';
+  title = 'Project Tracker';
   isAuthenticated: boolean;
   links = [
     {name: 'Dashboard', route: 'dashboard'},

@@ -1,8 +1,14 @@
-h2 {
-    text-align: center;
-}
-
 img {
-    position: relative;
-    left: 40%;
+    // position: absolute;
+    // position: relative;
+
+    display: block;
+    margin: auto;
+    
+    // margin-top: auto;
+    // margin-bottom: auto;
+    // margin-left: auto;
+    // margin-right: auto;
+    // height: 50%;
+    // width: 50%;
 }
