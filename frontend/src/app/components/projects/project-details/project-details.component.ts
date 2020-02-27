@@ -52,10 +52,10 @@ export class ProjectDetailsComponent implements OnInit {
   async onAdded(board: { title: string, description: string }) {
     (await this.boardService.createBoard(board.title, board.description, this.project.id))
     .subscribe(async (newBoard: Board) => {
-      this.project.boardIds.push(newBoard.id);
       (await this.projectService.updateProject(this.project))
       .subscribe(() => {
-        this.snackBar.open(board + ' added', 'dismiss', {
+        this.project.boardIds.push(newBoard.id);
+        this.snackBar.open(board.title + ' added', 'dismiss', {
           duration: 2000
         });
       });
@@ -80,6 +80,16 @@ export class ProjectDetailsComponent implements OnInit {
     (await this.projectService.updateProject(this.project))
     .subscribe(() => {
       this.snackBar.open(this.project.title + ' saved', 'dismiss', {
+        duration: 2000
+      });
+      this.goBack();
+    });
+  }
+
+  async deleteProject() {
+    (await this.projectService.deleteProject(this.project.id))
+    .subscribe(() => {
+      this.snackBar.open(this.project.title + ' deleted', 'dismiss', {
         duration: 2000
       });
       this.goBack();

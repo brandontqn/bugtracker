@@ -35,12 +35,12 @@ export class AllBoardsComponent implements OnInit {
   async onAdded(data: { title: string, description: string, currentProjectId: string }) {
     (await this.boardService.createBoard(data.title, data.description, data.currentProjectId))
     .subscribe(async (board: Board) => {
-      this.boards.push(board);
       (await this.projectService.getProject(board.currentProjectId))
       .subscribe(async (project: Project) => {
-        project.boardIds.push(board.id);
         (await this.projectService.updateProject(project))
         .subscribe(() => {
+          this.boards.push(board);
+          project.boardIds.push(board.id);
           this.snackBar.open(board.title + ' added', 'dismiss', {
             duration: 2000
           });

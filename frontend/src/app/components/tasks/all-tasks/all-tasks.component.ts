@@ -52,7 +52,6 @@ export class AllTasksComponent implements OnInit {
   }
 
   async onCompleted(task: Task) {
-    (await this.taskService.updateTask(task))
-    .subscribe(() => console.log(task.completed));
+    await this.taskService.updateTask(task);
   }
 }

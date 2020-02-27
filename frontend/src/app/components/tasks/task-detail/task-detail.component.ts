@@ -91,17 +91,16 @@ export class TaskDetailsComponent implements OnInit {
 
   async deleteTask() {
     (await this.taskService.deleteTask(this.task.id))
-    .subscribe( () => {
-      this.goBack();
+    .subscribe(() => {
       this.snackBar.open(this.task.title + ' deleted', 'dismiss', {
         duration: 2000
       });
+      this.goBack();
     });
   }
 
   async completeTask() {
     this.task.completed = !this.task.completed;
-    (await this.taskService.updateTask(this.task))
-    .subscribe(() => console.log(this.task.completed));
+    await this.taskService.updateTask(this.task);
   }
 }
