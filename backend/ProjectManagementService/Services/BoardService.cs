@@ -73,8 +73,11 @@ namespace ProjectManagementService.Services
         #endregion
 
         #region DELETE
-        public void Remove(string id) =>
+        public string Remove(string id)
+        {
             _boards.DeleteOne(item => item.id == id);
+            return id;
+        }
 
         public void Remove() =>
             _boards.DeleteMany(item => true);

@@ -61,12 +61,29 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async save() {
-    (await this.boardService.updateBoard(this.board))
-    .subscribe( () => {
-      this.snackBar.open(this.board.title + ' saved', 'dismiss', {
-        duration: 2000
+    // remove board from current project
+    (await this.projectService.getProject(this.board.currentProjectId))
+    .subscribe(async (currentProject: Project) => {
+      currentProject.boardIds = currentProject.boardIds.filter((id: string) => id !== this.board.id);
+      (await this.projectService.updateProject(currentProject))
+      .subscribe(async () => {
+        // add board to new project
+        (await this.projectService.getProject(this.selectedProject))
+        .subscribe(async (newProject: Project) => {
+          newProject.boardIds.push(this.board.id);
+          (await this.projectService.updateProject(newProject))
+          .subscribe(async () => {
+            // update boards 'current project'
+            (await this.boardService.updateBoard(this.board))
+            .subscribe(() => {
+              this.snackBar.open(this.board.title + ' saved', 'dismiss', {
+                duration: 2000
+              });
+              this.goBack();
+            });
+          });
+        });
       });
-      this.goBack();
     });
   }
 

@@ -31,7 +31,7 @@ export class AllBoardsComponent implements OnInit {
     });
   }
 
-  async onAdded(board: any) {
+  async onAdded(board: { title: string, description: string, currentProjectId: string }) {
     (await this.boardService.createBoard(board.title, board.description, board.currentProjectId))
     .subscribe( (data: Board) => {
       this.boards.push(data);
@@ -44,10 +44,10 @@ export class AllBoardsComponent implements OnInit {
 
   async onDeleted(boardId: string) {
     (await this.boardService.deleteBoard(boardId))
-    .subscribe( () => {
+    .subscribe(() => {
       const deletedBoard = this.boards.filter((x: Board) => x.id === boardId)[0];
       this.boards = this.boards.filter((x: Board) => x.id !== boardId);
-      AllBoardsComponent.allBoards = AllBoardsComponent.allBoards.filter( (x: Board) => x.id !== boardId);
+      AllBoardsComponent.allBoards = this.boards;
       this.snackBar.open(deletedBoard.title + ' deleted', 'dismiss', {
         duration: 2000
       });

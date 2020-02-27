@@ -36,7 +36,7 @@ export class ProjectDetailsComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     (await this.projectService.getProject(id))
-    .subscribe( (data: Project) => {
+    .subscribe((data: Project) => {
       this.project = data;
       this.getBoards();
     });
@@ -44,14 +44,16 @@ export class ProjectDetailsComponent implements OnInit {
 
   async getBoards() {
     (await this.boardService.getBoards())
-    .subscribe( (data: Board[]) =>
-      this.boards = data.filter( (board: Board) => this.project.boardIds.includes(board.id))
-    );
+    .subscribe((boards: Board[]) => {
+      this.boards = boards.filter((board: Board) => this.project.boardIds.includes(board.id));
+      console.log('this.boards: ', this.boards);
+      console.log('boards: ', boards);
+    });
   }
 
   async onAdded(board: any) {
     (await this.boardService.createBoard(board.title, board.description, this.project.id))
-    .subscribe( async (newBoard: Board) => {
+    .subscribe(async (newBoard: Board) => {
       this.project.boardIds.push(newBoard.id);
       (await this.projectService.updateProject(this.project))
       .subscribe(() => {
@@ -78,7 +80,7 @@ export class ProjectDetailsComponent implements OnInit {
 
   async save() {
     (await this.projectService.updateProject(this.project))
-    .subscribe( () => {
+    .subscribe(() => {
       this.snackBar.open(this.project.title + ' saved', 'dismiss', {
         duration: 2000
       });

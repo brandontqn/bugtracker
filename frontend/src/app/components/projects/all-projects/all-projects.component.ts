@@ -25,13 +25,13 @@ export class AllProjectsComponent implements OnInit {
 
   async getProjects() {
     (await this.projectService.getProjects())
-    .subscribe(data => {
-      this.projects = data;
+    .subscribe((projects: Project[]) => {
+      this.projects = projects;
       AllProjectsComponent.allProjects = this.projects;
     });
   }
 
-  async onAdded(project: any) {
+  async onAdded(project: { title: string, description: string }) {
     (await this.projectService.createProject(project.title, project.description))
     .subscribe( (data: Project) => {
       this.projects.push(data);
@@ -44,10 +44,10 @@ export class AllProjectsComponent implements OnInit {
 
   async onDeleted(projectId: string) {
     (await this.projectService.deleteProject(projectId))
-    .subscribe( () => {
+    .subscribe(() => {
       const deletedProject = this.projects.filter((x: Project) => x.id === projectId)[0];
       this.projects = this.projects.filter((x: Project) => x.id !== projectId);
-      AllProjectsComponent.allProjects = AllProjectsComponent.allProjects.filter( (x: Project) => x.id !== projectId);
+      AllProjectsComponent.allProjects = this.projects;
       this.snackBar.open(deletedProject.title + ' deleted', 'dismiss', {
         duration: 2000
       });

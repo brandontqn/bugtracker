@@ -30,8 +30,16 @@ namespace ProjectManagementService.Models
         [BsonElement("boardIds")]
         public List<string> boardIds { get; set; }
 
-        [BsonElement("created")]
+        [BsonElement("createdAt")]
         public string createdAt { get; set; }
+
+        public Project()
+        {
+            title = "Default Title";
+            description = "Default Description";
+            boardIds = new List<string>();
+            createdAt = DateTime.Now.ToString();
+        }
 
         public Project(string t, string d)
         {

@@ -29,54 +29,55 @@ namespace ProjectManagementService.Controllers
 
         #region CREATE
         [HttpPost]
-        public IActionResult CreateTask([FromBody]TaskMessage task)
+        public ActionResult<Task> CreateTask([FromBody]TaskMessage taskMessage)
         {
-            Task item = _taskService.Create(task.title, task.description, task.time, task.boardId, task.tags);
+            Task task = _taskService.Create(taskMessage.title, taskMessage.description, taskMessage.time, taskMessage.boardId, taskMessage.tags);
 
-            if (item.id == null)
+            if (task == null)
             {
                 return BadRequest();
             }
 
-            return Ok(item);
+            return Ok(task);
         }
         #endregion
 
         #region READ
         [HttpGet]
-        public IEnumerable<Task> GetAll()
+        public ActionResult<List<Task>> GetAll()
         {
-            return _taskService.GetAll();
+            return Ok(_taskService.GetAll());
         }
 
         [HttpGet("{id}")]
         public ActionResult<Task> GetOne([FromRoute]string id)
         {
-            Task item = _taskService.Get(id);
-            if (item == null)
+            Task task = _taskService.Get(id);
+
+            if (task == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-            return Ok(item);
+            return Ok(task);
         }
 
         [HttpGet("/filter/tags")]
-        public IEnumerable<Task> GetSome([FromBody]Tags tags)
+        public ActionResult<List<Task>> GetSome([FromBody]Tags tags)
         {
-            return _taskService.GetAll().Where(task => tags.tags.All(tag => task.tags.Contains(tag)));
+            return Ok(_taskService.GetAll().Where(task => tags.tags.All(tag => task.tags.Contains(tag))));
         }
         #endregion
 
         #region UPDATE
         [HttpPatch]
-        public IActionResult UpdateTask([FromBody]Task updatedTask)
+        public ActionResult<Task> UpdateTask([FromBody]Task updatedTask)
         {
-            Task item = _taskService.Get(updatedTask.id);
+            Task task = _taskService.Get(updatedTask.id);
 
-            if (item == null)
+            if (task == null)
             {
-                return NotFound();
+                return NotFound(updatedTask);
             }
 
             return Ok(_taskService.Update(updatedTask));
@@ -87,15 +88,15 @@ namespace ProjectManagementService.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteOne([FromRoute]string id)
         {
-            Task item = _taskService.Get(id);
+            Task task = _taskService.Get(id);
 
-            if (item == null)
+            if (task == null)
             {
                 return NotFound(id);
             }
 
             _taskService.Remove(id);
-            return Ok(id);
+            return Ok();
         }
 
         [HttpDelete]

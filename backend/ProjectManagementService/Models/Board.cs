@@ -29,7 +29,7 @@ namespace ProjectManagementService.Models
         [BsonElement("itemIds")]
         public List<string> itemIds { get; set; }
 
-        [BsonElement("created")]
+        [BsonElement("createdAt")]
         public string createdAt { get; set; }
 
         [BsonElement("currentProjectId")]

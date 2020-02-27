@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TaskService } from '../../../services/task.service';
 import { Task } from '../../../models/task';
+import { Time } from '../../../models/time';
 
 @Component({
   selector: 'app-all-tasks',
@@ -27,7 +28,7 @@ export class AllTasksComponent implements OnInit {
       .subscribe(data => this.tasks = data);
   }
 
-  async onAdded(task: any) {
+  async onAdded(task: { title: string, description: string, time: Time, boardId: string, tags: string[] }) {
     (await this.taskService.createTask(task.title, task.description, task.time, task.boardId, task.tags))
     .subscribe( (item: Task) => {
       this.tasks.push(item);

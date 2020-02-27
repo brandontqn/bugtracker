@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace ProjectManagementService.Models
 {
-    public class Text
-    {
-        public string text { get; set; }
-    }
-
     public class Tags
     {
         public List<string> tags { get; set; }
+
+        public Tags()
+        {
+            tags = new List<string>();
+        }
     }
 
     public class TaskMessage
@@ -20,6 +20,15 @@ namespace ProjectManagementService.Models
         public Time time { get; set; }
         public string boardId { get; set; }
         public List<string> tags { get; set; }
+
+        public TaskMessage()
+        {
+            title = "Default Title";
+            description = "Default Description";
+            time = new Time();
+            boardId = "";
+            tags = new List<string>();
+        }
     }
 
     public class BoardMessage
@@ -27,6 +36,13 @@ namespace ProjectManagementService.Models
         public string title { get; set; }
         public string description { get; set; }
         public string projectId { get; set; }
+
+        public BoardMessage()
+        {
+            title = "Default Title";
+            description = "Default Description";
+            projectId = "";
+        }
     }
 
     public class ProjectMessage
@@ -34,6 +50,13 @@ namespace ProjectManagementService.Models
         public string title { get; set; }
         public string description { get; set; }
         public List<string> boardIds { get; set; }
+
+        public ProjectMessage()
+        {
+            title = "Default Title";
+            description = "Default Description";
+            boardIds = new List<string>();
+        }
     }
 
     public class Time

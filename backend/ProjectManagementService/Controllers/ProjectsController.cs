@@ -24,31 +24,28 @@ namespace ProjectManagementService.Controllers
 
         #region CREATE
         [HttpPost]
-        public IActionResult Create([FromBody]ProjectMessage project)
+        public IActionResult Create([FromBody]ProjectMessage projectMessage)
         {
-            return Ok(_projectService.Create(project.title, project.description));
+            Project project = _projectService.Create(projectMessage.title, projectMessage.description);
+
+            if(project == null)
+            {
+                return BadRequest(projectMessage);
+            }
+
+            return Ok(project);
         }
         #endregion
 
         #region READ
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<Project>> Get()
         {
-            List<Project> projects;
-            try
-            {
-                projects = _projectService.GetAll();
-            }
-            catch
-            {
-                projects = new List<Project>();
-            }
-
-            return Ok(projects);
+            return _projectService.GetAll();
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute]string id)
+        public ActionResult<Project> Get([FromRoute]string id)
         {
             Project project = _projectService.Get(id);
 
@@ -62,16 +59,16 @@ namespace ProjectManagementService.Controllers
         #endregion
 
         #region UPDATE
-        [HttpPatch("{id}")]
-        public IActionResult UpdateProject([FromRoute]string id, [FromBody]Project updatedProject)
+        [HttpPatch]
+        public IActionResult UpdateProject([FromBody]Project updatedProject)
         {
-            Project project = _projectService.Get(id);
-
+            Project project = _projectService.Get(updatedProject.id);
+            System.Diagnostics.Debug.WriteLine("BEFORE");
             if (project == null)
             {
-                return NotFound(id);
+                return NotFound();
             }
-
+            System.Diagnostics.Debug.WriteLine("AFTER");
             return Ok(_projectService.Update(updatedProject));
         }
         #endregion
@@ -88,7 +85,7 @@ namespace ProjectManagementService.Controllers
             }
 
             _projectService.Remove(id);
-            return Ok(id);
+            return Ok();
         }
 
         [HttpDelete]

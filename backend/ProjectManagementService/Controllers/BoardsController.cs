@@ -24,50 +24,50 @@ namespace ProjectManagementService.Controllers
 
         #region CREATE
         [HttpPost]
-        public IActionResult CreateBoard([FromBody]BoardMessage board)
+        public ActionResult<Board> CreateBoard([FromBody]BoardMessage boardMessage)
         {
-            Board item = _boardService.Create(board.title, board.description, board.projectId);
+            Board board = _boardService.Create(boardMessage.title, boardMessage.description, boardMessage.projectId);
 
-            if (item.id == null)
+            if (board == null)
             {
-                return BadRequest();
+                return BadRequest(boardMessage);
             }
 
-            return Ok(item);
+            return Ok(board);
         }
         #endregion
 
         #region READ
         [HttpGet]
-        public IEnumerable<Board> GetAll()
+        public ActionResult<List<Board>> GetAll()
         {
-            return _boardService.GetAll();
+            return Ok(_boardService.GetAll());
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public IActionResult GetOne([FromRoute]string id)
+        public ActionResult<Board> GetOne([FromRoute]string id)
         {
-            Board item = _boardService.Get(id);
+            Board board = _boardService.Get(id);
 
-            if (item == null)
+            if (board == null)
             {
                 return NotFound(id);
             }
 
-            return Ok(item);
+            return Ok(board);
         }
         #endregion
 
         #region UPDATE
-        [HttpPatch("{id}")]
-        public IActionResult UpdateBoard([FromRoute]string id, [FromBody]Board updatedBoard)
+        [HttpPatch]
+        public ActionResult<Board> UpdateBoard([FromBody]Board updatedBoard)
         {
-            Board item = _boardService.Get(id);
+            Board item = _boardService.Get(updatedBoard.id);
 
             if (item == null)
             {
-                return NotFound(id);
+                return NotFound(updatedBoard.id);
             }
 
             return Ok(_boardService.Update(updatedBoard));
@@ -86,7 +86,7 @@ namespace ProjectManagementService.Controllers
             }
 
             _boardService.Remove(id);
-            return Ok(id);
+            return Ok();
         }
 
         [HttpDelete]

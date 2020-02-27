@@ -19,7 +19,7 @@
         <mat-form-field>
             <input #tg matInput placeholder="Tags">
         </mat-form-field>
-        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, bi.value, th.value); tl.value = ''; dc.value = ''; tm.value = ''; bi.value = ''; tg.value = '';">ADD</button>
+        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, bi.value, tg.value); tl.value = ''; dc.value = ''; tm.value = ''; bi.value = ''; tg.value = '';">ADD</button>
     </p>
     
     <app-task-card *ngFor="let task of tasks"
