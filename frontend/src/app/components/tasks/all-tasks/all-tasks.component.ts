@@ -25,7 +25,9 @@ export class AllTasksComponent implements OnInit {
 
   async getTasks() {
     (await this.taskService.getTasks())
-      .subscribe(data => this.tasks = data);
+      .subscribe((tasks: Task[]) => {
+        this.tasks = tasks;
+      });
   }
 
   async onAdded(task: { title: string, description: string, time: Time, boardId: string, tags: string[] }) {

@@ -13,10 +13,16 @@
         <mat-form-field>
             <input #tm matInput placeholder="Time Estimate">
         </mat-form-field>
+        <mat-form-field *ngIf="allowTaskAdding && availableBoardsLoaded">
+            <mat-label>Board</mat-label>
+            <mat-select [(value)]="selectedBoard">
+                <mat-option *ngFor="let board of availableBoards" [value]="board.id">{{board.title}}</mat-option>
+            </mat-select>
+        </mat-form-field>
         <mat-form-field>
             <input #tg matInput placeholder="Tags">
         </mat-form-field>
-        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, tg.value); tl.value = ''; dc.value = ''; tm.value = ''; tg.value = '';">ADD</button>
+        <button mat-button (click)="addTask(tl.value, dc.value, tm.value, selectedBoard, tg.value); tl.value = ''; dc.value = ''; tm.value = ''; tg.value = '';">ADD</button>
     </p>
     
     <app-task-card *ngFor="let task of tasks"

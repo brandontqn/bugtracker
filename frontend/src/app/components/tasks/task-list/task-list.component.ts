@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { BoardService } from '../../../services/board.service';
+import { Board } from '../../../models/board';
 import { Task } from '../../../models/task';
 import { Time } from '../../../models/time';
 
@@ -7,17 +9,32 @@ import { Time } from '../../../models/time';
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit {
 
   @Input() title: string;
   @Input() tasks: Task[];
+  @Input() allowTaskAdding: boolean;
 
   @Output() added = new EventEmitter<any>();
   @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();
 
-  addTask(title: string, description: string, time: Time, tags: string[]) {
-    this.added.emit({ title, description, time, tags });
+  selectedBoard: string;
+  availableBoards: Board[];
+  availableBoardsLoaded: Promise<boolean>;
+
+  constructor(private boardService: BoardService) { }
+
+  async ngOnInit() {
+    (await this.boardService.getBoards())
+    .subscribe((boards: Board[]) => {
+      this.availableBoards = boards;
+      this.availableBoardsLoaded = Promise.resolve(true);
+    });
+  }
+
+  addTask(title: string, description: string, time: Time, currentBoardId: string, tags: string[]) {
+    this.added.emit({ title, description, time, currentBoardId, tags });
   }
 
   onDeleted(taskId: string) {

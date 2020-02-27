@@ -1,6 +1,7 @@
 <app-task-list 
     [title]="title"
     [tasks]="this.tasks"
+    [allowTaskAdding]="true"
     (added)="onAdded($event)"
     (deleted)="onDeleted($event)"
     (completed)="onCompleted($event)"></app-task-list>

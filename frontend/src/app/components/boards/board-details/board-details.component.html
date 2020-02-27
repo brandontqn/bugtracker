@@ -34,6 +34,7 @@
     <app-task-list
         [title]="tasksTitle"
         [tasks]="tasks"
+        [allowTaskAdding]="false"
         (added)="onAdded($event)"
         (deleted)="onDeleted($event)"
         (completed)="onCompleted($event)"></app-task-list>
