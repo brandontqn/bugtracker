@@ -10,7 +10,6 @@ import { Task } from '../../../models/task';
 })
 export class TaskCardComponent implements OnInit {
   @Input() task: Task;
-  // @Input() parentBoardId: string;
 
   @Output() deleted = new EventEmitter<string>();
   @Output() completed = new EventEmitter<Task>();

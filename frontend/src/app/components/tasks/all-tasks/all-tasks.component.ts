@@ -52,6 +52,11 @@ export class AllTasksComponent implements OnInit {
   }
 
   async onCompleted(task: Task) {
-    await this.taskService.updateTask(task);
+    (await this.taskService.updateTask(task))
+    .subscribe(() => {
+      this.snackBar.open(task.title + ' marked done', 'dismiss', {
+        duration: 2000
+      });
+    });
   }
 }

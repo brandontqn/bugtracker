@@ -22,6 +22,7 @@ export class TaskDetailsComponent implements OnInit {
   progress: number;
   availableBoards: Board[];
   selectedBoard: string;
+  doneButtonText: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,6 +55,7 @@ export class TaskDetailsComponent implements OnInit {
         const logged = this.TimeToSeconds(this.task.timeLogged);
         const estimate = this.TimeToSeconds(this.task.timeEstimate);
         this.progress = (logged / estimate) * 100;
+        this.doneButtonText = this.task.completed ? 'MARK DONE' : 'MARK UNDONE';
       });
   }
 
@@ -101,6 +103,13 @@ export class TaskDetailsComponent implements OnInit {
 
   async completeTask() {
     this.task.completed = !this.task.completed;
-    await this.taskService.updateTask(this.task);
+    this.doneButtonText = this.task.completed ? 'MARK DONE' : 'MARK UNDONE';
+    const doneMessage = this.task.completed ? 'marked undone' : 'marked done';
+    (await this.taskService.updateTask(this.task))
+    .subscribe(() => {
+      this.snackBar.open(this.task.title + ' ' + doneMessage, 'dismiss', {
+        duration: 2000
+      });
+    });
   }
 }
