@@ -64,19 +64,22 @@ export class TaskDetailsComponent implements OnInit {
   }
 
   async save() {
+    this.selectedBoard = this.selectedBoard ? this.selectedBoard : this.task.currentBoardId;
     (await this.boardService.getBoard(this.selectedBoard))
     .subscribe(async (board: Board) => {
       board.itemIds.push(this.task.id);
-      (await this.boardService.updateBoard(board));
+      (await this.boardService.updateBoard(board))
+      .subscribe(async (updatedBoard: Board) => {
+        this.task.currentBoardId = this.selectedBoard;
+        (await this.taskService.updateTask(this.task))
+        .subscribe((updatedTask: Task) => {
+          this.snackBar.open(this.task.title + ' saved', 'dismiss', {
+            duration: 2000
+          });
+          this.goBack();
+        });
+      });
     });
-
-    this.task.currentBoardId = this.selectedBoard;
-    (await this.taskService.updateTask(this.task));
-
-    this.snackBar.open(this.task.title + ' saved', 'dismiss', {
-      duration: 2000
-    });
-    this.goBack();
   }
 
   async logTime(days: number, hours: number, minutes: number, seconds: number) {

@@ -74,6 +74,7 @@ export class BoardDetailsComponent implements OnInit {
       (await this.projectService.updateProject(currentProject))
       .subscribe(async () => {
         // add board to new project
+        this.selectedProject = this.selectedProject ? this.selectedProject : this.board.currentProjectId;
         (await this.projectService.getProject(this.selectedProject))
         .subscribe(async (newProject: Project) => {
           newProject.boardIds.push(this.board.id);
@@ -86,6 +87,7 @@ export class BoardDetailsComponent implements OnInit {
               this.snackBar.open(this.board.title + ' saved', 'dismiss', {
                 duration: 2000
               });
+              this.goBack();
             });
           });
         });
