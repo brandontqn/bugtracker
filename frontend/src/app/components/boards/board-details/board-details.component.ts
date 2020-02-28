@@ -67,44 +67,29 @@ export class BoardDetailsComponent implements OnInit {
   }
 
   async save() {
-    this.updateProjects();
-  }
-
-  async updateProjects() {
-    this.removeBoardFromCurrentProject();
-  }
-
-  async removeBoardFromCurrentProject() {
     // remove board from current project
     (await this.projectService.getProject(this.board.currentProjectId))
     .subscribe(async (currentProject: Project) => {
+      currentProject.boardIds = currentProject.boardIds.filter((id: string) => id !== this.board.id);
       (await this.projectService.updateProject(currentProject))
       .subscribe(async () => {
-        currentProject.boardIds = currentProject.boardIds.filter((id: string) => id !== this.board.id);
-        this.addBoardToNewProject();
+        // add board to new project
+        (await this.projectService.getProject(this.selectedProject))
+        .subscribe(async (newProject: Project) => {
+          newProject.boardIds.push(this.board.id);
+          (await this.projectService.updateProject(newProject))
+          .subscribe(async () => {
+            // update current board's parent project
+            this.board.currentProjectId = this.selectedProject;
+            (await this.boardService.updateBoard(this.board))
+            .subscribe((data: Board) => {
+              this.snackBar.open(this.board.title + ' saved', 'dismiss', {
+                duration: 2000
+              });
+            });
+          });
+        });
       });
-    });
-  }
-
-  async addBoardToNewProject() {
-    // add board to new project
-    (await this.projectService.getProject(this.selectedProject))
-    .subscribe(async (newProject: Project) => {
-      (await this.projectService.updateProject(newProject))
-      .subscribe(async () => {
-        newProject.boardIds.push(this.board.id);
-        this.updateBoard();
-      });
-    });
-  }
-
-  async updateBoard() {
-    (await this.boardService.updateBoard(this.board))
-    .subscribe(() => {
-      this.snackBar.open(this.board.title + ' saved', 'dismiss', {
-        duration: 2000
-      });
-      this.goBack();
     });
   }
 
